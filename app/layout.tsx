@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bellefair, Poppins } from "next/font/google";
+import { Bellefair, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
@@ -18,6 +18,12 @@ const poppinsFont = Poppins({
   subsets: ["latin"],
 });
 
+const interFont = Inter({
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Wonders Tapestry",
   description: "Discover and shop unique resin art, ceramic masterpieces, and hand-poured candles that bring warmth and beauty to your space. Each creation is a perfect blend of artistry and passion, crafted to inspire and delight.",
@@ -28,7 +34,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
   return (
     <html lang="en">
       <SessionProviderWrapper session={session}>
-        <body className={`${bellefairFont.variable} ${poppinsFont.variable} antialiased`}>
+        <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
           <div className="bg-background">
             <Header />
           </div>
