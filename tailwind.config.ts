@@ -12,6 +12,11 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        bellefair: ['var(--font-bellefair)', 'serif'],
+        poppins: ['var(--font-poppins)', 'sans-serif'],
+        arial: ['Arial', 'Helvetica', 'sans-serif'],
+      },
     },
   },
   plugins: [],
