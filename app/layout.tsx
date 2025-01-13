@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
-
+import { getSession } from "@/utils/auth";
 
 const bellefairFont = Bellefair({
   weight: "400",
@@ -23,10 +23,11 @@ export const metadata: Metadata = {
   description: "Discover and shop unique resin art, ceramic masterpieces, and hand-poured candles that bring warmth and beauty to your space. Each creation is a perfect blend of artistry and passion, crafted to inspire and delight.",
 };
 
-export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+  const session = await getSession()
   return (
     <html lang="en">
-      <SessionProviderWrapper>
+      <SessionProviderWrapper session={session}>
         <body className={`${bellefairFont.variable} ${poppinsFont.variable} antialiased`}>
           <div className="bg-background">
             <Header />
