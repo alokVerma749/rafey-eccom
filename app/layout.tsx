@@ -5,6 +5,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
 import { getSession } from "@/utils/auth";
+import { Toaster } from "@/components/ui/toaster"
 
 const bellefairFont = Bellefair({
   weight: "400",
@@ -40,7 +41,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
           </div>
           <div className="min-h-[70vh]">
             {children}
-            {/* <Toaster /> */}
+            <Toaster />
           </div>
           <div className="h-[25dvh] bg-background">
             <Footer />

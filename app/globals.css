@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
 
@@ -66,5 +64,14 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
