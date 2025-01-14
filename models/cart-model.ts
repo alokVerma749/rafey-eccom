@@ -12,8 +12,6 @@ export interface CartItem {
 export interface Cart extends Document {
   userId: string;
   items: CartItem[];
-  totalQuantity: number;
-  totalPrice: number;
 }
 
 const cartItemSchema = new Schema<CartItem>({
@@ -28,17 +26,6 @@ const cartItemSchema = new Schema<CartItem>({
 const cartSchema = new Schema<Cart>({
   userId: { type: String, required: true, unique: true },
   items: { type: [cartItemSchema], default: [] },
-  totalQuantity: { type: Number, required: true, default: 0 },
-  totalPrice: { type: Number, required: true, default: 0 },
-});
-
-cartSchema.pre('save', function (next) {
-  const cart = this as Cart;
-
-  cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
-  cart.totalPrice = cart.items.reduce((sum, item) => sum + item.total, 0);
-
-  next();
 });
 
 const CartModel = mongoose.models.Cart || mongoose.model<Cart>('Cart', cartSchema);

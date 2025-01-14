@@ -78,8 +78,6 @@ const syncCartWithDB = debounce(async (cart: CartState, userId: string) => {
       body: JSON.stringify({
         userId,
         items: cart.items,
-        totalQuantity: cart.totalQuantity,
-        totalPrice: cart.totalPrice,
       }),
     });
 
