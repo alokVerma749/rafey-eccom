@@ -13,16 +13,16 @@ export const getProducts = async ({ category, limit }: GetProductsParams): Promi
   const query = category ? { category } : {};
 
   try {
-    const articlesQuery = Products.find(query);
+    const productsQuery = Products.find(query);
 
     if (limit && limit > 0) {
-      articlesQuery.limit(limit);
+      productsQuery.limit(limit);
     }
 
-    const articles = await articlesQuery.exec();
-    return articles as Product[];
+    const products = await productsQuery.exec();
+    return products as Product[];
   } catch (error) {
-    console.error("Error fetching all articles:", error instanceof Error ? error.message : error);
+    console.error("Error fetching all products:", error instanceof Error ? error.message : error);
     return [];
   }
 };

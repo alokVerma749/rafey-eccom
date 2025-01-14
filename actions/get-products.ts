@@ -1,6 +1,6 @@
 'use server';
 
-import { getProducts } from "@/services/get-articles";
+import { getProducts } from "@/services/get-products";
 import { Product } from "@/types/product_type";
 
 const VALID_CATEGORIES = ['candles', 'ceramic art', 'resin art'] as const;

@@ -6,7 +6,11 @@ export interface Product {
   stock: number;
   category: string;
   tags: string[];
-  images: string[];
+  images: {
+    thumbnail: string,
+    medium: string,
+    large: string
+  };
   discount?: number;
   createdAt: Date;
   updatedAt: Date;

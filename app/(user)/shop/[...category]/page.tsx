@@ -1,6 +1,7 @@
 import getProductsAction from "@/actions/get-products";
 import { Product } from "@/types/product_type";
 import { reverseFormatCategory } from "@/utils/format_string";
+import Link from "next/link";
 
 const Page = async ({ params }: any) => {
   const data = await params;
@@ -25,9 +26,9 @@ const Page = async ({ params }: any) => {
         <p>Path: {categories.join(" / ") || "All Categories"}</p>
         <div>
           <div>Number of Products: {products.length}</div>
-          <ul>
+          <ul className="flex flex-col gap-3">
             {products.map((item) => (
-              <li key={item._id}>{item.name}</li>
+              <Link href={`/${item._id}`} key={item._id} className="cursor-pointer">{item.name}</Link>
             ))}
           </ul>
         </div>
