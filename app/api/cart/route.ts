@@ -26,6 +26,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // TODO: need to filter duplicate products
     cart.items = items;
     cart.totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
     cart.totalPrice = items.reduce((total, item) => total + item.total, 0);

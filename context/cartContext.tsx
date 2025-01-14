@@ -3,6 +3,7 @@
 import { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
 import { CartState, CartAction } from '@/types/cart';
 import debounce from 'lodash.debounce';
+import { toast } from '@/hooks/use-toast';
 
 const initialState: CartState = {
   items: [],
@@ -85,6 +86,9 @@ const syncCartWithDB = debounce(async (cart: CartState, userId: string) => {
       throw new Error('Failed to sync cart with the database');
     }
   } catch (error) {
+    toast({
+      title: 'Error syncing cart with the database'
+    })
     console.error('Error syncing cart with the database:', error);
   }
 }, 500);
@@ -104,7 +108,7 @@ export const CartProvider = ({ children, session }: { children: ReactNode, sessi
   useEffect(() => {
     async function fetchCart() {
       if (!userId) return;
-      
+
       try {
         const response = await fetch(`/api/cart?userId=${userId}`);
         if (!response.ok) {
@@ -113,6 +117,9 @@ export const CartProvider = ({ children, session }: { children: ReactNode, sessi
         const data = await response.json();
         dispatchBase({ type: 'SET_CART', payload: data.cart });
       } catch (error) {
+        toast({
+          title: 'Error fetching cart'
+        })
         console.error('Error fetching cart:', error);
       }
     }

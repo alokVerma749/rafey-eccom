@@ -1,6 +1,7 @@
 'use client'
 
 import { useCart } from "@/context/cartContext";
+import { toast } from "@/hooks/use-toast";
 
 
 type AddToCartProps = {
@@ -22,12 +23,16 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       productId: product._id,
       name: product.name,
       price: product.price,
-      quantity: 1, // Default to 1 for now
+      quantity: 1,
       imageUrl: product.images.thumbnail,
-      total: product.price, // Initial total is price * 1
+      total: product.price,
     };
 
     dispatch({ type: 'ADD_ITEM', payload: newItem });
+
+    toast({
+      title: 'Item added to the cart'
+    })
   };
 
   return (
