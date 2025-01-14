@@ -7,7 +7,7 @@ const Page = async ({ params }: any) => {
   const categories = data?.category || [];
 
   try {
-    const response: string = await getProductsAction(reverseFormatCategory(categories[0]));
+    const response: string = await getProductsAction({ category: reverseFormatCategory(categories[0]) });
     let products: Product[] = [];
 
     if (response) {

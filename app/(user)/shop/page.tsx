@@ -3,7 +3,7 @@ import { Product } from '@/types/product_type';
 import Link from 'next/link';
 
 async function Shop() {
-  const response: string = await getProductsAction()
+  const response: string = await getProductsAction({})
   const products: Product[] = response ? JSON.parse(response as string) : [];
   return (
     <div>

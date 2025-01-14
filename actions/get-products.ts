@@ -6,12 +6,17 @@ import { Product } from "@/types/product_type";
 const VALID_CATEGORIES = ['candles', 'ceramic art', 'resin art'] as const;
 type ValidCategory = (typeof VALID_CATEGORIES)[number];
 
+interface GetProductsActionParams {
+  category?: string;
+  limit?: number;
+}
+
 /**
  * Fetches products based on category. If no category is provided, fetches all products.
  * @param {string | undefined} category - The category to filter products by (optional).
  * @returns {Promise<Product[]>} List of products.
  */
-const getProductsAction = async (category?: string): Promise<string> => {
+const getProductsAction = async ({ category, limit }: GetProductsActionParams): Promise<string> => {
   try {
     let validCategory: ValidCategory | undefined;
 
@@ -25,7 +30,7 @@ const getProductsAction = async (category?: string): Promise<string> => {
       }
     }
 
-    const products: Product[] = await getProducts(category);
+    const products: Product[] = await getProducts({ category, limit });
     return JSON.stringify(products);
   } catch (error) {
     console.error("Error in getProductsAction:", error);
