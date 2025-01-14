@@ -1,11 +1,11 @@
-import { CartComponent } from '@/app/components/Cart'
+import { CartList } from "@/app/components/Cart/CartList"
 
 function Cart() {
   return (
     <div>
-      <CartComponent />
+      <CartList />
     </div>
   )
-}
+} 
 
 export default Cart

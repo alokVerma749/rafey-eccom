@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer";
 import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
 import { getSession } from "@/utils/auth";
 import { Toaster } from "@/components/ui/toaster"
+import { CartProvider } from "@/context/cartContext";
 
 const bellefairFont = Bellefair({
   weight: "400",
@@ -35,18 +36,20 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
   return (
     <html lang="en">
       <SessionProviderWrapper session={session}>
-        <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
-          <div className="bg-background">
-            <Header />
-          </div>
-          <div className="min-h-[70vh]">
-            {children}
-            <Toaster />
-          </div>
-          <div className="h-[25dvh] bg-background">
-            <Footer />
-          </div>
-        </body>
+        <CartProvider session={session}>
+          <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
+            <div className="bg-background">
+              <Header />
+            </div>
+            <div className="min-h-[70vh]">
+              {children}
+              <Toaster />
+            </div>
+            <div className="h-[25dvh] bg-background">
+              <Footer />
+            </div>
+          </body>
+        </CartProvider>
       </SessionProviderWrapper>
     </html>
   );

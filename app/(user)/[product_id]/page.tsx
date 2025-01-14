@@ -1,9 +1,10 @@
-'use server'
+// ProductPage.tsx
 
 import Image from "next/image";
 import { Metadata } from "next";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
+import { AddToCart } from "@/app/components/Cart/AddToCart";
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: productProps): Promise<Metada
   };
 }
 
-export default async function product({ params }: productProps) {
+export default async function ProductPage({ params }: productProps) {
   const { product_id } = await params;
 
   const response: string = await getProductAction({ product_id })
@@ -55,8 +56,11 @@ export default async function product({ params }: productProps) {
               height={2000}
             />
 
-            {product.name}
-            {product.description}
+            <h1>{product.name}</h1>
+            <p>{product.description}</p>
+            <p>Price: ${product.price}</p>
+
+            <AddToCart product={product} />
           </div>
         </div>
       </div>
