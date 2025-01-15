@@ -13,12 +13,12 @@ async function Section2() {
           BEST OF CANDLES
           <span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
         </h1>
-        <Link href={"/shop"} className="relative group cursor-pointer">VIEW ALL
+        <Link href={"/shop/candles"} className="relative group cursor-pointer">VIEW ALL
           <span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
         </Link>
       </div>
 
-      <div className="flex flex-wrap gap-5 justify-center">
+      <div className="flex flex-wrap gap-5 justify-between">
         {products.map((product, index) => (
           <div
             key={index}

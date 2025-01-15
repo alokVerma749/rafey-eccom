@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 
 function Section6() {
   return (
-    <div className="px-20">
+    <div className="p-10">
       <img src={image1.src} alt="" className="h-[60vh]" />
       <form>
           <div className="grid w-full items-center gap-4">

@@ -1,8 +1,8 @@
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
 
-function Section1() {
-  const navLinks: any = ['candles', 'ceramic art', 'resin art','contact'];
+function Hero() {
+  const navLinks: any = ['candles', 'ceramic art', 'resin art', 'contact'];
 
   return (
     <div
@@ -33,4 +33,4 @@ function Section1() {
   );
 }
 
-export default Section1;
+export default Hero;

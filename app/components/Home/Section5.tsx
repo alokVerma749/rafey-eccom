@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import getProductsAction from '@/actions/get-products';
 import { Product } from '@/types/product_type';
-import Link from 'next/link';
 
 async function Section5() {
 	const response: string = await getProductsAction({ category: 'resin art', limit: 10 });
@@ -13,12 +13,12 @@ async function Section5() {
 					QUALITY YOU TRUST
 					<span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
 				</h1>
-				<Link href={"#"} className="relative group cursor-pointer">VIEW ALL
+				<Link href={"/shop/resin_art"} className="relative group cursor-pointer">VIEW ALL
 					<span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
 				</Link>
 			</div>
 
-			<div className="flex flex-wrap gap-5 justify-center">
+			<div className="flex flex-wrap gap-5 justify-between">
 				{products.map((product, index) => (
 					<div
 						key={index}
@@ -30,9 +30,9 @@ async function Section5() {
 							className="w-full h-auto max-w-xs mx-auto mb-4"
 						/>
 						<div className='px-2'>
-						<p className="font-bold text-base md:text-lg text-black text-start">${product.price}</p>
-						<h2 className="text-base font-medium mb-2 text-start">{product.name}</h2>
-						<p className="text-sm text-gray-600 mb-2 text-start">{product.description}</p>
+							<p className="font-bold text-base md:text-lg text-black text-start">${product.price}</p>
+							<h2 className="text-base font-medium mb-2 text-start">{product.name}</h2>
+							<p className="text-sm text-gray-600 mb-2 text-start">{product.description}</p>
 						</div>
 					</div>
 				))}
