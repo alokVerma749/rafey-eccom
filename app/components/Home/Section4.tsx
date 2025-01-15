@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import image1 from "@/public/asset/image41.png";
 import image2 from "@/public/asset/image42.png";
 import image4 from "@/public/asset/image43.png";
+import Image from "next/image";
 
 const cardDetails: any = [
   {
@@ -48,7 +49,7 @@ function Section4() {
                 <h2 className="font-semibold text-2xl pb-4">{name}</h2>
                 <p className="text-base text-start">{description}</p>
               </div>
-              <img src={images.src} alt="image" className="w-2/5 h-full" />
+              <Image height={200} width={200} src={images.src} alt="image" className="w-2/5 h-full" />
             </div>
           </Card>
         );

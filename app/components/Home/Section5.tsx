@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import getProductsAction from '@/actions/get-products';
 import { Product } from '@/types/product_type';
+import Image from 'next/image';
 
 async function Section5() {
 	const response: string = await getProductsAction({ category: 'resin art', limit: 10 });
@@ -24,7 +25,9 @@ async function Section5() {
 						key={index}
 						className="border border-gray-300 w-fit sm:w-1/3 md:w-1/4 lg:w-1/6 text-center rounded-lg transition-transform duration-300"
 					>
-						<img
+						<Image
+							height={200}
+							width={200}
 							src={(product.images as any).medium}
 							alt={product.name}
 							className="w-full h-auto max-w-xs mx-auto mb-4"

@@ -3,6 +3,8 @@
 import getProductsAction from '@/actions/get-products';
 import { Slider } from '@/components/ui/slider';
 import { Product } from '@/types/product_type';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 function Shop() {
@@ -136,7 +138,9 @@ function Shop() {
             const discountPercentage = item.discount?.percentage || 0;
             return (
               <div key={item._id} className="bg-white rounded-lg shadow p-4 space-y-2">
-                <img
+                <Image
+                  height={200}
+                  width={200}
                   src={item.images.thumbnail}
                   alt={item.name}
                   className="w-full h-40 object-cover rounded-lg"
@@ -149,12 +153,12 @@ function Shop() {
                   <p className="text-sm text-green-500">Discount: {discountPercentage}%</p>
                 )}
                 <p className="text-sm text-gray-400">Category: {item.category}</p>
-                <a
+                <Link
                   href={`/${item._id}`}
                   className="block mt-2 text-center bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700"
                 >
                   View Details
-                </a>
+                </Link>
               </div>
             );
           })
