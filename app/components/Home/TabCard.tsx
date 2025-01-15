@@ -1,0 +1,32 @@
+
+import {
+  Card,
+} from "@/components/ui/card";
+import { Product } from "@/types/product_type";
+
+
+export function TabCard({ cardDetail }: { cardDetail: Product }) {
+  const { name, description, price, images, discount } = cardDetail;
+  const discountText = discount ? `${discount.percentage}% OFF` : "No Discount";
+
+  return (
+    <Card className="h-full w-full rounded-2xl relative">
+        <div
+          className="bg-cover bg-center relative h-full w-full rounded-2xl text-white"
+          style={{
+            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3) 100%), url(${(images as any).medium})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+					<p className="text-sm mb-2 text-start absolute right-0 top-0 bg-green-600 p-2 rounded-tr-2xl">{discountText}</p>
+					<div className="p-5 bottom-10 left-10">
+          <p className="font-semibold text-xl text-start">${price}</p>
+          <h2 className="text-lg font-semibold mb-2 text-start">{name}</h2>
+          
+					</div>
+        </div>
+    </Card>
+  );
+}
