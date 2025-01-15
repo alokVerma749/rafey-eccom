@@ -37,8 +37,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
       <SessionProviderWrapper session={session}>
         <CartProvider session={session}>
           <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
-            <div className="bg-background">
-            </div>
+            <div className="bg-background"></div>
             <div className="min-h-[70vh]">
               {children}
               <Toaster />
