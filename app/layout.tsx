@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Bellefair, Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
 import { getSession } from "@/utils/auth";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from "@/context/cartContext";
 
 const bellefairFont = Bellefair({
@@ -39,7 +38,6 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
         <CartProvider session={session}>
           <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
             <div className="bg-background">
-              <Header />
             </div>
             <div className="min-h-[70vh]">
               {children}
