@@ -2,6 +2,7 @@
 
 import { useCart } from '@/context/cartContext';
 import { CartItem } from '@/types/cart';
+import Image from 'next/image';
 
 export const CartList = () => {
   const { state, dispatch } = useCart();
@@ -21,7 +22,7 @@ export const CartList = () => {
         <ul>
           {state.items.map((item: CartItem) => (
             <li key={item.productId}>
-              <img src={item.imageUrl} alt={item.name} width={50} />
+              <Image src={item.imageUrl} alt={item.name} width={500} height={500}/>
               <p>{item.name}</p>
               <p>Price: ${item.price}</p>
               <p>Quantity: {item.quantity}</p>
