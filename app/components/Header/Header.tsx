@@ -6,10 +6,10 @@ import Link from "next/link";
 
 export function Header() {
   const { data: session, status } = useSession();
-  const { state } = useCart(); // Get the cart state from context
+  const { state } = useCart();
 
   if (status === "loading") {
-    return <div>Loading...</div>; // Optionally show a loading indicator
+    return <div>Loading...</div>;
   }
 
   return (

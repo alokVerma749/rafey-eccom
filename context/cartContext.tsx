@@ -93,41 +93,63 @@ const syncCartWithDB = debounce(async (cart: CartState, userId: string) => {
   }
 }, 500);
 
-export const CartProvider = ({ children, session }: { children: ReactNode, session: any }) => {
+export const CartProvider = ({ children, session }: { children: ReactNode; session: any }) => {
   const [state, dispatchBase] = useReducer(cartReducer, initialState);
-  const userId = session.user.email || null;
+  const userId = session?.user?.email || null;
 
   const dispatch = (action: CartAction) => {
     dispatchBase(action);
     const updatedState = cartReducer(state, action);
     if (userId) {
-      syncCartWithDB(updatedState, userId);
+      try {
+        syncCartWithDB(updatedState, userId);
+      } catch (error) {
+        console.error('Error syncing cart with database:', error);
+        toast({
+          title: 'Sync Error',
+          description: 'Failed to sync cart with the server.',
+        });
+      }
     }
   };
 
   useEffect(() => {
     async function fetchCart() {
-      if (!userId) return;
+      if (!userId) {
+        toast({
+          title: 'Login Required',
+          description: 'Please log in to access your cart.',
+        });
+        return;
+      }
 
       try {
         const response = await fetch(`/api/cart?userId=${userId}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch cart');
+          throw new Error(`Failed to fetch cart: ${response.statusText}`);
         }
         const data = await response.json();
         dispatchBase({ type: 'SET_CART', payload: data.cart });
-      } catch (error) {
         toast({
-          title: 'Error fetching cart'
-        })
+          title: 'Cart Loaded',
+          description: 'Your cart has been successfully loaded.',
+        });
+      } catch (error) {
         console.error('Error fetching cart:', error);
+        toast({
+          title: 'Fetch Error',
+          description: 'Unable to load your cart. Please try again later.',
+        });
       }
     }
-
     fetchCart();
   }, [userId]);
 
-  return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={{ state, dispatch }}>
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {
