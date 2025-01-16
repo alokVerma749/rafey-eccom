@@ -1,28 +1,26 @@
-import * as React from "react"
+import getProductsAction from '@/actions/get-products';
+import { Product } from '@/types/product_type';
+import Image from 'next/image';
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+async function Section7() {
+  const response: string = await getProductsAction({ limit:10 });
+  const products: Product[] = response ? JSON.parse(response) : [];
 
-function Section7() {
   return (
-    <Carousel className="w-full max-w-xs">
-      <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
-  )
+    <div className="flex justify-start items-center overflow-x-scroll gap-1 p-10 no-scrollbar">
+      {products.map((product, index) => (
+        <div key={index} className="text-center min-w-[200px]">
+          <Image
+            height={200}
+            width={200}
+            src={(product.images as any).medium}
+            alt={product.name}
+            className="w-full h-auto max-w-xs mx-auto mb-4"
+          />
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default Section7;
