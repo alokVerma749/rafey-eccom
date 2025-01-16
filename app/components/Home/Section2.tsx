@@ -21,8 +21,9 @@ async function Section2() {
 
       <div className="flex flex-wrap gap-5 justify-between">
         {products.map((product, index) => (
-          <div
+          <Link
             key={index}
+            href={`/${product._id}`}
             className="border border-gray-300 p-5 w-fit sm:w-1/3 md:w-1/4 lg:w-1/5 text-center rounded-lg transition-transform duration-300"
           >
             <Image
@@ -35,7 +36,7 @@ async function Section2() {
             <p className="font-bold text-xl text-black text-start">${product.price}</p>
             <h2 className="text-lg font-semibold mb-2 text-start">{product.name}</h2>
             <p className="text-sm text-gray-600 mb-2 text-start">{product.description}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
