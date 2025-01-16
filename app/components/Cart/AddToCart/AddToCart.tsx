@@ -24,8 +24,12 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       name: product.name,
       price: product.price,
       quantity: 1,
-      imageUrl: product.images.thumbnail,
-      total: product.price,
+      images: {
+        thumbnail: product.images.thumbnail,
+        large: product.images.thumbnail,
+        medium: product.images.thumbnail,
+      },
+      _id: product._id
     };
 
     dispatch({ type: 'ADD_ITEM', payload: newItem });

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
-import { CartState, CartAction } from '@/types/cart';
+import { CartState, CartAction, CartItemStore } from '@/types/cart';
 import debounce from 'lodash.debounce';
 import { toast } from '@/hooks/use-toast';
 
@@ -28,7 +28,10 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           totalPrice: updatedItems.reduce((total, item) => total + item.total, 0),
         };
       } else {
-        const newItem = action.payload;
+        const newItem: CartItemStore = {
+          ...action.payload,
+          total: action.payload.price * action.payload.quantity
+        };
         return {
           ...state,
           items: [...state.items, newItem],
@@ -60,7 +63,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       };
 
     case 'SET_CART':
-      return action.payload;
+      return {
+        ...action.payload,
+        items: action.payload.items.map(item => ({
+          ...item,
+          total: item.price * item.quantity
+        }))
+      };
 
     default:
       return state;
@@ -77,7 +86,7 @@ const syncCartWithDB = debounce(async (cart: CartState, userId: string) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId,
+        email: userId,
         items: cart.items,
       }),
     });
@@ -135,7 +144,6 @@ export const CartProvider = ({ children, session }: { children: ReactNode; sessi
           description: 'Your cart has been successfully loaded.',
         });
       } catch (error) {
-        console.error('Error fetching cart:', error);
         toast({
           title: 'Fetch Error',
           description: 'Unable to load your cart. Please try again later.',
