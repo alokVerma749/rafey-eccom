@@ -1,15 +1,16 @@
-'use client'; 
+'use client';
 
 import React, { useState } from "react";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel} from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel } from "@/components/ui/sidebar";
 
+// Updated filters with Variation for Fragrance Type
 const filters = [
   {
-    title: "Brand",
+    title: "In Stock",
     type: "checkbox",
     options: [
-      { label: "India Meets India", value: "india-meets-india" },
-      { label: "India Classic Art", value: "india-classic-art" },
+      { label: "Available", value: "available" },
+      { label: "Out of Stock", value: "out-of-stock" },
     ],
   },
   {
@@ -29,11 +30,32 @@ const filters = [
     ],
   },
   {
-    title: "Discount Range",
+    title: "Category",
     type: "radio",
     options: [
-      { label: "20% and above", value: "20-and-above" },
-      { label: "40% and above", value: "40-and-above" },
+      { label: "Candles", value: "candles" },
+      { label: "Ceramic Art", value: "ceramic-art" },
+      { label: "Resin Art", value: "resin-art" },
+    ],
+  },
+  {
+    title: "Tag",
+    type: "checkbox",
+    options: [
+      { label: "Handmade", value: "handmade" },
+      { label: "Eco-friendly", value: "eco-friendly" },
+      { label: "Unique", value: "unique" },
+    ],
+  },
+  {
+    title: "Variation",
+    type: "checkbox",
+    options: [
+      { label: "Lavender", value: "lavender" },
+      { label: "Rose", value: "rose" },
+      { label: "Vanilla", value: "vanilla" },
+      { label: "Sandalwood", value: "sandalwood" },
+      { label: "Citrus", value: "citrus" },
     ],
   },
 ];
