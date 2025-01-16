@@ -3,13 +3,8 @@
 import { useState } from "react";
 import { RazorpayOptions, RazorpayPaymentFailedResponse, RazorpayPaymentSuccessResponse } from "@/types/razorpay";
 import Script from "next/script";
-import { Product } from "@/types/product_type";
 
-interface CheckoutPageProps {
-  products: Product[];
-}
-
-const CheckoutPage: React.FC<CheckoutPageProps> = ({ products }) => {
+const CheckoutPage = () => {
   const [loading, setLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState("");
 
@@ -23,7 +18,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ products }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          products,
+          products: [], // Pass products from cart context instead
           currency: "INR",
         }),
       });

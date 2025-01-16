@@ -22,7 +22,7 @@ export function Header() {
         >
           <span>Cart</span>
           <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
-            {state.totalQuantity}
+            {state.items.length}
           </span>
         </Link>
 

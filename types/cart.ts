@@ -4,12 +4,35 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  imageUrl: string;
+  images: {
+    thumbnail: string;
+    large: string;
+    medium: string;
+  };
+  discount?: {
+    percentage: number;
+  };
+  _id: string;
+}
+export interface CartItemStore {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  images: {
+    thumbnail: string;
+    large: string;
+    medium: string;
+  };
+  discount?: {
+    percentage: number;
+  };
+  _id: string;// unnecessary caused sue to merge product data with quantity
   total: number;
 }
 
 export interface CartState {
-  items: CartItem[];
+  items: CartItemStore[];
   totalQuantity: number;
   totalPrice: number;
 }

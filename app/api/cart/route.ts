@@ -4,9 +4,9 @@ import Cart from '@/models/cart-model';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const { userId, items }: { userId: string; items: Array<any> } = await request.json();
+    const { email, items }: { email: string; items: Array<any> } = await request.json();
 
-    if (!userId || !items) {
+    if (!email || !items) {
       return NextResponse.json(
         { error: 'Missing required fields: userId and items' },
         { status: 400 }
@@ -15,10 +15,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     await connect_db();
 
-    let cart = await Cart.findOne({ userId }).exec();
+    let cart = await Cart.findOne({ email }).exec();
 
     if (!cart) {
-      cart = new Cart({ userId, items });
+      cart = new Cart({ email, items });
       await cart.save();
       return NextResponse.json(
         { message: 'Cart created', cart },
@@ -48,9 +48,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 export async function GET(request: Request): Promise<Response> {
   try {
     const url = new URL(request.url);
-    const userId = url.searchParams.get('userId');
+    const email = url.searchParams.get('userId');
 
-    if (!userId) {
+    if (!email) {
       return new Response(
         JSON.stringify({ error: 'Missing required query parameter: userId' }),
         { status: 400 }
@@ -58,8 +58,8 @@ export async function GET(request: Request): Promise<Response> {
     }
 
     await connect_db();
+    const cart = await Cart.findOne({ email }).exec();
 
-    const cart = await Cart.findOne({ userId }).exec();
     if (!cart) {
       return new Response(
         JSON.stringify({ error: 'Cart not found for the given userId.' }),
