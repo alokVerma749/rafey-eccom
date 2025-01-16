@@ -1,8 +1,10 @@
+import Link from 'next/link';
+import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
 
 function Hero() {
-  const navLinks: any = ['candles', 'ceramic art', 'resin art', 'contact'];
+  const navLinks: any = ['Candles', 'Ceramic Art', 'Resin Art'];
 
   return (
     <div
@@ -15,13 +17,13 @@ function Hero() {
 
       <nav className="flex justify-center space-x-4 pt-4">
         {navLinks.map((link: any) => (
-          <a
+          <Link
             key={link}
-            href={`#${link.toLowerCase()}`}
+            href={`/shop/${formatCategory(link)}`}
             className="text-white text-xl hover:cursor-pointer"
           >
             {link}
-          </a>
+          </Link>
         ))}
       </nav>
 

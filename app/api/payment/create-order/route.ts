@@ -1,0 +1,77 @@
+import Razorpay from "razorpay";
+import { NextRequest, NextResponse } from "next/server";
+import getProductAction from "@/actions/get-product";
+import { Product } from "@/types/product_type";
+import Payment from "@/models/payment_model";
+import User from "@/models/user_model";
+
+export async function POST(req: NextRequest) {
+  try {
+    const { products, currency } = await req.json();
+
+    if (!products || !Array.isArray(products) || products.length === 0) {
+      return NextResponse.json(
+        { message: "Invalid product data" },
+        { status: 400 }
+      );
+    }
+
+    let totalAmount = 0;
+
+    for (const { productId, quantity } of products) {
+      const response: string = await getProductAction({ product_id: productId })
+      const product: Product = response ? JSON.parse(response as string) : [];
+
+      if (!product) {
+        return NextResponse.json(
+          { message: `Product with ID ${productId} not found` },
+          { status: 404 }
+        );
+      }
+
+      totalAmount += product.price * quantity;
+    }
+
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID as string,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+
+    const user = await User.findOne({ email: 'alok@gmail.com' });
+
+    const options = {
+      amount: totalAmount * 100,
+      currency: currency || "INR",
+      receipt: `receipt_${Date.now()}`,
+      notes: {
+        name: user?.name,
+        email: user?.email,
+        phone: user?.phone,
+        address: user?.address,
+      }
+    };
+
+    const order = await razorpay.orders.create(options);
+
+    const payment = await Payment.create({
+      userId: user?._id,
+      orderId: order.id,
+      status: order.status,
+      amount: totalAmount,
+      currency: currency || "INR",
+      receipt: order.receipt,
+      notes: order.notes
+    })
+
+    return NextResponse.json(
+      { message: 'Payment initiated', payment },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error creating Razorpay order:", error);
+    return NextResponse.json(
+      { message: 'Failed to create order' },
+      { status: 500 }
+    );
+  }
+}

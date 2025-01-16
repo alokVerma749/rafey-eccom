@@ -15,17 +15,44 @@ export interface Cart extends Document {
 }
 
 const cartItemSchema = new Schema<CartItem>({
-  productId: { type: String, required: true },
-  imageUrl: { type: String, required: true },
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  quantity: { type: Number, required: true },
-  total: { type: Number, required: true },
+  productId: {
+    type: String,
+    required: true
+  },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  quantity: {
+    type: Number,
+    required: true
+  },
+  total: {
+    type: Number,
+    required: true
+  },
 });
 
 const cartSchema = new Schema<Cart>({
-  userId: { type: String, required: true, unique: true },
-  items: { type: [cartItemSchema], default: [] },
+  userId: {
+    type: String,
+    required: true,
+    unique: true
+
+  },
+  items: {
+
+    type: [cartItemSchema],
+    default: []
+  },
 });
 
 const CartModel = mongoose.models.Cart || mongoose.model<Cart>('Cart', cartSchema);
