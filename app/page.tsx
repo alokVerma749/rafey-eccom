@@ -20,8 +20,8 @@ export default function Home() {
       <Banner />
       <div className="w-[95%] mx-auto">
         <Section6 />
+        <Section7 />
       </div>
-      <Section7 />
     </div>
   );
 }
