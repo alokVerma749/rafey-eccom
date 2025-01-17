@@ -48,8 +48,8 @@ export default async function ProductPage({ params }: productProps) {
 
   return (
     <div>
-      <div className="mx-auto relative bg-white border-2 py-10">
-        <div className="flex justify-center md:items-start md:flex-row items-center md flex-col gap-x-10">
+      <div className="container mx-auto bg-white border-2 py-10 px-5 lg:px-20">
+        <div className="flex justify-center md:items-start md:flex-row items-center flex-col gap-x-10">
           <Image
             alt={`${product.name} thumbnail`}
             className="flex-shrink-0 w-full object-cover object-center pl-20 md:w-3/5 pr-10"
@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: productProps) {
             width={2000}
             height={2000}
           />
-          <div className="p-6 md:p-0">
+          <div className="">
             <h1 className="text-xl font-semibold uppercase">{product.name}</h1>
             <h1 className="text-green-600">In stock {product.stock}</h1>
             {/* <p className="text-sm">{product.description}</p> */}
