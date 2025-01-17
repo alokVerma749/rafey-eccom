@@ -1,8 +1,9 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cartContext";
 import { toast } from "@/hooks/use-toast";
-
+import {ShoppingCart, Heart} from "lucide-react"
 
 type AddToCartProps = {
   product: {
@@ -40,11 +41,18 @@ export const AddToCart = ({ product }: AddToCartProps) => {
   };
 
   return (
-    <button
+    <div className="flex justify-start items-center gap-x-6 my-6">
+
+    <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
+    <ShoppingCart className="text-white"/>
+    <Button
       onClick={handleAddToCart}
-      className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-    >
-      Add to Cart
-    </button>
+      className="bg-transparent"
+      >
+      Add to Cart 
+    </Button>
+      </div>
+      <Heart/>
+        </div>
   );
 };
