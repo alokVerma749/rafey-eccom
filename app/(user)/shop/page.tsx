@@ -10,13 +10,24 @@ import { useState, useEffect } from 'react';
 function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<{
+    price: number[];
+    stock: string;
+    category: string[];
+    tags: string[];
+    variations: string[];
+    inStock: boolean;
+    fragrance: string[];
+    color: string[];
+  }>({
     price: [0],
     stock: '',
-    category: '',
-    tags: '',
-    variations: '',
+    category: [],
+    tags: [],
+    variations: [],
     inStock: true,
+    fragrance: [] as string[], 
+    color: [] as string[], 
   });
 
   useEffect(() => {
@@ -73,66 +84,297 @@ function Shop() {
       filtered = filtered.filter((product) => product.variations?.includes(value));
     }
 
+    // Multi-select for fragrance
+    if (name === 'fragrance') {
+      const fragranceFilters = filters.fragrance.includes(value)
+        ? filters.fragrance.filter((fr) => fr !== value) 
+        : [...filters.fragrance, value];
+
+      setFilters((prev) => ({ ...prev, fragrance: fragranceFilters }));
+      filtered = filtered.filter((product) =>
+        fragranceFilters.every((fr) =>
+          product.variations?.some((variation) =>
+            variation.toLowerCase().includes(fr.toLowerCase())
+          )
+        )
+      );
+    }
+
+    // Multi-select for color
+    if (name === 'color') {
+      const colorFilters = filters.color.includes(value)
+        ? filters.color.filter((col) => col !== value) 
+        : [...filters.color, value]; 
+
+      setFilters((prev) => ({ ...prev, color: colorFilters }));
+      filtered = filtered.filter((product) =>
+        colorFilters.every((col) => product.variations?.includes(col))
+      );
+    }
+
+    // Multi-select for category
+    if (name === 'category') {
+      const categoryFilters = filters.category.includes(value)
+        ? filters.category.filter((cat) => cat !== value)
+        : [...filters.category, value]; 
+
+      setFilters((prev) => ({ ...prev, category: categoryFilters }));
+      filtered = filtered.filter((product) =>
+        categoryFilters.includes(product.category)
+      );
+    }
+
+    // Multi-select for tags
+    if (name === 'tags') {
+      const tagFilters = filters.tags.includes(value)
+        ? filters.tags.filter((tag) => tag !== value) 
+        : [...filters.tags, value]; 
+
+      setFilters((prev) => ({ ...prev, tags: tagFilters }));
+      filtered = filtered.filter((product) =>
+        tagFilters.every((tag) => product.tags?.includes(tag))
+      );
+    }
+
+    // Multi-select for variations
+    if (name === 'variations') {
+      const variationFilters = filters.variations.includes(value)
+        ? filters.variations.filter((variation) => variation !== value) 
+        : [...filters.variations, value]; 
+
+      setFilters((prev) => ({ ...prev, variations: variationFilters }));
+      filtered = filtered.filter((product) =>
+        variationFilters.every((variation) => product.variations?.includes(variation))
+      );
+    }
+
+    if (name === 'variations' && value) {
+      const variationFilters = filters.variations.includes(value)
+        ? filters.variations.filter((variation) => variation !== value)
+        : [...filters.variations, value];
+      setFilters((prev) => ({ ...prev, variations: variationFilters }));
+      filtered = filtered.filter((product) =>
+        variationFilters.every((variation) => product.variations?.includes(variation))
+      );
+    }
+
+
     setFilteredProducts(filtered);
   };
 
+  const removeSelectedFilter = (name: string, value: string) => {
+    const currentFilter = filters[name as keyof typeof filters];
+    const updatedFilters = Array.isArray(currentFilter)
+      ? currentFilter.filter((item: string | number) => item !== value)
+      : currentFilter;
+
+    setFilters((prev) => ({ ...prev, [name]: updatedFilters }));
+  };
+
   return (
-    <div className="p-6 space-y-6">
-      <div className="space-y-4">
+    <div className="p-6 space-y-6 flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6">
         <h2 className="text-xl font-semibold">Filters</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Max Price</label>
-            <Slider
-              step={100}
-              min={50}
-              max={6000}
-              onValueChange={handleSliderChange}
-            />
-            <div className="text-center mt-2 text-sm text-gray-500">
-              Current Price: ${filters.price[0]}
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">In Stock</label>
-            <input
-              type="checkbox"
-              name="inStock"
-              checked={filters.inStock}
-              onChange={handleFilterChange}
-              className="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Category</label>
-            <select
-              name="category"
-              value={filters.category}
-              onChange={handleFilterChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="">All</option>
-              <option value="candles">Candles</option>
-              <option value="ceramic art">Ceramic Art</option>
-              <option value="resin art">Resin Art</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Tags</label>
-            <input
-              type="text"
-              name="tags"
-              value={filters.tags}
-              onChange={handleFilterChange}
-              placeholder="Enter tag"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
+        {/* Max Price */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Max Price</label>
+          <Slider
+            step={100}
+            min={50}
+            max={6000}
+            onValueChange={handleSliderChange}
+          />
+          <div className="text-center mt-2 text-sm text-gray-500">
+            Current Price: ${filters.price[0]}
           </div>
         </div>
-      </div>
+        {/* In Stock */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">In Stock</label>
+          <input
+            type="checkbox"
+            name="inStock"
+            checked={filters.inStock}
+            onChange={handleFilterChange}
+            className="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+          />
+        </div>
+        {/* Fragrance Multi-Select */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Fragrance Type</label>
+          <select
+            name="fragrance"
+            onChange={handleFilterChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Select Fragrance</option>
+            {['Lavender', 'Rose', 'Vanilla', 'Jasmine', 'Sandalwood'].map((fragrance) => (
+              <option key={fragrance} value={fragrance.toLowerCase()}>
+                {fragrance}
+              </option>
+            ))}
+          </select>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {filters.fragrance.map((fr) => (
+              <span
+                key={fr}
+                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+              >
+                {fr}
+                <button
+                  type="button"
+                  className="ml-1 text-white hover:text-gray-300"
+                  onClick={() => removeSelectedFilter('fragrance', fr)}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+        {/* Color Multi-Select */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Color</label>
+          <select
+            name="color"
+            onChange={handleFilterChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Select Color</option>
+            {['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'].map((color) => (
+              <option key={color} value={color.toLowerCase()}>
+                {color}
+              </option>
+            ))}
+          </select>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {filters.color.map((col) => (
+              <span
+                key={col}
+                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+              >
+                {col}
+                <button
+                  type="button"
+                  className="ml-1 text-white hover:text-gray-300"
+                  onClick={() => removeSelectedFilter('color', col)}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
 
-      {/* Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Select Variation</label>
+          <select
+            name="variations"
+            onChange={handleFilterChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Select Variation</option>
+            {['Size', 'Color', 'Fragrance'].map((variation) => (
+              <option key={variation} value={variation.toLowerCase()}>
+                {variation}
+              </option>
+            ))}
+          </select>
+
+          <div className="flex flex-wrap gap-2 mt-2">
+            {filters.variations.map((variation) => (
+              <span
+                key={variation}
+                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+              >
+                {variation}
+                <button
+                  type="button"
+                  className="ml-1 text-white hover:text-gray-300"
+                  onClick={() => removeSelectedFilter('variations', variation)}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Category Multi-Select */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Category</label>
+          <select
+            name="category"
+            onChange={handleFilterChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Select Category</option>
+            {['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports'].map((category) => (
+              <option key={category} value={category.toLowerCase()}>
+                {category}
+              </option>
+            ))}
+          </select>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {filters.category.map((cat) => (
+              <span
+                key={cat}
+                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+              >
+                {cat}
+                <button
+                  type="button"
+                  className="ml-1 text-white hover:text-gray-300"
+                  onClick={() => removeSelectedFilter('category', cat)}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+        {/* Tags Multi-Select */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Tags</label>
+          <select
+            name="tags"
+            onChange={handleFilterChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Select Tags</option>
+            {['New', 'Sale', 'Hot'].map((tag) => (
+              <option key={tag} value={tag.toLowerCase()}>
+                {tag}
+              </option>
+            ))}
+          </select>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {filters.tags.map((tag) => (
+              <span
+                key={tag}
+                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+              >
+                {tag}
+                <button
+                  type="button"
+                  className="ml-1 text-white hover:text-gray-300"
+                  onClick={() => removeSelectedFilter('tags', tag)}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+
+
+      </aside>
+
+      {/* Product Grid */}
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => {
             const discountPercentage = item.discount?.percentage || 0;
