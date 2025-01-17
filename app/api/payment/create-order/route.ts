@@ -7,7 +7,7 @@ import User from "@/models/user_model";
 
 export async function POST(req: NextRequest) {
   try {
-    const { products, currency } = await req.json();
+    const { products, currency, userEmail } = await req.json();
 
     if (!products || !Array.isArray(products) || products.length === 0) {
       return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
-    const user = await User.findOne({ email: 'alok@gmail.com' });
+    const user = await User.findOne({ email: userEmail });
 
     const options = {
       amount: totalAmount * 100,
