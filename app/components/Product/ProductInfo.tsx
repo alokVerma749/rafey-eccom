@@ -30,7 +30,7 @@ const AddToCart = ({ product }: AddToCartProps) => {
       <AccordionItem value="item-3">
         <AccordionTrigger>Reviews</AccordionTrigger>
         <AccordionContent className="">
-          Yes. It's animated by default, but you can disable it if you prefer. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, vitae.
+          Yes. It is animated by default, but you can disable it if you prefer. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, vitae.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
