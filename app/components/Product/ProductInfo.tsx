@@ -1,17 +1,24 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-export default function ProductInfo() {
+
+type AddToCartProps = {
+  product: {
+    _id: string;
+    name: string;
+    price: number;
+    description: string;
+    images: {
+      thumbnail: string;
+    };
+  };
+};
+const AddToCart = ({ product }: AddToCartProps) => {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
         <AccordionTrigger>Details</AccordionTrigger>
         <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
+          {product.description}
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -30,4 +37,6 @@ export default function ProductInfo() {
     </Accordion>
   )
 }
+
+export default AddToCart
 

@@ -72,7 +72,7 @@ export default async function ProductPage({ params }: productProps) {
             </div>
             <AddToCart product={product} />
 
-            <ProductInfo />
+            <ProductInfo product={product}/>
 
             <div className="py-4">
               {/* Personalization Section */}
@@ -108,9 +108,9 @@ export default async function ProductPage({ params }: productProps) {
               </div>
 
               {/* Best Offers */}
-              <div>
+              <div className="py-4">
                 <h3 className="text-lg font-semibold text-gray-700">BEST OFFERS</h3>
-                <p className="text-lg font-bold text-indigo-600">Best Price: ₹690</p>
+                <p className="text-indigo-600">Best Price: ₹690</p>
                 <ul className="text-sm text-gray-500 mt-2 list-disc pl-5 space-y-1">
                   <li>
                     Applicable On: Purchase Of 4 Or More Items
