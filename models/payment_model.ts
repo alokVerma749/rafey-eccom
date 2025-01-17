@@ -28,6 +28,7 @@ const PaymentSchema = new mongoose.Schema({
     email: { type: String },
     phone: { type: String },
     address: { type: String },
+    pincode: { type: String },
   }
 }, { timestamps: true });
 

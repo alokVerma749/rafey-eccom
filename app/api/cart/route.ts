@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connect_db from '@/config/db';
 import Cart from '@/models/cart-model';
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const { email, items }: { email: string; items: Array<any> } = await request.json();
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
 
+    const { email, items }: { email: string; items: Array<any> } = await request.json();
     if (!email || !items) {
       return NextResponse.json(
         { error: 'Missing required fields: userId and items' },
@@ -47,6 +56,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
 export async function GET(request: Request): Promise<Response> {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401 }
+      );
+    }
     const url = new URL(request.url);
     const email = url.searchParams.get('userId');
 
@@ -77,5 +93,27 @@ export async function GET(request: Request): Promise<Response> {
       JSON.stringify({ error: 'Internal server error' }),
       { status: 500 }
     );
+  }
+}
+
+// Clear Cart (DELETE)
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { userEmail } = await request.json();
+    const result = await Cart.deleteMany({ email: userEmail });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ message: 'No cart found for this user' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Cart cleared successfully' }, { status: 200 });
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    return NextResponse.json({ message: 'Failed to clear cart' }, { status: 500 });
   }
 }

@@ -1,6 +1,15 @@
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 export default async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401 }
+      );
+    }
   const { searchParams } = new URL(req.url);
   const awbNumber = searchParams.get('awbNumber');
 

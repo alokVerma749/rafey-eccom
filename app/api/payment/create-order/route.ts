@@ -4,10 +4,20 @@ import getProductAction from "@/actions/get-product";
 import { Product } from "@/types/product_type";
 import Payment from "@/models/payment_model";
 import User from "@/models/user_model";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 export async function POST(req: NextRequest) {
   try {
-    const { products, currency, userEmail } = await req.json();
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401 }
+      );
+    }
+
+    const { products, currency, userEmail, address, pincode, phone, name } = await req.json();
 
     if (!products || !Array.isArray(products) || products.length === 0) {
       return NextResponse.json(
@@ -44,10 +54,11 @@ export async function POST(req: NextRequest) {
       currency: currency || "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
-        name: user?.name,
-        email: user?.email,
-        phone: user?.phone,
-        address: user?.address,
+        name: name,
+        email: userEmail,
+        phone: phone,
+        address: address,
+        pincode: pincode,
       }
     };
 
@@ -60,7 +71,9 @@ export async function POST(req: NextRequest) {
       amount: totalAmount,
       currency: currency || "INR",
       receipt: order.receipt,
-      notes: order.notes
+      notes: order.notes,
+      address: address,
+      pincode: pincode
     })
 
     return NextResponse.json(

@@ -1,7 +1,16 @@
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401 }
+      );
+    }
     const { packageDetails } = await req.json(); // e.g., { pickup_address, delivery_address, weight, cod_amount }
 
     const delhiveryUrl = process.env.DELHIVERY_TESTING_URL;

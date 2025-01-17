@@ -41,5 +41,5 @@ export type CartAction =
   | { type: 'ADD_ITEM'; payload: CartItem }
   | { type: 'REMOVE_ITEM'; payload: { productId: string } }
   | { type: 'UPDATE_ITEM_QUANTITY'; payload: { productId: string; quantity: number } }
-  | { type: 'SET_CART'; payload: { items: CartItem[]; totalQuantity: number; totalPrice: number } };
-
+  | { type: 'SET_CART'; payload: { items: CartItem[]; totalQuantity: number; totalPrice: number } }
+  | { type: 'CLEAR_CART' };
