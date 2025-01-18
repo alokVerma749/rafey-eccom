@@ -10,7 +10,6 @@ interface addressUpdateProps {
 }
 
 export const getUser = async (email: string) => {
-  console.log(email, '###');
   await connect_db();
   try {
     const user = await User.findOne({ email });

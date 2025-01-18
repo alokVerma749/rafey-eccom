@@ -13,12 +13,11 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CartItemStore } from "@/types/cart";
 
 interface orderTypes {
   user: string;
   paymentId: string;
-  products: CartItemStore[];
+  products: { product: string, quantity: number }[];
   totalAmount: number;
   razorpayOrderId: string;
   paymentStatus: string;
@@ -104,7 +103,17 @@ function Cart() {
 
   // create order
   const createOrder = async (orderDetails: orderTypes) => {
-    await createOrder(orderDetails);
+    const order = await fetch("/api/order", {
+      method: "POST",
+      body: JSON.stringify(orderDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!order) {
+      throw new Error("Failed to create order");
+    }
+    return order;
   };
 
   // Handle Checkout
@@ -149,8 +158,6 @@ function Cart() {
         throw new Error("Payment ID not found.");
       }
 
-      // Now verify the payment usin webhook and if it is successful then create a order using order schema
-
       // Step 2: Initialize Razorpay payment
       const options: RazorpayOptions = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
@@ -177,14 +184,15 @@ function Cart() {
             }
 
             // save order details in the database
-
-            // Note: confused about payment status being pending in the database
             await createOrder({
               user: userData._id,
               paymentId: payment._id,
               razorpayOrderId: payment.orderId,
-              products: state.items,
-              totalAmount: payment.amount,
+              products: state.items.map(item => ({
+                product: item.productId,
+                quantity: item.quantity,
+              })),
+              totalAmount: payment.amount || 0,
               paymentStatus: "pending",
               orderStatus: 'processing',
               address: userData.address,
