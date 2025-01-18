@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const webhookSignature = req.headers.get("x-razorpay-signature") || "";
     const body = await req.json();
     const isValid = await validateWebhookSignature(webhookSignature, body, process.env.RAZORPAY_WEBHOOK_SECRET || "");
-    console.log(req, "Webhook received");
+    console.log(body, webhookSignature, isValid, "Webhook received");
     if (!isValid) {
       return new NextResponse("Invalid webhook signature", { status: 400 });
     }
