@@ -10,9 +10,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  password: {
-    type: String
-  }, // Optional if using next-auth's provider-based authentication
+  image: {
+    type: String,
+    default: ''
+  },
   role: {
     type: String,
     default: 'user',
@@ -29,6 +30,6 @@ const UserSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const User = mongoose.models.User || mongoose.model('User', UserSchema);
+const UserAccount = mongoose.models.UserAccount || mongoose.model('UserAccount', UserSchema);
 
-export default User;
+export default UserAccount;

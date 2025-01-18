@@ -17,7 +17,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const { email, items }: { email: string; items: Array<any> } = await request.json();
     if (!email || !items) {
       return NextResponse.json(
-        { error: 'Missing required fields: userId and items' },
+        { error: 'Missing required fields: email and items' },
         { status: 400 }
       );
     }

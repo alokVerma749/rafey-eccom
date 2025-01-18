@@ -1,5 +1,5 @@
 import connect_db from "@/config/db";
-import User from "@/models/user_model";
+import UserAccount from "@/models/user_model";
 
 export async function GET(request: Request): Promise<Response> {
   try {
@@ -15,7 +15,7 @@ export async function GET(request: Request): Promise<Response> {
 
     await connect_db();
 
-    const user = await User.findOne({ email });
+    const user = await UserAccount.findOne({ email });
 
     if (!user) {
       return new Response(

@@ -1,11 +1,25 @@
 import mongoose from 'mongoose';
 
 const ProductSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  stock: { type: Number, required: true },
-  category: { type: String, enum: ['candles', 'ceramic art', 'resin art'], required: true },
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  stock: {
+    type: Number,
+    required: true
+  },
+  category: {
+    type: String, enum: ['candles', 'ceramic art', 'resin art'], required: true
+  },
   tags: [{ type: String }], // For ceramic art and resin art
   variations: [{ type: String }], // For candles (fragrances)
   images: {
@@ -18,7 +32,10 @@ const ProductSchema = new mongoose.Schema({
     startDate: { type: Date }, // Optional: Discount start date
     endDate: { type: Date }, // Optional: Discount end date
   },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
 });
 
 const Products = mongoose.models.Product || mongoose.model('Product', ProductSchema);

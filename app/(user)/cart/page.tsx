@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useCart } from "@/context/cartContext";
 import { CartList } from "@/app/components/Cart/CartList";
 import { toast } from "@/hooks/use-toast";
-import { getUser, updateUser } from "@/db_services/user";
+import { getUser, getUserAccount, updateUser } from "@/db_services/user";
 import { RazorpayOptions, RazorpayPaymentFailedResponse, RazorpayPaymentSuccessResponse } from "@/types/razorpay";
 
 import { Button } from "@/components/ui/button";
@@ -130,10 +130,10 @@ function Cart() {
       setLoading(true);
       setPaymentStatus("");
 
-      // Fetch user address
-      const user = await getUser(session.data.user.email);
-      const userData = JSON.parse(user);
-      if (!userData?.address || !userData?.pincode || !userData?.phone) {
+      // Fetch user account for address
+      const userAccount = await getUserAccount(session.data.user.email);
+      const userAccountData = JSON.parse(userAccount);
+      if (!userAccountData?.address || !userAccountData?.pincode || !userAccountData?.phone) {
         setIsAddressModalOpen(true);
         toast({
           title: 'Add Address Required',
@@ -141,6 +141,10 @@ function Cart() {
         });
         return;
       }
+
+      // Fetch user next-auth user id
+      const user = await getUser(session.data.user.email);
+      const userData = JSON.parse(user);
 
       // Proceed with payment setup if address is present
       const response = await fetch('/api/payment/create-order', {
@@ -195,9 +199,9 @@ function Cart() {
               totalAmount: payment.amount || 0,
               paymentStatus: "pending",
               orderStatus: 'processing',
-              address: userData.address,
-              pincode: userData.pincode,
-              phone: userData.phone,
+              address: userAccountData.address,
+              pincode: userAccountData.pincode,
+              phone: userAccountData.phone,
             });
 
             // Proceed with further operations (e.g., updating payment status, creating shipment)

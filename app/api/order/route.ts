@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
 // get user orders
 export async function GET(req: NextRequest) {
-  const userId = req.nextUrl.searchParams.get('userId');
+  const userId = req.nextUrl.searchParams.get('userId'); //next-auth userId
   if (!userId) {
     NextResponse.json({ error: "User ID is required" }, { status: 400 });
   }

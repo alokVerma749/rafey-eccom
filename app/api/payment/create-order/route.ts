@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     const order = await razorpay.orders.create(options);
 
     const payment = await Payment.create({
-      userId: user?._id,
+      userId: user?._id, //next-auth userId
       orderId: order.id,
       status: order.status,
       amount: totalAmount,

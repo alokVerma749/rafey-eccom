@@ -20,12 +20,14 @@ export async function middleware(req: NextRequest) {
   }
 
   try {
+    //get token from next-auth
     const token = await getToken({ req });
     if (!token || !token.email) {
       return NextResponse.redirect(new URL('/', req.url));
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user?email=${token.email}`);
+    //get user data from database
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user?email=${token.email}`); // fetch userAccount
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }
@@ -35,7 +37,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL('/', req.url));
     }
 
-    if (isAdminProtectedRoute && userData.role !== 'admin') {
+    if (isAdminProtectedRoute && userData.user.role !== 'admin') {
       return NextResponse.redirect(new URL('/', req.url));
     }
 
