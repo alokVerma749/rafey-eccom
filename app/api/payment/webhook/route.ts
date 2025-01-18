@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     // why isValid is false?
-    const isValid = await validateWebhookSignature(webhookSignature, body, process.env.RAZORPAY_WEBHOOK_SECRET as string);
+    const isValid = await validateWebhookSignature(JSON.stringify(body), webhookSignature, process.env.RAZORPAY_WEBHOOK_SECRET as string);
 
     console.log(
       req,
