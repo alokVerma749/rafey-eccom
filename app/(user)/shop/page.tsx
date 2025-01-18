@@ -26,8 +26,8 @@ function Shop() {
     tags: [],
     variations: [],
     inStock: true,
-    fragrance: [] as string[], 
-    color: [] as string[], 
+    fragrance: [] as string[],
+    color: [] as string[],
   });
 
   useEffect(() => {
@@ -87,7 +87,7 @@ function Shop() {
     // Multi-select for fragrance
     if (name === 'fragrance') {
       const fragranceFilters = filters.fragrance.includes(value)
-        ? filters.fragrance.filter((fr) => fr !== value) 
+        ? filters.fragrance.filter((fr) => fr !== value)
         : [...filters.fragrance, value];
 
       setFilters((prev) => ({ ...prev, fragrance: fragranceFilters }));
@@ -103,8 +103,8 @@ function Shop() {
     // Multi-select for color
     if (name === 'color') {
       const colorFilters = filters.color.includes(value)
-        ? filters.color.filter((col) => col !== value) 
-        : [...filters.color, value]; 
+        ? filters.color.filter((col) => col !== value)
+        : [...filters.color, value];
 
       setFilters((prev) => ({ ...prev, color: colorFilters }));
       filtered = filtered.filter((product) =>
@@ -116,7 +116,7 @@ function Shop() {
     if (name === 'category') {
       const categoryFilters = filters.category.includes(value)
         ? filters.category.filter((cat) => cat !== value)
-        : [...filters.category, value]; 
+        : [...filters.category, value];
 
       setFilters((prev) => ({ ...prev, category: categoryFilters }));
       filtered = filtered.filter((product) =>
@@ -127,8 +127,8 @@ function Shop() {
     // Multi-select for tags
     if (name === 'tags') {
       const tagFilters = filters.tags.includes(value)
-        ? filters.tags.filter((tag) => tag !== value) 
-        : [...filters.tags, value]; 
+        ? filters.tags.filter((tag) => tag !== value)
+        : [...filters.tags, value];
 
       setFilters((prev) => ({ ...prev, tags: tagFilters }));
       filtered = filtered.filter((product) =>
@@ -139,8 +139,8 @@ function Shop() {
     // Multi-select for variations
     if (name === 'variations') {
       const variationFilters = filters.variations.includes(value)
-        ? filters.variations.filter((variation) => variation !== value) 
-        : [...filters.variations, value]; 
+        ? filters.variations.filter((variation) => variation !== value)
+        : [...filters.variations, value];
 
       setFilters((prev) => ({ ...prev, variations: variationFilters }));
       filtered = filtered.filter((product) =>
@@ -374,34 +374,29 @@ function Shop() {
       </aside>
 
       {/* Product Grid */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => {
             const discountPercentage = item.discount?.percentage || 0;
             return (
-              <div key={item._id} className="bg-white rounded-lg shadow p-4 space-y-2">
+              <Link href={`/${item._id}`} key={item._id} className="bg-white rounded mb-4">
                 <Image
                   height={200}
                   width={200}
                   src={item.images.thumbnail}
                   alt={item.name}
-                  className="w-full h-40 object-cover rounded-lg"
+                  className="w-full h-40 object-cover rounded"
                 />
-                <h3 className="text-lg font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-500">{item.description}</p>
-                <p className="text-sm font-medium">Price: ${item.price}</p>
-                <p className="text-sm font-medium">Stock: {item.stock}</p>
+                <h3 className="text-sm text-gray-600">{item.name}</h3>
                 {discountPercentage > 0 && (
-                  <p className="text-sm text-green-500">Discount: {discountPercentage}%</p>
+                  <div className="flex justify-start items-center gap-x-4 font-medium">
+                    <p className='text-base font-semibold text-green-600'> ${(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
+                    <p className="font-semibold text-black text-sm line-through">${item.price}</p>
+                    <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
+                  </div>
                 )}
-                <p className="text-sm text-gray-400">Category: {item.category}</p>
-                <Link
-                  href={`/${item._id}`}
-                  className="block mt-2 text-center bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700"
-                >
-                  View Details
-                </Link>
-              </div>
+                {/* <p className="text-sm text-gray-400">{item.category}</p> */}
+              </Link>
             );
           })
         ) : (
