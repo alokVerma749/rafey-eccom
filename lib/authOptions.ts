@@ -6,7 +6,7 @@ import connect_db from "@/config/db";
 import UserAccount from "@/models/user_model";
 
 export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(client),
+  adapter: MongoDBAdapter(client), // MongoDB Adapter for user/account management
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID as string,
@@ -15,34 +15,51 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
+      console.log("User attempting sign-in:", user);
+
       try {
         await connect_db();
+
         const existingUser = await UserAccount.findOne({ email: user.email });
-        console.log('Existing user:', existingUser);
+        console.log("Existing user in database:", existingUser);
 
         if (!existingUser) {
-          try {
-            await UserAccount.create({
-              name: user.name,
-              email: user.email,
-              image: user.image,
-              role: 'user',
-            });
-            console.log('New user created successfully');
-          } catch (createError) {
-            console.error('Error creating new user:', createError);
-            return false;
-          }
+          // Create a user in the `UserAccount` collection
+          await UserAccount.create({
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            role: "user",
+          });
+          console.log("New user synced to UserAccount collection");
         }
-        return true;
+
+        // Do NOT manually create users here, let MongoDB Adapter handle it.
+        return true; // Allow sign-in
       } catch (error) {
-        console.error('Error in signIn callback:', error);
-        return false;
+        console.error("Error during signIn callback:", error);
+        return false; // Deny sign-in on error
       }
-    }
+    },
+
+    async session({ session, user }) {
+      // Enrich session with additional user details
+      try {
+        await connect_db();
+        const dbUser = await UserAccount.findOne({ email: session.user.email });
+
+        if (dbUser) {
+          session.user.role = dbUser.role; // Add role to session
+        }
+        return session;
+      } catch (error) {
+        console.error("Error enriching session:", error);
+        return session;
+      }
+    },
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt", // Use JWT instead of database sessions
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET, // Secret for NextAuth
 };
