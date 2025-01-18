@@ -21,12 +21,12 @@ export async function POST(req: NextRequest) {
     await payment.save();
 
     if (body.event === "payment.captured") {
-      console.log(paymentDetails, '###paymentDetails');
       const order = await Order.findOne({ razorpayOrderId: paymentDetails.order_id });
-      console.log(order, '###order');
+
       if (!order) {
         return new NextResponse("Order not found", { status: 404 });
       }
+
       order.paymentStatus = "captured";
       await order.save();
     }
@@ -36,9 +36,11 @@ export async function POST(req: NextRequest) {
       if (!order) {
         return new NextResponse("Order not found", { status: 404 });
       }
+
       order.paymentStatus = "failed";
       await order.save();
     }
+
     return new NextResponse("Webhook received", { status: 200 });
   } catch (error) {
     console.log(error);

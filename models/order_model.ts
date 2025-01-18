@@ -22,10 +22,12 @@ const OrderSchema = new mongoose.Schema({
     default: 'pending'
   },
   paymentId: {
-    type: String
+    type: String,
+    unique: true
   }, // Razorpay Payment ID
   razorpayOrderId: {
-    type: String
+    type: String,
+    unique: true
   }, // Razorpay Order ID
   orderStatus: {
     type: String,

@@ -162,6 +162,23 @@ function Cart() {
         throw new Error("Payment ID not found.");
       }
 
+      // save order details in the database
+      await createOrder({
+        user: userData._id,
+        paymentId: payment._id,
+        razorpayOrderId: payment.orderId,
+        products: state.items.map(item => ({
+          product: item.productId,
+          quantity: item.quantity,
+        })),
+        totalAmount: payment.amount || 0,
+        paymentStatus: "pending",
+        orderStatus: 'processing',
+        address: userAccountData.address,
+        pincode: userAccountData.pincode,
+        phone: userAccountData.phone,
+      });
+
       // Step 2: Initialize Razorpay payment
       const options: RazorpayOptions = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
@@ -187,25 +204,6 @@ function Cart() {
               await updateProductStock({ productId: product._id, quantityPurchased: product.quantity });
             }
 
-            // save order details in the database
-            await createOrder({
-              user: userData._id,
-              paymentId: payment._id,
-              razorpayOrderId: payment.orderId,
-              products: state.items.map(item => ({
-                product: item.productId,
-                quantity: item.quantity,
-              })),
-              totalAmount: payment.amount || 0,
-              paymentStatus: "pending",
-              orderStatus: 'processing',
-              address: userAccountData.address,
-              pincode: userAccountData.pincode,
-              phone: userAccountData.phone,
-            });
-
-            // Proceed with further operations (e.g., updating payment status, creating shipment)
-            // await updatePaymentStatus(payment._id, 'success');
             // createShipment(payment._id);
           } catch (error) {
             console.error("Error clearing cart:", error);
