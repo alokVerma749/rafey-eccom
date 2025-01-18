@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { CartItem } from '@/types/cart';
 import { CartItem as CartItemModel } from '@/models/cart-model';
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { Button } from '@/components/ui/button';
 
 export const CartList = () => {
   const { dispatch } = useCart();
