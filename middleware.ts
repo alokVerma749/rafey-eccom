@@ -5,7 +5,7 @@ export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl?.pathname || '/';
 
   // Exclude webhook paths
-  const excludedRoutes = ['/api/webhooks'];
+  const excludedRoutes = ['/api/payment/webhook'];
   if (excludedRoutes.some(route => pathname.startsWith(route))) {
     return NextResponse.next();
   }

@@ -20,6 +20,7 @@ interface orderTypes {
   paymentId: string;
   products: CartItemStore[];
   totalAmount: number;
+  razorpayOrderId: string;
   paymentStatus: string;
   orderStatus: string;
   address: string;
@@ -159,6 +160,7 @@ function Cart() {
         description: "Payment for your order",
         order_id: payment.orderId,
         handler: async (response: RazorpayPaymentSuccessResponse) => {
+          console.log(response, "Payment successful");
           try {
             setPaymentStatus("Payment Successful!");
 
@@ -175,18 +177,21 @@ function Cart() {
             }
 
             // save order details in the database
+
+            // Note: confused about payment status being pending in the database
             await createOrder({
               user: userData._id,
               paymentId: payment._id,
+              razorpayOrderId: payment.orderId,
               products: state.items,
               totalAmount: payment.amount,
-              paymentStatus: 'paid',
+              paymentStatus: "pending",
               orderStatus: 'processing',
               address: userData.address,
               pincode: userData.pincode,
               phone: userData.phone,
             });
-            console.log(response, "Order created successfully");
+
             // Proceed with further operations (e.g., updating payment status, creating shipment)
             // await updatePaymentStatus(payment._id, 'success');
             // createShipment(payment._id);
