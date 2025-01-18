@@ -255,7 +255,7 @@ function Cart() {
     <div>
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
       <CartList />
-      <button onClick={handleCheckout} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+      <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center mb-4 ml-[50%]">
         {loading ? "Processing..." : 'Place Order'}
       </button>
       {paymentStatus && <p className="mt-4 text-center">{paymentStatus}</p>}
