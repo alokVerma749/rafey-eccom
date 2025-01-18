@@ -28,7 +28,7 @@ const Page = async ({ params }: any) => {
           <div>Number of Products: {products.length}</div>
           <ul className="flex flex-col gap-3">
             {products.map((item) => (
-              <Link href={`/${item._id}`} key={item._id} className="cursor-pointer">{item.name}</Link>
+              <Link href={`/product/${item._id}`} key={item._id} className="cursor-pointer">{item.name}</Link>
             ))}
           </ul>
         </div>

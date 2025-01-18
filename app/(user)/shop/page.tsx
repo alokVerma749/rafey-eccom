@@ -379,7 +379,7 @@ function Shop() {
           filteredProducts.map((item) => {
             const discountPercentage = item.discount?.percentage || 0;
             return (
-              <Link href={`/${item._id}`} key={item._id} className="bg-white rounded mb-4">
+              <Link href={`/product/${item._id}`} key={item._id} className="bg-white rounded mb-4">
                 <Image
                   height={200}
                   width={200}
