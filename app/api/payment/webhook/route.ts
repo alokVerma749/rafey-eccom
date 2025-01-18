@@ -8,17 +8,7 @@ export async function POST(req: NextRequest) {
     const webhookSignature = req.headers.get("X-Razorpay-Signature") || "";
     const body = await req.json();
 
-    // why isValid is false?
     const isValid = await validateWebhookSignature(JSON.stringify(body), webhookSignature, process.env.RAZORPAY_WEBHOOK_SECRET as string);
-
-    console.log(
-      req,
-      body,
-      body.payload.payment.entity,
-      webhookSignature,
-      isValid,
-      "Webhook received"
-    );
 
     if (!isValid) {
       return new NextResponse("Invalid webhook signature", { status: 400 });
@@ -31,13 +21,21 @@ export async function POST(req: NextRequest) {
     await payment.save();
 
     if (body.event === "payment.captured") {
+      console.log(paymentDetails, '###paymentDetails');
       const order = await Order.findOne({ razorpayOrderId: paymentDetails.order_id });
+      console.log(order, '###order');
+      if (!order) {
+        return new NextResponse("Order not found", { status: 404 });
+      }
       order.paymentStatus = "captured";
       await order.save();
     }
 
     if (body.event === "payment.failed") {
       const order = await Order.findOne({ razorpayOrderId: paymentDetails.order_id });
+      if (!order) {
+        return new NextResponse("Order not found", { status: 404 });
+      }
       order.paymentStatus = "failed";
       await order.save();
     }
