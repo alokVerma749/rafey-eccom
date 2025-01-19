@@ -44,15 +44,16 @@ export const AddToCart = ({ product }: AddToCartProps) => {
 
   return (
     <div className="flex justify-start items-center gap-x-6 py-4">
-    <div className="flex justify-start items-center gap-x-6 my-6">
-      <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
-        <ShoppingCart className="text-white" />
-        <Button
-          onClick={handleAddToCart}
-          className="bg-transparent hover:bg-transparent"
-        >
-          Add to Cart
-        </Button>
+      <div className="flex justify-start items-center gap-x-6 my-6">
+        <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
+          <ShoppingCart className="text-white" />
+          <Button
+            onClick={handleAddToCart}
+            className="bg-transparent hover:bg-transparent"
+          >
+            Add to Cart
+          </Button>
+        </div>
       </div>
     </div>
   );
