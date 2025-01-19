@@ -260,12 +260,17 @@ function Cart() {
   };
 
   return (
-    <div>
+    <div >
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
+      <div className="bg-gray-50 pb-6">
+
       <CartList />
-      <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center mb-4 ml-[50%]">
+      <div className="p-2 shadow rounded-lg bg-white ml-10 w-2/3">
+      <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-[80%]">
         {loading ? "Processing..." : 'Place Order'}
       </button>
+      </div>
+      </div>
       {paymentStatus && <p className="mt-4 text-center">{paymentStatus}</p>}
 
       {/* Address Modal */}

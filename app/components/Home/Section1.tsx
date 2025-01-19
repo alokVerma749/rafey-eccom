@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
+import {ShoppingBag} from 'lucide-react';
 
 function Hero() {
   const navLinks: any = ['Candles', 'Ceramic Art', 'Resin Art'];
@@ -25,6 +26,10 @@ function Hero() {
             {link}
           </Link>
         ))}
+
+        <Link href="/shop" className="bg-gradient-to-r from-[#D5992E] to-[#F5C56C] px-2 py-1 shadow rounded-md uppercase text-sm text-center hover:cursor-pointer flex justify-start item-center gap-x-2">
+          <ShoppingBag size={16}/><span> Shop Now </span>
+         </Link>
       </nav>
 
       <div className="absolute bottom-20 left-0 px-10 py-4">

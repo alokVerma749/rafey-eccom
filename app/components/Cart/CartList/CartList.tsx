@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { CartItem } from '@/types/cart';
 import { CartItem as CartItemModel } from '@/models/cart-model';
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 
 export const CartList = () => {
@@ -97,15 +98,16 @@ export const CartList = () => {
     .toFixed(2);
 
   return (
-    <div className="bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto bg-white shadow rounded-lg p-6">
+    <div className="px-10 py-6">
+      <div className="mx-auto">
+
         {/* Address Section */}
-        <div className="mb-6">
+        <div className="my-2 shadow rounded-lg p-6 bg-white">
           <div className="flex justify-between items-center">
             <p className="text-lg font-semibold">
               Deliver to: <span className="font-normal">Alok, 253146</span>
             </p>
-            <button className="text-blue-500 font-semibold">CHANGE</button>
+            <Button className="text-blue-500 font-semibold uppercase px-6 py-1 bg-white rounded-sm border shadow-none hover:bg-indigo-500 hover:text-white">CHANGE</Button>
           </div>
           <p className="text-sm text-gray-500">
             Full Address: Lorem Ipsum Dolor Sit Amet Consecutetur...
@@ -113,45 +115,48 @@ export const CartList = () => {
         </div>
 
         {/* Cart Items */}
-        <div className="flex justify-between items-start gap-4">
-          {/* Left Section */}
-          <div className="md:col-span-2 space-y-6">
+        <div className="flex justify-between items-start gap-4 ">
+          <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6">
             {cartProducts.map((item) => (
               <div
                 key={item._id}
-                className="flex items-center border rounded-lg p-4"
+                className="flex justify-between items-start rounded-lg"
               >
-                <Image src={item.images.medium} alt={item.name} width={150} height={150} />
-                <div className="ml-4 flex-1">
-                  <h3 className="font-semibold text-lg">{item.name}</h3>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Lorem ipsum dolor sit amet consectetur adipisicing.....
+                <Image src={item.images.medium} alt={item.name} width={100} height={100} />
+                <div className="ml-4 flex-1 mr-20">
+                  <h3 className="text-lg uppercase">{item.name}</h3>
+                  <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">
+                    Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, alias.
                   </p>
-                  <div className="flex justify-start items-center gap-x-4 font-medium">
-                    <p className="text-base font-semibold text-green-600">
+
+                  <div className="flex justify-between items-center gap-x-4 font-medium py-2">
+                    <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
+                    <p className="text-base font-semibold text-black">
                       ${(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
                     </p>
-                    <p className="font-semibold text-black text-sm line-through">${item.price}</p>
-                    <p className="text-green-600 text-sm">{item.discount?.percentage}% OFF</p>
+                    <p className="text-gray-600 text-sm line-through">MRP ${item.price}</p>
+                    <p className="text-orange-500 text-sm font-medium">(${((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                    </div>
+                    <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
                   </div>
                 </div>
-                <div className="flex justify-start items-center border-2 w-fit rounded-md">
+                <div className="flex justify-start items-center w-fit rounded-md mt-auto mb-2">
                   <div
-                    className="px-2 border-r-2 py-1 cursor-pointer"
+                    className="px-2 border py-1 cursor-pointer text-blue-600 bg-blue-100 mx-1 rounded"
                     onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
                   >
-                    <Minus />
+                    <Minus size={20} />
                   </div>
-                  <span className="text-base px-4">{item.quantity}</span>
+                  <span className="text-base px-10 border py-[2px] rounded">{item.quantity}</span>
                   <div
-                    className="px-2 border-l-2 py-1 cursor-pointer"
+                    className="px-2 border-l-2 py-1 cursor-pointer text-blue-600 bg-blue-100 border mx-1 rounded"
                     onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
                   >
-                    <Plus />
+                    <Plus size={20} />
                   </div>
                 </div>
                 <Trash2
-                  className="text-red-500 ml-4"
+                  className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
                   onClick={() => handleRemove(item._id)}
                 />
               </div>
@@ -159,14 +164,14 @@ export const CartList = () => {
           </div>
 
           {/* Price Details Section */}
-          <div className="border rounded-lg p-6 space-y-4 bg-gray-50 pb-20">
+          <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 md:w-1/3 h-fit">
             <h3 className="font-semibold text-lg">PRICE DETAILS</h3>
             <div className="space-y-2">
-              {/* MRP */}
               <div className="flex justify-between text-gray-700">
                 <span>MRP ({totalQuantity} items)</span>
                 <span>₹{cartProducts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</span>
               </div>
+
               {/* Product Discount */}
               <div className="flex justify-between text-gray-700">
                 <span>Product Discount</span>
@@ -174,17 +179,20 @@ export const CartList = () => {
                   -₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)}
                 </span>
               </div>
+
               {/* Delivery Fee */}
               <div className="flex justify-between text-gray-700">
                 <span>Delivery Fee</span>
                 <span className="text-gray-700">+₹000.00</span>
               </div>
+
               {/* Total Amount */}
               <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
                 <span>Total Amount</span>
                 <span>₹{totalPrice}</span>
               </div>
             </div>
+
             {/* Savings */}
             <p className="text-green-600 text-sm">
               You Will Save ₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)} On This Order
