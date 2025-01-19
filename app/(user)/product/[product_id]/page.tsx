@@ -1,7 +1,6 @@
-// ProductPage.tsx
-
-import Image from "next/image";
 import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
 import { AddToCart } from "@/app/components/Cart/AddToCart";
@@ -9,6 +8,7 @@ import { Minus, Plus } from "lucide-react"
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
+import Whatsapp from '@/public/whatsapp.svg';
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -72,17 +72,26 @@ export default async function ProductPage({ params }: productProps) {
             </div>
             <AddToCart product={product} />
 
-            <ProductInfo product={product}/>
+            <ProductInfo product={product} />
 
             <div className="py-4">
               {/* Personalization Section */}
               <div>
                 <label className="block text-base font-semibold">🎨 PERSONALIZE HERE</label>
-                <input
-                  type="text"
-                  placeholder="Type Here..."
-                  className="mt-2 w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
-                />
+                <div className="flex justify-between items-center">
+                  <input
+                    type="text"
+                    placeholder="Type Here..."
+                    className="mt-2 w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+
+                  {/* Whatsapp Button */}
+                  <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                    target="_blank"
+                    className="bg-green-500 p-1 rounded-full p-2">
+                    <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
+                  </Link>
+                </div>
                 <p className="text-sm text-gray-500 mt-1">
                   Customize Your Product By Adding Your Name For A Personal Touch
                 </p>
@@ -98,7 +107,7 @@ export default async function ProductPage({ params }: productProps) {
                     className="flex-1 border border-gray-300 rounded-md p-1 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                   <Button className="m-4 md:m-0">Check</Button>
-                  
+
                 </div>
                 <ul className="text-sm text-gray-500 mt-2 list-disc pl-5">
                   <li>100% Original Products</li>
@@ -152,7 +161,7 @@ export default async function ProductPage({ params }: productProps) {
           </div>
         </div>
       </div>
-      <SimilarProduct category={product.category}/>
+      <SimilarProduct category={product.category} />
     </div>
   );
 }

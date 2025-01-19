@@ -28,6 +28,8 @@ export async function POST(req: NextRequest) {
 
     let totalAmount = 0;
 
+    // TODO: check ordered product is available in stock
+
     for (const { productId, quantity } of products) {
       const response: string = await getProductAction({ product_id: productId })
       const product: Product = response ? JSON.parse(response as string) : [];

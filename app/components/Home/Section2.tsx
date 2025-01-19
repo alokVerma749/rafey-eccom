@@ -23,7 +23,7 @@ async function Section2() {
         {products.map((product, index) => (
           <Link
             key={index}
-            href={`/${product._id}`}
+            href={`/product/${product._id}`}
             className="border border-gray-300 p-5 w-fit sm:w-1/3 md:w-1/4 lg:w-1/5 text-center rounded-lg transition-transform duration-300"
           >
             <Image

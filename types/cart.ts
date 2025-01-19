@@ -4,6 +4,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  stock: number;
   images: {
     thumbnail: string;
     large: string;
@@ -14,11 +15,13 @@ export interface CartItem {
   };
   _id: string;
 }
+
 export interface CartItemStore {
   productId: string;
   name: string;
   price: number;
   quantity: number;
+  stock: number;
   images: {
     thumbnail: string;
     large: string;
