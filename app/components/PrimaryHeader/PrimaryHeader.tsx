@@ -2,7 +2,7 @@
 
 import { useCart } from '@/context/cartContext';
 import logo from '@/public/asset/logo.png';
-import { Search, Heart, ShoppingCart, UserRound, EllipsisVertical } from 'lucide-react';
+import { Search, ShoppingCart, UserRound, EllipsisVertical } from 'lucide-react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,21 +21,14 @@ export function PrimaryHeader() {
 
 	return (
 		<div className="flex justify-between items-center px-20 py-1 shadow-md backdrop-blur-sm">
-			{/* Logo */}
 			<Image src={logo.src} alt="Logo" className="h-12 w-12" height={50} width={50} />
 
-			{/* Icons */}
 			<div className="flex justify-start items-center space-x-6 text-white">
-				{/* Search */}
 				<div className="flex items-center space-x-2">
 					<Search />
 					<span className="ml-1">Search</span>
 				</div>
 
-				{/* Favorites */}
-				<Heart />
-
-				{/* Cart */}
 				<Link href="/cart" className="relative flex items-center">
 					<ShoppingCart />
 					{state?.totalQuantity > 0 && (
@@ -45,7 +38,6 @@ export function PrimaryHeader() {
 					)}
 				</Link>
 
-				{/* User Profile or Login */}
 				{session ? (
 					<div className="flex items-center gap-4">
 						<UserRound />
