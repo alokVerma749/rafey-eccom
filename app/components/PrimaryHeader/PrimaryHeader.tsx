@@ -23,7 +23,7 @@ export function PrimaryHeader() {
 		<div className="flex justify-between items-center px-20 py-1 shadow-md backdrop-blur-sm">
 			<Image src={logo.src} alt="Logo" className="h-12 w-12" height={50} width={50} />
 
-			<div className="flex justify-start items-center space-x-6 text-white">
+			<div className="flex justify-start items-center space-x-10 text-white">
 				<div className="flex items-center space-x-2">
 					<Search />
 					<span className="ml-1">Search</span>
@@ -38,8 +38,14 @@ export function PrimaryHeader() {
 					)}
 				</Link>
 
+				<Link
+          href="/shop"
+          className=""
+        >
+          Shop
+        </Link>
 				{session ? (
-					<div className="flex items-center gap-4">
+					<div className="flex items-center gap-2">
 						<UserRound />
 						<span className="hidden md:block">Hi, {session.user?.name}!</span>
 						{/* Ellipsis with Dropdown */}
