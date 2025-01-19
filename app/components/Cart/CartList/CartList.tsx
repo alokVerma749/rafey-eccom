@@ -8,6 +8,7 @@ import { CartItem } from '@/types/cart';
 import { CartItem as CartItemModel } from '@/models/cart-model';
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
 
 export const CartList = () => {
   const { dispatch } = useCart();
@@ -15,6 +16,7 @@ export const CartList = () => {
   const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number })[]>([]);
   const session = useSession();
 
+  // fetch user cart
   useEffect(() => {
     const fetchCart = async () => {
       if (!session.data?.user?.email) return;
@@ -26,6 +28,8 @@ export const CartList = () => {
     fetchCart();
   }, [session.data?.user?.email]);
 
+
+  // fetch cart products
   useEffect(() => {
     const fetchCartProducts = async () => {
       const products = await Promise.all(
@@ -49,6 +53,15 @@ export const CartList = () => {
   }, [cart]);
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
+    //if quantity is less than 0, restrict from increasing quantity
+    const product = cartProducts.find((product) => product._id === productId);
+    if (product?.stock && product.stock < newQuantity) {
+      toast({
+        title: "Out of stock",
+        description: "We have only " + product.stock + " items in stock",
+      })
+      return;
+    }
     if (newQuantity <= 0) {
       handleRemove(productId);
       return;
@@ -158,21 +171,29 @@ export const CartList = () => {
                 <span>MRP ({totalQuantity} items)</span>
                 <span>₹{cartProducts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</span>
               </div>
+
+              {/* Product Discount */}
               <div className="flex justify-between text-gray-700">
                 <span>Product Discount</span>
                 <span className="text-green-600">
                   -₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)}
                 </span>
               </div>
+
+              {/* Delivery Fee */}
               <div className="flex justify-between text-gray-700">
                 <span>Delivery Fee</span>
                 <span className="text-gray-700">+₹000.00</span>
               </div>
+
+              {/* Total Amount */}
               <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
                 <span>Total Amount</span>
                 <span>₹{totalPrice}</span>
               </div>
             </div>
+
+            {/* Savings */}
             <p className="text-green-600 text-sm">
               You Will Save ₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)} On This Order
             </p>

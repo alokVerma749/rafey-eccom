@@ -10,6 +10,7 @@ type AddToCartProps = {
     _id: string;
     name: string;
     price: number;
+    stock: number;
     images: {
       thumbnail: string;
     };
@@ -25,6 +26,7 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       name: product.name,
       price: product.price,
       quantity: 1,
+      stock: product.stock,
       images: {
         thumbnail: product.images.thumbnail,
         large: product.images.thumbnail,
@@ -42,7 +44,7 @@ export const AddToCart = ({ product }: AddToCartProps) => {
 
   return (
     <div className="flex justify-start items-center gap-x-6 py-4">
-
+    <div className="flex justify-start items-center gap-x-6 my-6">
       <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
         <ShoppingCart className="text-white" />
         <Button

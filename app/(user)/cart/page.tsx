@@ -149,7 +149,15 @@ function Cart() {
       // Proceed with payment setup if address is present
       const response = await fetch('/api/payment/create-order', {
         method: 'POST',
-        body: JSON.stringify({ products: state.items, currency: 'INR', userEmail: session.data?.user?.email, address, pincode, phone: mobile, name: session.data?.user?.name }),
+        body: JSON.stringify({
+          products: state.items,
+          currency: 'INR',
+          userEmail: session.data?.user?.email,
+          address,
+          pincode,
+          phone: mobile,
+          name: session.data?.user?.name,
+        }),
       });
 
       if (!response.ok) {
