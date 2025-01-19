@@ -31,19 +31,13 @@ export function PrimaryHeader() {
 
 				<Link href="/cart" className="relative flex items-center">
 					<ShoppingCart />
-					{state?.totalQuantity > 0 && (
+					{state?.items.length > 0 ? (
 						<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-							{state.totalQuantity}
+							{state?.items.length}
 						</span>
-					)}
+					) : null}
 				</Link>
 
-				<Link
-          href="/shop"
-          className=""
-        >
-          Shop
-        </Link>
 				{session ? (
 					<div className="flex items-center gap-2">
 						<UserRound />

@@ -143,7 +143,7 @@ export const CartList = () => {
                   </div>
                 </div>
                 <Trash2
-                  className="text-red-500 mt-auto mb-3 mx-6"
+                  className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
                   onClick={() => handleRemove(item._id)}
                 />
               </div>
