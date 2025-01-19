@@ -5,7 +5,6 @@ import { Metadata } from "next";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
 import { AddToCart } from "@/app/components/Cart/AddToCart";
-import { Minus, Plus } from "lucide-react"
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";

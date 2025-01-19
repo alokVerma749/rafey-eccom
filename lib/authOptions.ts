@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
 
-    async session({ session, user }) {
+    async session({ session }) {
       // Enrich session with additional user details
       try {
         await connect_db();
