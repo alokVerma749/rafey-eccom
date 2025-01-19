@@ -9,6 +9,7 @@ import { Minus, Plus } from "lucide-react"
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
+import ProductQuantity from "@/app/components/Product/ProductQuantity";
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -59,17 +60,22 @@ export default async function ProductPage({ params }: productProps) {
           />
           <div className="">
             <h1 className="text-xl font-semibold uppercase">{product.name}</h1>
-            <h1 className="text-green-600">In stock {product.stock}</h1>
-            {/* <p className="text-sm">{product.description}</p> */}
+            <h1 className="text-green-600">In Stock:  {product.stock}</h1>
 
-            <div className="flex justify-start items-center py-2 gap-x-10 font-semibold">
-              <p className="text-lg">Price: ${product.price}</p>
-              <p className="text-green-600 text-sm">{product.discount?.percentage} % OFF</p>
-            </div>
+            <div className="flex justify-between items-center gap-x-4 font-medium py-2">
+                    <div className='flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4'>
+                    <p className="text-lg font-semibold text-black">
+                      ${(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                    </p>
+                    <p className="text-gray-600 text-sm line-through">MRP ${product.price}</p>
+                    <p className="text-orange-500 text-sm font-medium">(${((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                    </div>
+                  </div>
+            <ProductQuantity product={product} />
 
-            <div className="flex justify-start items-center border-2 w-fit rounded-md">
+            {/* <div className="flex justify-start items-center border-2 w-fit rounded-md">
               <div className="px-4 border-r-2 py-1"><Minus /></div><span className="text-xl px-4">0</span><div className="px-4 border-l-2 py-1"><Plus /></div>
-            </div>
+            </div> */}
             <AddToCart product={product} />
 
             <ProductInfo product={product}/>
