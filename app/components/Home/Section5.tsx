@@ -8,7 +8,7 @@ async function Section5() {
 	const products: Product[] = response ? JSON.parse(response) : [];
 
 	return (
-		<div className="flex flex-col flex-wrap gap-5 justify-center p-10">
+		<div className="flex flex-col flex-wrap gap-5 justify-center md:p-10">
 			<div className='flex justify-between items-center'>
 				<h1 className='relative group cursor-pointer'>
 					QUALITY YOU TRUST
@@ -19,12 +19,12 @@ async function Section5() {
 				</Link>
 			</div>
 
-			<div className="flex flex-wrap gap-5 justify-between">
+			<div className="flex flex-wrap w-full gap-5 justify-between">
 				{products.map((product, index) => (
 					<Link
 						key={index}
 						href={`/product/${product._id}`}
-						className="border border-gray-300 w-fit sm:w-1/3 md:w-1/4 lg:w-1/6 text-center rounded-lg transition-transform duration-300"
+						className="border border-gray-300 rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
 					>
 						<Image
 							height={200}

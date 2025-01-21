@@ -30,7 +30,7 @@ const cardDetails: any = [
 
 function Section4() {
   return (
-    <div className="flex justify-between items-center gap-10 flex-wrap w-full p-10">
+    <div className="flex justify-between items-center gap-10 flex-wrap w-full md:p-10">
       {cardDetails.map((product: any, index: any) => {
         const { name, description, images } = product;
         return (

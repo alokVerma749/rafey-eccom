@@ -8,34 +8,48 @@ async function Section2() {
   const products: Product[] = response ? JSON.parse(response) : [];
 
   return (
-    <div className="flex flex-col flex-wrap gap-5 justify-center p-10">
-      <div className='flex justify-between items-center'>
-        <h1 className='relative group cursor-pointer'>
+    <div className="flex flex-col gap-5 p-5 xs:p-2 md:p-10">
+      <div className="flex justify-between items-center">
+        <h1 className="relative group cursor-pointer text-sm xs:text-lg md:text-2xl font-bold">
           BEST OF CANDLES
-          <span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
+          <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
         </h1>
-        <Link href={"/shop/candles"} className="relative group cursor-pointer">VIEW ALL
-          <span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
+        <Link
+          href="/shop/candles"
+          className="relative group cursor-pointer text-xs xs:text-sm md:text-base text-gray-600 font-medium"
+        >
+          VIEW ALL
+          <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
         </Link>
       </div>
 
-      <div className="flex flex-wrap gap-5 justify-between">
+      <div className="flex flex-wrap w-full gap-5 justify-between">
         {products.map((product, index) => (
           <Link
             key={index}
             href={`/product/${product._id}`}
-            className="border border-gray-300 p-5 w-fit sm:w-1/3 md:w-1/4 lg:w-1/5 text-center rounded-lg transition-transform duration-300"
+            className="border border-gray-300 rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
           >
             <Image
               height={200}
               width={200}
               src={(product.images as any).medium}
               alt={product.name}
-              className="w-full h-auto max-w-xs mx-auto mb-4"
+              className="h-auto w-full mb-4 rounded"
             />
-            <p className="font-bold text-xl text-black text-start">${product.price}</p>
-            <h2 className="text-lg font-semibold mb-2 text-start">{product.name}</h2>
-            <p className="text-sm text-gray-600 mb-2 text-start">{product.description}</p>
+            <div className="flex flex-col items-start pl-2">
+              <p className="font-semibold text-base xs:text-lg md:text-xl text-black text-start">
+                ${product.price}
+              </p>
+              <h2 className="text-sm xs:text-base md:text-lg font-medium mb-2 text-start uppercase">
+                {product.name}
+              </h2>
+              <p className="text-xs xs:text-sm text-gray-600 mb-2 text-start">
+                {product.description.length > 40
+                  ? `${product.description.substring(0, 40)}...`
+                  : product.description}
+              </p>
+            </div>
           </Link>
         ))}
       </div>
