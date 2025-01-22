@@ -3,12 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
-import { AddToCart } from "@/app/components/Cart/AddToCart";
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
-import ProductQuantity from "@/app/components/Product/ProductQuantity";
 import Whatsapp from '@/public/whatsapp.svg';
+import { AddToCart } from "@/app/components/Cart/AddToCart/AddToCart";
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -62,19 +61,16 @@ export default async function ProductPage({ params }: productProps) {
             <h1 className="text-green-600">In Stock:  {product.stock}</h1>
 
             <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-                    <div className='flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4'>
-                    <p className="text-lg font-semibold text-black">
-                      ${(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
-                    </p>
-                    <p className="text-gray-600 text-sm line-through">MRP ${product.price}</p>
-                    <p className="text-orange-500 text-sm font-medium">(${((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
-                    </div>
-                  </div>
-            <ProductQuantity product={product} />
+              <div className='flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4'>
+                <p className="text-lg font-semibold text-black">
+                  ${(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                </p>
+                <p className="text-gray-600 text-sm line-through">MRP ${product.price}</p>
+                <p className="text-orange-500 text-sm font-medium">(${((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+              </div>
+            </div>
 
-            {/* <div className="flex justify-start items-center border-2 w-fit rounded-md">
-              <div className="px-4 border-r-2 py-1"><Minus /></div><span className="text-xl px-4">0</span><div className="px-4 border-l-2 py-1"><Plus /></div>
-            </div> */}
+            {/* <ProductQuantity product={product} /> // hidden due to SEO issues */}
             <AddToCart product={product} />
 
             <ProductInfo product={product} />

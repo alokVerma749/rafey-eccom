@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cartContext";
 import { toast } from "@/hooks/use-toast";
 import { ShoppingCart } from "lucide-react"
+import { useEffect, useState } from "react";
 
 type AddToCartProps = {
   product: {
@@ -18,7 +19,19 @@ type AddToCartProps = {
 };
 
 export const AddToCart = ({ product }: AddToCartProps) => {
-  const { dispatch } = useCart();
+  const { state, dispatch } = useCart();
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const cart = state.items.some(item => item.productId === product._id)
+
+  useEffect(() => {
+    if (cart) {
+      setIsDisabled(true)
+    } else {
+      setIsDisabled(false)
+    }
+  }, [state])
+
 
   const handleAddToCart = () => {
     const newItem = {
@@ -43,18 +56,25 @@ export const AddToCart = ({ product }: AddToCartProps) => {
   };
 
   return (
-    <div className="flex justify-start items-center gap-x-6 py-4">
-      <div className="flex justify-start items-center gap-x-6 my-6">
-        <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
-          <ShoppingCart className="text-white" />
-          <Button
-            onClick={handleAddToCart}
-            className="bg-transparent hover:bg-transparent"
-          >
-            Add to Cart
-          </Button>
+    <>
+      {isDisabled ?
+        <></>
+        :
+        <div className="flex justify-start items-center gap-x-6 py-4">
+          <div className="flex justify-start items-center gap-x-6 my-6">
+            <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
+              <ShoppingCart className="text-white" />
+              <Button
+                disabled={isDisabled}
+                onClick={handleAddToCart}
+                className="bg-transparent hover:bg-transparent"
+              >
+                Add to Cart
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      }
+    </>
   );
 };
