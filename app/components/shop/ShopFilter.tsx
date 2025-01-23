@@ -7,7 +7,7 @@ import { Product } from '@/types/product_type';
 
 import { useState, useEffect } from 'react';
 
-function Shop() {
+function ShopFilter() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [filters, setFilters] = useState<{
@@ -170,14 +170,11 @@ function Shop() {
 
     setFilters((prev) => ({ ...prev, [name]: updatedFilters }));
   };
-
   return (
-    <div className="p-6 space-y-6 flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6">
-        <h2 className="text-xl font-semibold">Filters</h2>
+    <div>
+      <aside className="p-4 rounded-lg space-y-6 flex gap-x-6 w-full">
         {/* Max Price */}
-        <div>
+        <div className='w-1/5'>
           <label className="block text-sm font-medium text-gray-700">Max Price</label>
           <Slider
             step={100}
@@ -190,7 +187,7 @@ function Shop() {
           </div>
         </div>
         {/* In Stock */}
-        <div>
+        <div className='flex justify-start space-x-4 w-1/5'>
           <label className="block text-sm font-medium text-gray-700">In Stock</label>
           <input
             type="checkbox"
@@ -201,8 +198,8 @@ function Shop() {
           />
         </div>
         {/* Fragrance Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Fragrance Type</label>
+        <div className='w-1/5'>
+          {/* <label className="block text-sm font-medium text-gray-700">Fragrance Type</label> */}
           <select
             name="fragrance"
             onChange={handleFilterChange}
@@ -234,8 +231,8 @@ function Shop() {
           </div>
         </div>
         {/* Color Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Color</label>
+        <div className='w-1/5'>
+          {/* <label className="block text-sm font-medium text-gray-700">Color</label> */}
           <select
             name="color"
             onChange={handleFilterChange}
@@ -267,77 +264,9 @@ function Shop() {
           </div>
         </div>
 
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Select Variation</label>
-          <select
-            name="variations"
-            onChange={handleFilterChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option value="">Select Variation</option>
-            {['Size', 'Color', 'Fragrance'].map((variation) => (
-              <option key={variation} value={variation.toLowerCase()}>
-                {variation}
-              </option>
-            ))}
-          </select>
-
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.variations.map((variation) => (
-              <span
-                key={variation}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
-              >
-                {variation}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('variations', variation)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Category Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Category</label>
-          <select
-            name="category"
-            onChange={handleFilterChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option value="">Select Category</option>
-            {['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports'].map((category) => (
-              <option key={category} value={category.toLowerCase()}>
-                {category}
-              </option>
-            ))}
-          </select>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.category.map((cat) => (
-              <span
-                key={cat}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
-              >
-                {cat}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('category', cat)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
         {/* Tags Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Tags</label>
+        <div className='w-1/6'>
+          {/* <label className="block text-sm font-medium text-gray-700">Tags</label> */}
           <select
             name="tags"
             onChange={handleFilterChange}
@@ -369,24 +298,10 @@ function Shop() {
           </div>
         </div>
 
-
-
       </aside>
-
-      {/* Product Grid */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((item) => {
-            return (
-              <ShopCard key={item._id} item={item}/>
-            );
-          })
-        ) : (
-          <p className="col-span-full text-center text-gray-500">No products found.</p>
-        )}
-      </div>
+      
     </div>
-  );
+  )
 }
 
-export default Shop;
+export default ShopFilter

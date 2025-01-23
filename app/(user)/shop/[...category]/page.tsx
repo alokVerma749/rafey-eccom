@@ -1,4 +1,5 @@
 import getProductsAction from "@/actions/get-products";
+import ShopCard from "@/app/components/shop/ShopCard";
 import { Product } from "@/types/product_type";
 import { reverseFormatCategory } from "@/utils/format_string";
 import Link from "next/link";
@@ -21,17 +22,11 @@ const Page = async ({ params }: any) => {
     }
 
     return (
-      <div>
-        <h1>Categories</h1>
-        <p>Path: {categories.join(" / ") || "All Categories"}</p>
-        <div>
-          <div>Number of Products: {products.length}</div>
-          <ul className="flex flex-col gap-3">
-            {products.map((item) => (
-              <Link href={`/product/${item._id}`} key={item._id} className="cursor-pointer">{item.name}</Link>
-            ))}
-          </ul>
-        </div>
+
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        {products.map((item) => (
+          <ShopCard key={item._id} item={item} />
+        ))}
       </div>
     );
   } catch (error) {
