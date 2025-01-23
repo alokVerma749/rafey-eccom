@@ -1,12 +1,7 @@
 import getProductsAction from "@/actions/get-products";
 import { Product } from "@/types/product_type";
 
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 
 import { TabArea } from "./TabArea";
 
@@ -18,23 +13,24 @@ async function Section3() {
 	const products: Product[] = response ? JSON.parse(response) : [];
 
 	return (
-		<Tabs defaultValue="candle" className="w-full p-10 h-[80vh]">
+		<Tabs defaultValue="candle" className="hidden md:block w-full p-10 h-[80vh]">
 			<TabsList className="grid w-full grid-cols-3">
 				<TabsTrigger value="candle">Candles</TabsTrigger>
 				<TabsTrigger value="ceramic">Ceramic Art</TabsTrigger>
 				<TabsTrigger value="resin">Resin Art</TabsTrigger>
 			</TabsList>
+			
 
 			<TabsContent value="candle" className="w-full h-full">
 				<TabArea cardDetail={products[0]} />
 			</TabsContent>
 
 			<TabsContent value="ceramic" className="w-full h-full">
-				<TabArea cardDetail={products[0]} />
+				<TabArea cardDetail={products[1]} />
 			</TabsContent>
 
 			<TabsContent value="resin" className="w-full h-full">
-				<TabArea cardDetail={products[0]} />
+				<TabArea cardDetail={products[2]} />
 			</TabsContent>
 		</Tabs>
 	);
