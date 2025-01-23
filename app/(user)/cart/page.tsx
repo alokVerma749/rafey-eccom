@@ -36,6 +36,8 @@ function Cart() {
   const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
   const [mobile, setMobile] = useState("");
+  const [country, setCountry] = useState("");
+  const [countryState, setCountryState] = useState("");
 
   //clear cart
   const clearCart = async ({ userEmail }: { userEmail: string }) => {
@@ -75,7 +77,7 @@ function Cart() {
 
   // add address to the database
   const handleSaveAddress = async () => {
-    if (!address || !pincode || !mobile) {
+    if (!address || !pincode || !mobile || !country || !countryState) {
       toast({
         title: 'Validation Error',
         description: 'Address, pincode and mobile number cannot be empty',
@@ -84,7 +86,7 @@ function Cart() {
     }
 
     try {
-      const response = await updateUser(session.data?.user?.email || "", { address, pincode, phone: mobile });
+      const response = await updateUser(session.data?.user?.email || "", { address, pincode, phone: mobile, country, state: countryState });
       const userData = JSON.parse(response);
       console.log("Address updated:", userData);
       toast({
@@ -155,6 +157,8 @@ function Cart() {
           userEmail: session.data?.user?.email,
           address,
           pincode,
+          country,
+          state: countryState,
           phone: mobile,
           name: session.data?.user?.name,
         }),
@@ -253,7 +257,7 @@ function Cart() {
       setPaymentStatus("An error occurred. Please try again.");
     } finally {
       //reset the cart from the context
-      dispatch({ type: 'CLEAR_CART' });
+      // dispatch({ type: 'CLEAR_CART' });
       setLoading(false);
       // router.push('/'); // Redirect to home page after success
     }
@@ -264,12 +268,12 @@ function Cart() {
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
       <div className="bg-gray-50 pb-6">
 
-      <CartList />
-      <div className="p-2 shadow rounded-lg bg-white ml-10 w-2/3">
-      <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-[80%]">
-        {loading ? "Processing..." : 'Place Order'}
-      </button>
-      </div>
+        <CartList />
+        <div className="p-2 shadow rounded-lg bg-white ml-10 w-2/3">
+          <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-[80%]">
+            {loading ? "Processing..." : 'Place Order'}
+          </button>
+        </div>
       </div>
       {paymentStatus && <p className="mt-4 text-center">{paymentStatus}</p>}
 
@@ -282,6 +286,7 @@ function Cart() {
               Please add your address and pincode to proceed with checkout.
             </DialogDescription>
           </DialogHeader>
+
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="mobile" className="text-right">
@@ -292,6 +297,30 @@ function Cart() {
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value)}
                 placeholder="Enter your mobile number"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="country" className="text-right">
+                Country
+              </Label>
+              <Input
+                id="country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                placeholder="Enter your country"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="state" className="text-right">
+                State
+              </Label>
+              <Input
+                id="state"
+                value={countryState}
+                onChange={(e) => setCountryState(e.target.value)}
+                placeholder="Enter your state"
                 className="col-span-3"
               />
             </div>
