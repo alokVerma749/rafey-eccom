@@ -22,10 +22,8 @@ export const AddToCart = ({ product }: AddToCartProps) => {
   const { state, dispatch } = useCart();
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const cart = state.items.some(item => item.productId === product._id)
-
   useEffect(() => {
-    if (cart) {
+    if (state.items.some(item => item.productId === product._id)) {
       setIsDisabled(true)
     } else {
       setIsDisabled(false)
@@ -58,7 +56,7 @@ export const AddToCart = ({ product }: AddToCartProps) => {
   return (
     <>
       {isDisabled ?
-        <></>
+        <p className="text-sm text-green-500">Item already in cart</p>
         :
         <div className="flex justify-start items-center gap-x-6 py-4">
           <div className="flex justify-start items-center gap-x-6 my-6">

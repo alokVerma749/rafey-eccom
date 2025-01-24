@@ -9,12 +9,20 @@ import { CartItem as CartItemModel } from '@/models/cart-model';
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import { getUserAccount, updateUser } from '@/db_services/user';
+import { UserAccount } from '@/models/user_model';
+import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogContent, DialogFooter } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export const CartList = () => {
   const { dispatch } = useCart();
   const [cart, setCart] = useState<CartItemModel[]>([]);
   const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number })[]>([]);
+  const [user,  setUser] = useState<UserAccount | null>(null);
   const session = useSession();
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+
 
   // fetch user cart
   useEffect(() => {
@@ -25,7 +33,13 @@ export const CartList = () => {
       setCart(cartData.cart.items);
     };
 
+    const fetchUser = async () => {
+      const userAccount = await getUserAccount(session.data?.user?.email ?? '');
+      const userAccountData = JSON.parse(userAccount);
+      setUser(userAccountData)
+    }
     fetchCart();
+    fetchUser();
   }, [session.data?.user?.email]);
 
 
@@ -92,114 +106,228 @@ export const CartList = () => {
     dispatch({ type: 'REMOVE_ITEM', payload: { productId } });
   };
 
+  const handleSaveAddress = async () => {
+    if (!user?.address || !user?.pincode || !user?.phone || !user?.country || !user?.state) {
+      toast({
+        title: 'Validation Error',
+        description: 'Address, pincode and mobile number cannot be empty',
+      });
+      return;
+    }
+
+    try {
+      const response = await updateUser(session.data?.user?.email || "", { address: user?.address, pincode: user?.pincode, phone: user?.phone, country: user?.country, state: user?.state });
+      const userData = JSON.parse(response);
+      console.log("Address updated:", userData);
+      toast({
+        title: 'Address Saved',
+        description: 'You can now proceed with checkout',
+      });
+      setIsAddressModalOpen(false);
+    } catch (error) {
+      console.error("Error updating address:", error);
+      toast({
+        title: 'Error',
+        description: 'Failed to save address. Please try again',
+      });
+    }
+  };
+
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = cartProducts
     .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
     .toFixed(2);
 
   return (
-    <div className="px-10 py-6">
-      <div className="mx-auto">
+    <>
+      <div className="px-10 py-6">
+        <div className="mx-auto">
 
-        {/* Address Section */}
-        <div className="my-2 shadow rounded-lg p-6 bg-white">
-          <div className="flex justify-between items-center">
-            <p className="text-lg font-semibold">
-              Deliver to: <span className="font-normal">Alok, 253146</span>
-            </p>
-            <Button className="text-blue-500 font-semibold uppercase px-6 py-1 bg-white rounded-sm border shadow-none hover:bg-indigo-500 hover:text-white">CHANGE</Button>
-          </div>
-          <p className="text-sm text-gray-500">
-            Full Address: Lorem Ipsum Dolor Sit Amet Consecutetur...
-          </p>
-        </div>
-
-        {/* Cart Items */}
-        <div className="flex justify-between items-start gap-4 ">
-          <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6">
-            {cartProducts.map((item) => (
-              <div
-                key={item._id}
-                className="flex justify-between items-start rounded-lg"
+          {/* Address Section */}
+          <div className="my-2 shadow rounded-lg p-6 bg-white">
+            <div className="flex justify-between items-center">
+              <p className="text-lg font-semibold">
+                Deliver to: <span className="font-normal">{user?.name}, {user?.phone}</span>
+              </p>
+              <Button
+                className="text-blue-500 font-semibold uppercase px-6 py-1 bg-white rounded-sm border shadow-none hover:bg-indigo-500 hover:text-white"
+                onClick={() => setIsAddressModalOpen(true)}
               >
-                <Image src={item.images.medium} alt={item.name} width={100} height={100} />
-                <div className="ml-4 flex-1 mr-20">
-                  <h3 className="text-lg uppercase">{item.name}</h3>
-                  <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">
-                    Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, alias.
-                  </p>
-
-                  <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-                    <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
-                    <p className="text-base font-semibold text-black">
-                      ${(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
-                    </p>
-                    <p className="text-gray-600 text-sm line-through">MRP ${item.price}</p>
-                    <p className="text-orange-500 text-sm font-medium">(${((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
-                    </div>
-                    <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
-                  </div>
-                </div>
-                <div className="flex justify-start items-center w-fit rounded-md mt-auto mb-2">
-                  <div
-                    className="px-2 border py-1 cursor-pointer text-blue-600 bg-blue-100 mx-1 rounded"
-                    onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                  >
-                    <Minus size={20} />
-                  </div>
-                  <span className="text-base px-10 border py-[2px] rounded">{item.quantity}</span>
-                  <div
-                    className="px-2 border-l-2 py-1 cursor-pointer text-blue-600 bg-blue-100 border mx-1 rounded"
-                    onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                  >
-                    <Plus size={20} />
-                  </div>
-                </div>
-                <Trash2
-                  className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
-                  onClick={() => handleRemove(item._id)}
-                />
-              </div>
-            ))}
+                CHANGE
+              </Button>
+            </div>
+            <p className="text-sm text-gray-500">
+              Full Address: {user?.address}, {user?.state}, {user?.pincode}, {user?.country}
+            </p>
           </div>
 
-          {/* Price Details Section */}
-          <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 md:w-1/3 h-fit">
-            <h3 className="font-semibold text-lg">PRICE DETAILS</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between text-gray-700">
-                <span>MRP ({totalQuantity} items)</span>
-                <span>₹{cartProducts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</span>
-              </div>
+          {/* Cart Items */}
+          <div className="flex justify-between items-start gap-4 ">
+            <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6">
+              {cartProducts.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex justify-between items-start rounded-lg"
+                >
+                  <Image src={item.images.medium} alt={item.name} width={100} height={100} />
+                  <div className="ml-4 flex-1 mr-20">
+                    <h3 className="text-lg uppercase">{item.name}</h3>
+                    <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">
+                      Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, alias.
+                    </p>
 
-              {/* Product Discount */}
-              <div className="flex justify-between text-gray-700">
-                <span>Product Discount</span>
-                <span className="text-green-600">
-                  -₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)}
-                </span>
-              </div>
-
-              {/* Delivery Fee */}
-              <div className="flex justify-between text-gray-700">
-                <span>Delivery Fee</span>
-                <span className="text-gray-700">+₹000.00</span>
-              </div>
-
-              {/* Total Amount */}
-              <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
-                <span>Total Amount</span>
-                <span>₹{totalPrice}</span>
-              </div>
+                    <div className="flex justify-between items-center gap-x-4 font-medium py-2">
+                      <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
+                        <p className="text-base font-semibold text-black">
+                          ${(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                        </p>
+                        <p className="text-gray-600 text-sm line-through">MRP ${item.price}</p>
+                        <p className="text-orange-500 text-sm font-medium">(${((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                      </div>
+                      <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-start items-center w-fit rounded-md mt-auto mb-2">
+                    <div
+                      className="px-2 border py-1 cursor-pointer text-blue-600 bg-blue-100 mx-1 rounded"
+                      onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                    >
+                      <Minus size={20} />
+                    </div>
+                    <span className="text-base px-10 border py-[2px] rounded">{item.quantity}</span>
+                    <div
+                      className="px-2 border-l-2 py-1 cursor-pointer text-blue-600 bg-blue-100 border mx-1 rounded"
+                      onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                    >
+                      <Plus size={20} />
+                    </div>
+                  </div>
+                  <Trash2
+                    className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
+                    onClick={() => handleRemove(item._id)}
+                  />
+                </div>
+              ))}
             </div>
 
-            {/* Savings */}
-            <p className="text-green-600 text-sm">
-              You Will Save ₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)} On This Order
-            </p>
+            {/* Price Details Section */}
+            <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 md:w-1/3 h-fit">
+              <h3 className="font-semibold text-lg">PRICE DETAILS</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between text-gray-700">
+                  <span>MRP ({totalQuantity} items)</span>
+                  <span>₹{cartProducts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</span>
+                </div>
+
+                {/* Product Discount */}
+                <div className="flex justify-between text-gray-700">
+                  <span>Product Discount</span>
+                  <span className="text-green-600">
+                    -₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)}
+                  </span>
+                </div>
+
+                {/* Delivery Fee */}
+                <div className="flex justify-between text-gray-700">
+                  <span>Delivery Fee</span>
+                  <span className="text-gray-700">+₹000.00</span>
+                </div>
+
+                {/* Total Amount */}
+                <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
+                  <span>Total Amount</span>
+                  <span>₹{totalPrice}</span>
+                </div>
+              </div>
+
+              {/* Savings */}
+              <p className="text-green-600 text-sm">
+                You Will Save ₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)} On This Order
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Address Modal */}
+      <Dialog open={isAddressModalOpen} onOpenChange={setIsAddressModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Update Address</DialogTitle>
+            <DialogDescription>
+              Please update your address and pincode to proceed with checkout.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="mobile" className="text-right">
+                Mobile
+              </Label>
+              <Input
+                id="mobile"
+                value={user?.phone}
+                onChange={(e) => setUser({ ...user, phone: e.target.value } as UserAccount)}
+                placeholder="Enter your mobile number"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="country" className="text-right">
+                Country
+              </Label>
+              <Input
+                id="country"
+                value={user?.country}
+                onChange={(e) => setUser({ ...user, country: e.target.value } as UserAccount)}
+                placeholder="Enter your country"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="state" className="text-right">
+                State
+              </Label>
+              <Input
+                id="state"
+                value={user?.state}
+                onChange={(e) => setUser({ ...user, state: e.target.value } as UserAccount)}
+                placeholder="Enter your state"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="address" className="text-right">
+                Address
+              </Label>
+              <Input
+                id="address"
+                value={user?.address}
+                onChange={(e) => setUser({ ...user, address: e.target.value } as UserAccount)}
+                placeholder="Enter your address"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="pincode" className="text-right">
+                Pincode
+              </Label>
+              <Input
+                id="pincode"
+                value={user?.pincode}
+                onChange={(e) => setUser({ ...user, pincode: e.target.value } as UserAccount)}
+                placeholder="Enter your pincode"
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" onClick={handleSaveAddress}>
+              Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

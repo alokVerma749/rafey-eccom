@@ -8,6 +8,8 @@ interface addressUpdateProps {
   address?: string;
   pincode?: string;
   phone?: string;
+  country?: string;
+  state?: string;
 }
 
 export const getUserAccount = async (email: string) => {
