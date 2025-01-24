@@ -19,16 +19,6 @@ export function Footer() {
         { label: "Resin Arts", href: "/services/resin-arts" },
       ],
     },
-    {
-      title: "PORTFOLIO",
-      items: [
-        { label: "Corporate websites", href: "/portfolio/corporate-websites" },
-        { label: "E-commerce", href: "/portfolio/e-commerce" },
-        { label: "Mobile apps", href: "/portfolio/mobile-apps" },
-        { label: "Landing pages", href: "/portfolio/landing-pages" },
-        { label: "UI/UX projects", href: "/portfolio/ui-ux-projects" },
-      ],
-    },
   ];
 
   return (
@@ -39,7 +29,7 @@ export function Footer() {
             <Image src={logo} alt="Wonders Tapestry Logo" height={200} width={200} className="w-[200px] p-0" />
           </div>
 
-          <div className="flex flex-col items-start md:flex-row justify-center md:justify-center md:gap-x-40 text-center sm:text-left w-full md:border-l-2">
+          <div className="flex flex-col items-start md:flex-row justify-center md:justify-center md:gap-x-20 text-center sm:text-left w-full md:border-l-2 md:pl-10">
             {links.map((section, index) => (
               <div key={index} className="flex flex-col items-start">
                 <div className="my-4">
