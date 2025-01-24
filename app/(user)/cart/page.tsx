@@ -28,7 +28,7 @@ interface orderTypes {
 }
 
 function Cart() {
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
   const session = useSession();
   const [loading, setLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState("");

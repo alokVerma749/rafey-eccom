@@ -1,5 +1,17 @@
 import mongoose from 'mongoose';
 
+export interface UserAccount {
+  name: string;
+  email: string;
+  image: string;
+  role: string;
+  address: string;
+  country: string;
+  state: string;
+  pincode: string;
+  phone: string;
+}
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
