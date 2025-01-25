@@ -5,12 +5,12 @@ import { Product } from '@/types/product_type';
 
 function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
   return (
-    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 px-2">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => {
             const discountPercentage = item.discount?.percentage || 0;
             return (
-              <Link href={`/product/${item._id}`} key={item._id} className="bg-white rounded mb-4">
+              <Link href={`/product/${item._id}`} key={item._id} className="bg-white rounded mb-4 w-full">
                 <Image
                   height={200}
                   width={200}

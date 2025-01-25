@@ -7,7 +7,8 @@ import { Product } from '@/types/product_type';
 import Image from 'next/image';
 import Link from 'next/link';
 import ShopCard from '@/app/components/Shop/ShopCard';
-
+import { Button } from '@/components/ui/button';
+import {X, AlignJustify} from 'lucide-react'
 function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -30,7 +31,9 @@ function Shop() {
     fragrance: [] as string[],
     color: [] as string[],
   });
-  
+
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
   const filterData = [
     {
       label: "Fragrance Type",
@@ -93,30 +96,6 @@ function Shop() {
       filtered = filtered.filter((product) => product.stock > 0);
     }
 
-    if (name === 'stock' && value) {
-      filtered = filtered.filter((product) => product.stock >= parseInt(value));
-    }
-
-    if (name === 'tags') {
-      const tagFilters = filters.tags.includes(value)
-        ? filters.tags.filter((tag) => tag !== value)
-        : [...filters.tags, value];
-      setFilters((prev) => ({ ...prev, tags: tagFilters }));
-      filtered = filtered.filter((product) =>
-        tagFilters.every((tag) => product.tags?.includes(tag))
-      );
-    }
-
-    if (name === 'variations') {
-      const variationFilters = filters.variations.includes(value)
-        ? filters.variations.filter((variation) => variation !== value)
-        : [...filters.variations, value];
-      setFilters((prev) => ({ ...prev, variations: variationFilters }));
-      filtered = filtered.filter((product) =>
-        variationFilters.every((variation) => product.variations?.includes(variation))
-      );
-    }
-
     setFilteredProducts(filtered);
   };
 
@@ -140,18 +119,6 @@ function Shop() {
         }
       }
 
-      if (filterName === 'color') {
-        if (newFilterValues.length > 0) {
-          filtered = filtered.filter((product) =>
-            product.color && newFilterValues.includes(product.color)
-          );
-        }
-      }
-
-      if (prev.inStock) {
-        filtered = filtered.filter((product) => product.stock > 0);
-      }
-
       setFilteredProducts(filtered);
       return { ...prev, [filterName]: newFilterValues };
     });
@@ -166,29 +133,37 @@ function Shop() {
 
       return { ...prev, [name]: updatedFilters };
     });
-    setFilters((prev) => {
-      let filtered = products;
-
-      if (prev.inStock) {
-        filtered = filtered.filter((product) => product.stock > 0);
-      }
-
-      if (prev.category.length > 0) {
-        filtered = filtered.filter((product) => prev.category.includes(product.category));
-      }
-
-      setFilteredProducts(filtered);
-      return prev;
-    });
   };
 
-
   return (
-    <div className="p-6 space-y-6 flex">
 
+    <div className="space-y-6 flex flex-col md:flex-row justify-start relative">
+      {/* Mobile Filter Toggle */}
+      <div className="block md:hidden">
+        <div
+          onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
+          className={`w-full text-center ${isMobileFilterOpen ? 'hidden' : 'block'}`}
+        >
+          <button className="text-base font-medium">Filter</button>
+        </div>
+      </div>
+    
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6">
-        <h2 className="text-xl font-semibold">Filters</h2>
+      <aside
+        className={`${
+          isMobileFilterOpen ? 'block' : 'hidden'
+        } md:block absolute md:relative top-0 left-0 w-full md:w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6 z-50 h-fit`}
+      >
+        {/* Close Button */}
+        <div className="absolute top-4 right-4 md:hidden">
+          <button
+            onClick={() => setIsMobileFilterOpen(false)}
+            className="text-2xl text-gray-700"
+          >
+            <X />
+          </button>
+        </div>
+    <p className='text-lg font-medium'>Filter</p>
         {/* Max Price */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Max Price</label>
@@ -202,6 +177,7 @@ function Shop() {
             Current Price: ${filters.price[0]}
           </div>
         </div>
+    
         {/* In Stock */}
         <div>
           <label className="block text-sm font-medium text-gray-700">In Stock</label>
@@ -213,7 +189,8 @@ function Shop() {
             className="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
           />
         </div>
-
+    
+        {/* Dynamic Filters (Category, Color, etc.) */}
         <div>
           {filterData.map(({ label, name, options }) => (
             <div key={name} className="mb-4">
@@ -221,12 +198,12 @@ function Shop() {
               <select
                 name={name}
                 onChange={(e) =>
-                  name === "category" || name === "color"
+                  name === 'category' || name === 'color'
                     ? handleMultiSelectChange(e, name)
                     : handleFilterChange(e)
                 }
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                value={''}
+                value=""
               >
                 <option value="">Select {label}</option>
                 {options.map((option) => (
@@ -256,12 +233,13 @@ function Shop() {
           ))}
         </div>
       </aside>
-
+    
       {/* Product Grid */}
-      <ShopCard filteredProducts={filteredProducts}/>
+        <ShopCard filteredProducts={filteredProducts} />
     </div>
+    
+
   );
 }
 
 export default Shop;
-
