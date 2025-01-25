@@ -6,8 +6,9 @@ import getProductAction from "@/actions/get-product";
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
-import Whatsapp from '@/public/whatsapp.svg';
 import { AddToCart } from "@/app/components/Cart/AddToCart/AddToCart";
+import { Input } from "@/components/ui/input";
+import Whatsapp from '@/public/whatsapp.svg';
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -78,18 +79,13 @@ export default async function ProductPage({ params }: productProps) {
             <div className="py-4">
               {/* Personalization Section */}
               <div>
-                <label className="block text-base font-semibold">🎨 PERSONALIZE HERE</label>
-                <div className="flex justify-between items-center">
-                  <input
-                    type="text"
-                    placeholder="Type Here..."
-                    className="mt-2 w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  />
-
+                <div className="flex justify-between items-center gap-x-4">
+                  <Input placeholder="Lucky The Racer"></Input>
+                  <Button>Personalize</Button>
                   {/* Whatsapp Button */}
                   <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
                     target="_blank"
-                    className="bg-green-500 p-1 rounded-full p-2">
+                    className="bg-green-500 rounded-full p-2">
                     <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
                   </Link>
                 </div>

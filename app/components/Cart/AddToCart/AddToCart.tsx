@@ -59,12 +59,11 @@ export const AddToCart = ({ product }: AddToCartProps) => {
         <p className="text-sm text-green-500">Item already in cart</p>
         :
         <div className="flex justify-start items-center gap-x-6 py-4">
-          <div className="flex justify-start items-center gap-x-6 my-6">
-            <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md">
+          <div className="flex justify-start items-center gap-x-6">
+            <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md cursor-pointer" onClick={handleAddToCart}>
               <ShoppingCart className="text-white" />
               <Button
                 disabled={isDisabled}
-                onClick={handleAddToCart}
                 className="bg-transparent hover:bg-transparent"
               >
                 Add to Cart
