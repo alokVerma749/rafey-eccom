@@ -30,7 +30,7 @@ const cardDetails: any = [
 
 function Section4() {
   return (
-    <div className="flex justify-between items-center gap-10 flex-wrap w-full md:p-10">
+    <div className="flex justify-between items-center gap-4 md:gap-10 flex-wrap w-full md:p-10 my-2">
       {cardDetails.map((product: any, index: any) => {
         const { name, description, images } = product;
         return (
@@ -44,12 +44,12 @@ function Section4() {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div className="flex justify-between items-center w-full h-full pl-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center justify-center items-center w-full h-full p-2">
               <div className="flex flex-col items-start justify-start">
-                <h2 className="font-semibold text-2xl pb-4">{name}</h2>
-                <p className="text-base text-start">{description}</p>
+                <h2 className="font-semibold text-lg md:text-2xl md:pb-4">{name}</h2>
+                <p className="text-sm md:text-base text-start sx:text-red-400">{description}</p>
               </div>
-              <Image height={200} width={200} src={images.src} alt="image" className="w-2/5 h-full" />
+              <Image height={200} width={200} src={images.src} alt="image" className="w-2/5 sm:w-2/5 h-[50%] md:h-full" />
             </div>
           </Card>
         );

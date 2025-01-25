@@ -6,7 +6,7 @@ import homeImage from "@/public/asset/homeImage1.png"
 function Banner() {
   return (
     <div className="flex mx-auto shadow-lg flex-col md:flex-row relative bg-[#03081F] mt-10 font-arial">
-      <div className="flex-1 lg:pl-16 rounded-lg lg:rounded-r-none text-white flex flex-col justify-between">
+      <div className="flex-1 pl-2 lg:pl-16 rounded-lg lg:rounded-r-none text-white flex flex-col justify-between">
         <div className="py-10 px-2 md:px-0">
           <h1 className="text-xl lg:text-2xl py-4">WONDER TOPESTRY</h1>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, et.</p>

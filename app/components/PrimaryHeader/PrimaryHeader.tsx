@@ -98,18 +98,18 @@ export function PrimaryHeader() {
 
 			{/* Mobile Menu */}
 			{menuOpen && (
-				<div className="md:hidden flex flex-col space-y-2 px-6 py-1 text-white">
-					<div className="flex justify-start items-center space-x-2 cursor-pointer hover:text-gray-200 hover:shadow-md">
-						<Search size={20}/>
-						<span>Search</span>
+				<div className="md:hidden flex flex-col px-6 text-white">
+					<div className="flex justify-start items-center space-x-2 cursor-pointer hover:text-gray-200 hover:shadow-md mt-1">
+						<Search size={16}/>
+						<span className='text-base'>Search</span>
 					</div>
 
-					<div className="flex flex-col items-start md:flex-col md:justify-center gap-x-6"></div>
+					<div className="flex flex-col items-start md:flex-col justify-center gap-x-6"></div>
 					{navLinks.map(link => (
 						<Link
 							key={link}
 							href={`/shop/${link.toLowerCase().replace(/\s+/g, '-')}`}
-							className="text-white text-base md:text-xl hover:cursor-pointer"
+							className="text-white text-base hover:cursor-pointer mt-1"
 						>
 							{link}
 						</Link>
@@ -118,10 +118,10 @@ export function PrimaryHeader() {
 			)}
 
 			{menuOpen && (
-				<div className="md:hidden flex flex-col items-start gap-y-2 text-white px-6 py-2">
+				<div className="md:hidden flex flex-col items-start text-white px-6 text-base">
 					{session ? (
 						<>
-							<div className="flex items-center gap-4">
+							<div className="flex items-center mt-1">
 								<span>Hi, {session.user?.name}!</span>
 							</div>
 							<button
@@ -129,7 +129,7 @@ export function PrimaryHeader() {
 									setMenuOpen(false);
 									signOut();
 								}}
-								className="text-left hover:text-gray-200 hover:shadow-md"
+								className="text-left hover:text-gray-200 hover:shadow-md my-1"
 							>
 								Logout
 							</button>

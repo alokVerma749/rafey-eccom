@@ -24,12 +24,10 @@ export function Footer() {
   return (
     <footer className="bg-[#B2C4B3] text-white py-6 px-4 md:px-20">
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-start items-center md:justify-start md:items-start gap-10">
-          <div className="flex flex-col items-center md:flex-row md:items-start md:pl-20">
-            <Image src={logo} alt="Wonders Tapestry Logo" height={200} width={200} className="w-[200px] p-0" />
-          </div>
+        <div className="flex flex-col md:flex-row justify-start items-center md:justify-start md:items-start gap-x-10">
+          <Image src={logo} alt="Wonders Tapestry Logo" height={200} width={200} className="w-[100px] md:w-[200px] p-0" />
 
-          <div className="flex flex-col items-start md:flex-row justify-center md:justify-center md:gap-x-20 text-center sm:text-left w-full md:border-l-2 md:pl-10">
+          <div className="flex flex-col items-center md:flex-row justify-center md:justify-center md:gap-x-20 text-center sm:text-left w-full md:border-l-2 md:pl-10">
             {links.map((section, index) => (
               <div key={index} className="flex flex-col items-start">
                 <div className="my-4">

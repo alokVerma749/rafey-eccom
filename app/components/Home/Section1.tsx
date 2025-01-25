@@ -9,7 +9,7 @@ function Hero() {
 
   return (
     <div
-      className="bg-cover bg-center h-screen w-full relative"
+      className="bg-cover bg-center h-[75vh] md:h-screen w-full relative"
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.6) 100%), url(${homeImage1.src})`,
       }}
@@ -38,11 +38,11 @@ function Hero() {
       </div>
 
       {/* Mobile View */}
-      <div className='absolute bottom-0 left-0 mt-auto md:hidden'>
+      <div className='absolute bottom-0 left-0 mt-auto md:hidden'>  
 
-      <div className="flex  flex-col items-center gap-y-4 px-6 py-4">
+      <div className="flex  flex-col items-center gap-y-1 md:gap-y-4 px-6 py-4">
         <p className="text-white text-sm text-center">Handcrafted Elegance. Made With Love.</p>
-        <h1 className="text-white text-xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
+        <h1 className="text-white text-base md:text-xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
 
         <Link
           href="/shop"
