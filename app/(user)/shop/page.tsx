@@ -6,6 +6,7 @@ import { Slider } from '@/components/ui/slider';
 import { Product } from '@/types/product_type';
 import Image from 'next/image';
 import Link from 'next/link';
+import ShopCard from '@/app/components/Shop/ShopCard';
 
 function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,6 +30,34 @@ function Shop() {
     fragrance: [] as string[],
     color: [] as string[],
   });
+  
+  const filterData = [
+    {
+      label: "Fragrance Type",
+      name: "fragrance",
+      options: ["Lavender", "Rose", "Vanilla", "Jasmine", "Sandalwood"],
+    },
+    {
+      label: "Color",
+      name: "color",
+      options: ["Red", "Blue", "Green", "Yellow", "Black", "White"],
+    },
+    {
+      label: "Variation",
+      name: "variations",
+      options: ["Size", "Color", "Fragrance"],
+    },
+    {
+      label: "Category",
+      name: "category",
+      options: ["candles", "ceramic art", "resin art"],
+    },
+    {
+      label: "Tags",
+      name: "tags",
+      options: ["New", "Sale", "Hot"],
+    },
+  ];
 
   useEffect(() => {
     async function fetchProducts() {
@@ -139,15 +168,15 @@ function Shop() {
     });
     setFilters((prev) => {
       let filtered = products;
-  
+
       if (prev.inStock) {
         filtered = filtered.filter((product) => product.stock > 0);
       }
-  
+
       if (prev.category.length > 0) {
         filtered = filtered.filter((product) => prev.category.includes(product.category));
       }
-  
+
       setFilteredProducts(filtered);
       return prev;
     });
@@ -164,7 +193,7 @@ function Shop() {
         <div>
           <label className="block text-sm font-medium text-gray-700">Max Price</label>
           <Slider
-            step={100}
+            step={10}
             min={50}
             max={6000}
             onValueChange={handleSliderChange}
@@ -184,211 +213,52 @@ function Shop() {
             className="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
           />
         </div>
-        {/* Fragrance Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Fragrance Type</label>
-          <select
-            name="fragrance"
-            onChange={handleFilterChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            value={''}
-          >
-            <option value="">Select Fragrance</option>
-            {['Lavender', 'Rose', 'Vanilla', 'Jasmine', 'Sandalwood'].map((fragrance) => (
-              <option key={fragrance} value={fragrance.toLowerCase()}>
-                {fragrance}
-              </option>
-            ))}
-          </select>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.fragrance.map((fr) => (
-              <span
-                key={fr}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
-              >
-                {fr}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('fragrance', fr)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-        {/* Color Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Color</label>
-          <select
-            name="color"
-            onChange={(e) => handleMultiSelectChange(e, 'color')}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            value={''}
-          >
-            <option value="">Select Color</option>
-            {['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'].map((color) => (
-              <option key={color} value={color.toLowerCase()}>
-                {color}
-              </option>
-            ))}
-          </select>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.color.map((col) => (
-              <span
-                key={col}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
-              >
-                {col}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('color', col)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Select Variation</label>
-          <select
-            name="variations"
-            onChange={handleFilterChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            value={''}
-          >
-            <option value="">Select Variation</option>
-            {['Size', 'Color', 'Fragrance'].map((variation) => (
-              <option key={variation} value={variation.toLowerCase()}>
-                {variation}
-              </option>
-            ))}
-          </select>
-
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.variations.map((variation) => (
-              <span
-                key={variation}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+          {filterData.map(({ label, name, options }) => (
+            <div key={name} className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">{label}</label>
+              <select
+                name={name}
+                onChange={(e) =>
+                  name === "category" || name === "color"
+                    ? handleMultiSelectChange(e, name)
+                    : handleFilterChange(e)
+                }
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                value={''}
               >
-                {variation}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('variations', variation)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Category Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Category</label>
-          <select
-            name="category"
-            onChange={(e) => handleMultiSelectChange(e, 'category')}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            value={''}
-          >
-            <option value="">Select Category</option>
-            {['candles', 'ceramic art', 'resin art'].map((category) => (
-              <option key={category} value={category.toLowerCase()}>
-                {category}
-              </option>
-            ))}
-          </select>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.category.map((cat) => (
-              <span
-                key={cat}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
-              >
-                {cat}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('category', cat)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-        {/* Tags Multi-Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Tags</label>
-          <select
-            name="tags"
-            onChange={handleFilterChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            value={''}
-          >
-            <option value="">Select Tags</option>
-            {['New', 'Sale', 'Hot'].map((tag) => (
-              <option key={tag} value={tag.toLowerCase()}>
-                {tag}
-              </option>
-            ))}
-          </select>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filters.tags.map((tag) => (
-              <span
-                key={tag}
-                className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
-              >
-                {tag}
-                <button
-                  type="button"
-                  className="ml-1 text-white hover:text-gray-300"
-                  onClick={() => removeSelectedFilter('tags', tag)}
-                >
-                  ✕
-                </button>
-              </span>
-            ))}
-          </div>
+                <option value="">Select {label}</option>
+                {options.map((option) => (
+                  <option key={option} value={option.toLowerCase()}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {(filters[name as keyof typeof filters] as string[])?.map((selected) => (
+                  <span
+                    key={selected}
+                    className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+                  >
+                    {selected}
+                    <button
+                      type="button"
+                      className="ml-1 text-white hover:text-gray-300"
+                      onClick={() => removeSelectedFilter(name, selected)}
+                    >
+                      ✕
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </aside>
 
       {/* Product Grid */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((item) => {
-            const discountPercentage = item.discount?.percentage || 0;
-            return (
-              <Link href={`/product/${item._id}`} key={item._id} className="bg-white rounded mb-4">
-                <Image
-                  height={200}
-                  width={200}
-                  src={item.images.thumbnail}
-                  alt={item.name}
-                  className="w-full h-40 object-cover rounded"
-                />
-                <h3 className="text-sm text-gray-600">{item.name}</h3>
-                {discountPercentage > 0 && (
-                  <div className="flex justify-start items-center gap-x-4 font-medium">
-                    <p className='text-base font-semibold text-green-600'> ${(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
-                    <p className="font-semibold text-black text-sm line-through">${item.price}</p>
-                    <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
-                  </div>
-                )}
-                <p className="text-sm text-gray-400">{item.category}</p>
-              </Link>
-            );
-          })
-        ) : (
-          <p className="col-span-full text-center text-gray-500">No products found.</p>
-        )}
-      </div>
+      <ShopCard filteredProducts={filteredProducts}/>
     </div>
   );
 }
