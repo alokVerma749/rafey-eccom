@@ -1,11 +1,11 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import getProductsAction from '@/actions/get-products';
 import { Slider } from '@/components/ui/slider';
 import { Product } from '@/types/product_type';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 
 function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,17 +42,13 @@ function Shop() {
 
   const handleSliderChange = (values: number[]) => {
     setFilters((prev) => ({ ...prev, price: values }));
-
     const filtered = products.filter((product) => product.price <= values[0]);
     setFilteredProducts(filtered);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    const newValue =
-      type === 'checkbox'
-        ? (e.target as HTMLInputElement).checked
-        : value;
+    const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
 
     setFilters((prev) => ({ ...prev, [name]: newValue }));
 
@@ -72,107 +68,95 @@ function Shop() {
       filtered = filtered.filter((product) => product.stock >= parseInt(value));
     }
 
-    if (name === 'category' && value) {
-      filtered = filtered.filter((product) => product.category === value);
-    }
-
-    if (name === 'tags' && value) {
-      filtered = filtered.filter((product) => product.tags?.includes(value));
-    }
-
-    if (name === 'variations' && value) {
-      filtered = filtered.filter((product) => product.variations?.includes(value));
-    }
-
-    // Multi-select for fragrance
-    if (name === 'fragrance') {
-      const fragranceFilters = filters.fragrance.includes(value)
-        ? filters.fragrance.filter((fr) => fr !== value)
-        : [...filters.fragrance, value];
-
-      setFilters((prev) => ({ ...prev, fragrance: fragranceFilters }));
-      filtered = filtered.filter((product) =>
-        fragranceFilters.every((fr) =>
-          product.variations?.some((variation) =>
-            variation.toLowerCase().includes(fr.toLowerCase())
-          )
-        )
-      );
-    }
-
-    // Multi-select for color
-    if (name === 'color') {
-      const colorFilters = filters.color.includes(value)
-        ? filters.color.filter((col) => col !== value)
-        : [...filters.color, value];
-
-      setFilters((prev) => ({ ...prev, color: colorFilters }));
-      filtered = filtered.filter((product) =>
-        colorFilters.every((col) => product.variations?.includes(col))
-      );
-    }
-
-    // Multi-select for category
-    if (name === 'category') {
-      const categoryFilters = filters.category.includes(value)
-        ? filters.category.filter((cat) => cat !== value)
-        : [...filters.category, value];
-
-      setFilters((prev) => ({ ...prev, category: categoryFilters }));
-      filtered = filtered.filter((product) =>
-        categoryFilters.includes(product.category)
-      );
-    }
-
-    // Multi-select for tags
     if (name === 'tags') {
       const tagFilters = filters.tags.includes(value)
         ? filters.tags.filter((tag) => tag !== value)
         : [...filters.tags, value];
-
       setFilters((prev) => ({ ...prev, tags: tagFilters }));
       filtered = filtered.filter((product) =>
         tagFilters.every((tag) => product.tags?.includes(tag))
       );
     }
 
-    // Multi-select for variations
     if (name === 'variations') {
       const variationFilters = filters.variations.includes(value)
         ? filters.variations.filter((variation) => variation !== value)
         : [...filters.variations, value];
-
       setFilters((prev) => ({ ...prev, variations: variationFilters }));
       filtered = filtered.filter((product) =>
         variationFilters.every((variation) => product.variations?.includes(variation))
       );
     }
-
-    if (name === 'variations' && value) {
-      const variationFilters = filters.variations.includes(value)
-        ? filters.variations.filter((variation) => variation !== value)
-        : [...filters.variations, value];
-      setFilters((prev) => ({ ...prev, variations: variationFilters }));
-      filtered = filtered.filter((product) =>
-        variationFilters.every((variation) => product.variations?.includes(variation))
-      );
-    }
-
 
     setFilteredProducts(filtered);
   };
 
-  const removeSelectedFilter = (name: string, value: string) => {
-    const currentFilter = filters[name as keyof typeof filters];
-    const updatedFilters = Array.isArray(currentFilter)
-      ? currentFilter.filter((item: string | number) => item !== value)
-      : currentFilter;
+  const handleMultiSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    filterName: keyof typeof filters
+  ) => {
+    const value = e.target.value;
+    setFilters((prev) => {
+      const newFilterValues = Array.isArray(prev[filterName]) && prev[filterName].includes(value)
+        ? (prev[filterName] as string[]).filter((item) => item !== value)
+        : [...(prev[filterName] as string[]), value];
 
-    setFilters((prev) => ({ ...prev, [name]: updatedFilters }));
+      let filtered = products;
+
+      if (filterName === 'category') {
+        if (newFilterValues.length > 0) {
+          filtered = filtered.filter((product) =>
+            newFilterValues.includes(product.category)
+          );
+        }
+      }
+
+      if (filterName === 'color') {
+        if (newFilterValues.length > 0) {
+          filtered = filtered.filter((product) =>
+            newFilterValues.includes(product.color)
+          );
+        }
+      }
+
+      if (prev.inStock) {
+        filtered = filtered.filter((product) => product.stock > 0);
+      }
+
+      setFilteredProducts(filtered);
+      return { ...prev, [filterName]: newFilterValues };
+    });
   };
+
+  const removeSelectedFilter = (name: string, value: string) => {
+    setFilters((prev) => {
+      const currentFilter = prev[name as keyof typeof filters];
+      const updatedFilters = Array.isArray(currentFilter)
+        ? currentFilter.filter((item: string | number) => item !== value)
+        : currentFilter;
+
+      return { ...prev, [name]: updatedFilters };
+    });
+    setFilters((prev) => {
+      let filtered = products;
+  
+      if (prev.inStock) {
+        filtered = filtered.filter((product) => product.stock > 0);
+      }
+  
+      if (prev.category.length > 0) {
+        filtered = filtered.filter((product) => prev.category.includes(product.category));
+      }
+  
+      setFilteredProducts(filtered);
+      return prev;
+    });
+  };
+
 
   return (
     <div className="p-6 space-y-6 flex">
+
       {/* Sidebar */}
       <aside className="w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6">
         <h2 className="text-xl font-semibold">Filters</h2>
@@ -207,6 +191,7 @@ function Shop() {
             name="fragrance"
             onChange={handleFilterChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            value={''}
           >
             <option value="">Select Fragrance</option>
             {['Lavender', 'Rose', 'Vanilla', 'Jasmine', 'Sandalwood'].map((fragrance) => (
@@ -238,8 +223,9 @@ function Shop() {
           <label className="block text-sm font-medium text-gray-700">Color</label>
           <select
             name="color"
-            onChange={handleFilterChange}
+            onChange={(e) => handleMultiSelectChange(e, 'color')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            value={''}
           >
             <option value="">Select Color</option>
             {['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'].map((color) => (
@@ -274,6 +260,7 @@ function Shop() {
             name="variations"
             onChange={handleFilterChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            value={''}
           >
             <option value="">Select Variation</option>
             {['Size', 'Color', 'Fragrance'].map((variation) => (
@@ -307,11 +294,12 @@ function Shop() {
           <label className="block text-sm font-medium text-gray-700">Category</label>
           <select
             name="category"
-            onChange={handleFilterChange}
+            onChange={(e) => handleMultiSelectChange(e, 'category')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            value={''}
           >
             <option value="">Select Category</option>
-            {['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports'].map((category) => (
+            {['candles', 'ceramic art', 'resin art'].map((category) => (
               <option key={category} value={category.toLowerCase()}>
                 {category}
               </option>
@@ -342,6 +330,7 @@ function Shop() {
             name="tags"
             onChange={handleFilterChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            value={''}
           >
             <option value="">Select Tags</option>
             {['New', 'Sale', 'Hot'].map((tag) => (
@@ -368,9 +357,6 @@ function Shop() {
             ))}
           </div>
         </div>
-
-
-
       </aside>
 
       {/* Product Grid */}
@@ -395,7 +381,7 @@ function Shop() {
                     <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
                   </div>
                 )}
-                {/* <p className="text-sm text-gray-400">{item.category}</p> */}
+                <p className="text-sm text-gray-400">{item.category}</p>
               </Link>
             );
           })
@@ -408,3 +394,4 @@ function Shop() {
 }
 
 export default Shop;
+
