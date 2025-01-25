@@ -4,12 +4,12 @@ import { Product } from '@/types/product_type';
 import Image from 'next/image';
 
 async function Section5() {
-	const response: string = await getProductsAction({ category: 'resin art', limit: 10 });
+	const response: string = await getProductsAction({ limit: 10 });
 	const products: Product[] = response ? JSON.parse(response) : [];
 
 	return (
-		<div className="flex flex-col flex-wrap gap-5 justify-center md:p-10">
-			<div className='flex justify-between items-center'>
+		<div className="flex flex-col flex-wrap gap-5 justify-center md:px-10 py-4">
+			<div className='flex justify-between items-center text-base md:text-lg'>
 				<h1 className='relative group cursor-pointer'>
 					QUALITY YOU TRUST
 					<span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>

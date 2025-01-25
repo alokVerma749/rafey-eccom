@@ -8,7 +8,7 @@ async function Section2() {
   const products: Product[] = response ? JSON.parse(response) : [];
 
   return (
-    <div className="flex flex-col gap-5 p-5 xs:p-2 md:p-10">
+    <div className="flex flex-col gap-5 md:p-10 py-4">
       <div className="flex justify-between items-center">
         <h1 className="relative group cursor-pointer text-sm xs:text-lg md:text-2xl font-bold">
           BEST OF CANDLES
