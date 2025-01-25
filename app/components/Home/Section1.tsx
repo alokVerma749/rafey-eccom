@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
-import {ShoppingBag} from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 
 function Hero() {
-  const navLinks: any = ['Candles', 'Ceramic Art', 'Resin Art'];
+  const navLinks = ['Candles', 'Ceramic Art', 'Resin Art'];
 
   return (
     <div
@@ -16,25 +16,52 @@ function Hero() {
     >
       <PrimaryHeader />
 
-      <nav className="flex justify-center space-x-4 pt-4">
-        {navLinks.map((link: any) => (
+      {/* Navigation Links */}
+      <div className="hidden md:flex flex-row gap-x-10 py-2 items-start md:justify-center gap-y-4 px-10">
+        {navLinks.map((link) => (
           <Link
             key={link}
             href={`/shop/${formatCategory(link)}`}
-            className="text-white text-xl hover:cursor-pointer"
+            className="text-white text-base md:text-lg hover:underline"
           >
             {link}
           </Link>
         ))}
 
-        <Link href="/shop" className="bg-gradient-to-r from-[#D5992E] to-[#F5C56C] px-2 py-1 shadow rounded-md uppercase text-sm text-center hover:cursor-pointer flex justify-start item-center gap-x-2">
-          <ShoppingBag size={16}/><span> Shop Now </span>
-         </Link>
-      </nav>
+        <Link
+          href="/shop"
+          className="bg-gradient-to-r from-[#D5992E] to-[#F5C56C] px-4 py-2 shadow-md rounded-md uppercase text-sm flex items-center gap-x-2 text-black hover:bg-opacity-90"
+        >
+          <ShoppingBag size={16} />
+          <span>Shop Now</span>
+        </Link>
+      </div>
 
-      <div className="absolute bottom-20 left-0 px-10 py-4">
-        <h1 className="text-white text-2xl md:text-4xl md:font-semibold">Lorem ipsum dolor sit amet.</h1>
-        <p className="text-white">Lorem ipsum, dolor sit amet <br /> consectetur adipisicing elit. Ad, iste!</p>
+      {/* Mobile View */}
+      <div className='absolute bottom-0 left-0 mt-auto md:hidden'>
+
+      <div className="flex  flex-col items-center gap-y-4 px-6 py-4">
+        <p className="text-white text-sm text-center">Handcrafted Elegance. Made With Love.</p>
+        <h1 className="text-white text-xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
+
+        <Link
+          href="/shop"
+          className="bg-gradient-to-r from-[#D5992E] to-[#F5C56C] px-4 py-2 shadow-md rounded-md uppercase text-sm flex items-center gap-x-2 text-black hover:bg-opacity-90"
+          >
+          <ShoppingBag size={16} />
+          <span>Shop Now</span>
+        </Link>
+          </div>
+      </div>
+
+      {/* Hero Text */}
+      <div className="hidden md:block absolute bottom-20 left-0 px-6 md:px-10">
+        <h1 className="text-white text-xl md:text-4xl font-medium">
+          Handmade Elegance. Made With Love.
+        </h1>
+        <p className="text-white text-sm md:text-base mt-2">
+          Resin, Ceramic Arts, Candles
+        </p>
       </div>
     </div>
   );
