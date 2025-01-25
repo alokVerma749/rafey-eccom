@@ -1,10 +1,11 @@
 'use client';
 
-import { useCart } from '@/context/cartContext';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { CartItem } from '@/types/cart';
+import { useCart } from '@/context/cartContext';
 import { CartItem as CartItemModel } from '@/models/cart-model';
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
@@ -14,15 +15,18 @@ import { UserAccount } from '@/models/user_model';
 import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import Whatsapp from '@/public/whatsapp.svg';
+import { Personalize } from '../../Product/Personalize';
+
 
 export const CartList = () => {
   const { dispatch } = useCart();
   const [cart, setCart] = useState<CartItemModel[]>([]);
-  const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number })[]>([]);
-  const [user,  setUser] = useState<UserAccount | null>(null);
+  const [cart_id, setCart_id] = useState<string>("");
+  const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number, description: string, customization: string })[]>([]);
+  const [user, setUser] = useState<UserAccount | null>(null);
   const session = useSession();
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-
 
   // fetch user cart
   useEffect(() => {
@@ -31,6 +35,7 @@ export const CartList = () => {
       const cartResponse = await fetch(`/api/cart?userId=${session.data.user.email}`);
       const cartData = await cartResponse.json();
       setCart(cartData.cart.items);
+      setCart_id(cartData.cart._id);
     };
 
     const fetchUser = async () => {
@@ -41,7 +46,6 @@ export const CartList = () => {
     fetchCart();
     fetchUser();
   }, [session.data?.user?.email]);
-
 
   // fetch cart products
   useEffect(() => {
@@ -55,6 +59,7 @@ export const CartList = () => {
           return {
             ...productData.product,
             quantity: item.quantity,
+            customization: item.customization,
           };
         })
       );
@@ -171,10 +176,13 @@ export const CartList = () => {
                 >
                   <Image src={item.images.medium} alt={item.name} width={100} height={100} />
                   <div className="ml-4 flex-1 mr-20">
-                    <h3 className="text-lg uppercase">{item.name}</h3>
-                    <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">
-                      Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, alias.
-                    </p>
+                    <div className="flex w-full justify-between items-center gap-x-4">
+                      <h3 className="text-lg uppercase">{item.name}</h3>
+                      <p className=" text-gray-300 text-sm">
+                        <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
+                      </p>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words"> {item.description}</p>
 
                     <div className="flex justify-between items-center gap-x-4 font-medium py-2">
                       <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
@@ -186,6 +194,24 @@ export const CartList = () => {
                       </div>
                       <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
                     </div>
+
+                    {/* Personalization Section */}
+                    <div>
+                      <div className="flex justify-between items-center gap-x-4">
+                        <Personalize product={item} cart_id={cart_id} />
+
+                        {/* Whatsapp Button */}
+                        <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                          target="_blank"
+                          className="bg-green-500 rounded-full p-2">
+                          <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
+                        </Link>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Customize Your Product By Adding Your Name For A Personal Touch
+                      </p>
+                    </div>
+
                   </div>
                   <div className="flex justify-start items-center w-fit rounded-md mt-auto mb-2">
                     <div

@@ -1,14 +1,11 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
 import { AddToCart } from "@/app/components/Cart/AddToCart/AddToCart";
-import { Input } from "@/components/ui/input";
-import Whatsapp from '@/public/whatsapp.svg';
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -71,29 +68,11 @@ export default async function ProductPage({ params }: productProps) {
               </div>
             </div>
 
-            {/* <ProductQuantity product={product} /> // hidden due to SEO issues */}
             <AddToCart product={product} />
 
             <ProductInfo product={product} />
 
             <div className="py-4">
-              {/* Personalization Section */}
-              <div>
-                <div className="flex justify-between items-center gap-x-4">
-                  <Input placeholder="Lucky The Racer"></Input>
-                  <Button>Personalize</Button>
-                  {/* Whatsapp Button */}
-                  <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
-                    target="_blank"
-                    className="bg-green-500 rounded-full p-2">
-                    <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
-                  </Link>
-                </div>
-                <p className="text-sm text-gray-500 mt-1">
-                  Customize Your Product By Adding Your Name For A Personal Touch
-                </p>
-              </div>
-
               {/* Delivery Options */}
               <div>
                 <label className="block text-base font-semibold pt-4">🚚 DELIVERY OPTIONS</label>
