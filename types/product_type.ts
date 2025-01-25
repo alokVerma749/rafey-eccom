@@ -5,7 +5,7 @@ export interface Product {
   price: number; // Required: The price of the product
   stock: number; // Required: The stock availability
   category: 'candles' | 'ceramic art' | 'resin art'; // Restrict to specific categories
-  color:'red' | 'green' | 'yellow' ;
+  color?: 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'pink' | 'orange' | 'brown' | 'gray' | 'black' | 'white'; // for ceramic only
   tags?: string[]; // Optional: Tags for categorization
   variations?: string[]; // Optional: Variations for items like candles
   images: {

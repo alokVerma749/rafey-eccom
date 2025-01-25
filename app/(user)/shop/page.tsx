@@ -114,7 +114,7 @@ function Shop() {
       if (filterName === 'color') {
         if (newFilterValues.length > 0) {
           filtered = filtered.filter((product) =>
-            newFilterValues.includes(product.color)
+            product.color && newFilterValues.includes(product.color)
           );
         }
       }
