@@ -3,7 +3,6 @@ import { TabCard } from "./TabCard";
 import { Product } from "@/types/product_type";
 
 export function TabArea({ cardDetail }: { cardDetail: Product[] }) {
-  console.log(cardDetail, "Card")
   return (
     <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg">
       <ResizablePanel defaultSize={50}>

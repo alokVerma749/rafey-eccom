@@ -15,13 +15,17 @@ declare module "next-auth" {
 }
 
 // fetch all orders
-export async function GET() {
+export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   } else if (session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const order = await Order.find({});
-  return NextResponse.json({ message: "Orders fetched successfully", order });
+
+  const url = new URL(request.url);
+  const orderId = url.searchParams.get('orderId');
+  const query = orderId ? {_id: orderId} : {};
+  const order = await Order.find(query);
+  return NextResponse.json({ message: "Order fetched successfully", order });
 }
