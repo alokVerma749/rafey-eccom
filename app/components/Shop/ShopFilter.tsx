@@ -1,0 +1,190 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Slider } from '@/components/ui/slider';
+import { Product } from '@/types/product_type';
+import ShopCard from '@/app/components/Shop/ShopCard';
+import { X, SlidersHorizontal } from 'lucide-react';
+
+interface FilterOption {
+  label: string;
+  name: string;
+  options?: string[];
+}
+
+interface FilterProps {
+  products: Product[];
+  filtersConfig: FilterOption[];
+}
+
+const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [filters, setFilters] = useState<{
+    price: number;
+    inStock: boolean;
+    [key: string]: any;
+  }>({
+    price: 1000, // Default max price
+    inStock: true,
+  });
+
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  // Function to apply the filters
+  const applyFilters = () => {
+    let filtered = products;
+
+    // Filter by price
+    if (filters.price) {
+      filtered = filtered.filter((product) => product.price <= filters.price);
+    }
+
+    // Filter by stock availability
+    if (filters.inStock) {
+      filtered = filtered.filter((product) => product.stock > 0);
+    }
+
+    // Apply dynamic filters
+    filtersConfig.forEach(({ name }) => {
+      if (filters[name]?.length > 0) {
+        filtered = filtered.filter((product) =>
+          filters[name].some((option: string) => (product[name] as any)?.includes(option))
+        );
+      }
+    });
+
+    setFilteredProducts(filtered);
+  };
+
+  // Reapply filters whenever they change
+  useEffect(() => {
+    applyFilters();
+  }, [filters, products]);
+
+  // Handlers for filters
+  const handleSliderChange = (values: number[]) => {
+    setFilters((prev) => ({ ...prev, price: values[0] }));
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  const handleMultiSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    filterName: string
+  ) => {
+    const value = e.target.value;
+    if (value) {
+      setFilters((prev) => {
+        const currentValues = prev[filterName] || [];
+        const updatedValues = currentValues.includes(value)
+          ? currentValues.filter((item: string) => item !== value)
+          : [...currentValues, value];
+        return { ...prev, [filterName]: updatedValues };
+      });
+    }
+  };
+
+  const removeSelectedFilter = (name: string, value: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      [name]: prev[name].filter((item: string) => item !== value),
+    }));
+  };
+
+  return (
+    <div className="space-y-6 flex flex-col md:flex-row justify-start relative">
+      {/* Mobile Filter Toggle */}
+      <div className="block md:hidden">
+        <button
+          onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
+          className="text-base font-medium px-2 pt-2 flex items-center"
+        >
+          {isMobileFilterOpen ? 'Close Filter' : <>Filter <SlidersHorizontal className="ml-2 w-4 h-4" /></>}
+        </button>
+      </div>
+
+
+      {/* Sidebar */}
+      <aside
+        className={`${isMobileFilterOpen ? 'block' : 'hidden'
+          } md:block absolute md:relative top-0 left-0 w-full md:w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6 z-50 h-fit`}
+      >
+        {/* Close Button */}
+        <div className="absolute top-4 right-4 md:hidden">
+          <button
+            onClick={() => setIsMobileFilterOpen(false)}
+            className="text-2xl text-gray-700"
+          >
+            <X />
+          </button>
+        </div>
+        <p className="text-lg font-medium">Filter</p>
+
+        {/* Max Price */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Max Price</label>
+          <Slider step={5} min={1} max={1000} onValueChange={handleSliderChange} />
+          <div className="text-center mt-2 text-sm text-gray-500">
+            Current Price: ${filters.price}
+          </div>
+        </div>
+
+        {/* In Stock */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">In Stock</label>
+          <input
+            type="checkbox"
+            name="inStock"
+            checked={filters.inStock}
+            onChange={handleCheckboxChange}
+            className="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+          />
+        </div>
+
+        {/* Dynamic Filters */}
+        {filtersConfig.map(({ label, name, options }) => (
+          <div key={name} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">{label}</label>
+            <select
+              onChange={(e) => handleMultiSelectChange(e, name)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              value=""
+            >
+              <option value="">Select {label}</option>
+              {options?.map((option) => (
+                <option key={option} value={option.toLowerCase()}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {(filters[name] || []).map((selected: string) => (
+                <span
+                  key={selected}
+                  className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+                >
+                  {selected}
+                  <button
+                    type="button"
+                    className="ml-1 text-white hover:text-gray-300"
+                    onClick={() => removeSelectedFilter(name, selected)}
+                  >
+                    ✕
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </aside>
+
+      {/* Product Grid */}
+      <ShopCard filteredProducts={filteredProducts} />
+    </div>
+  );
+};
+
+export default ShopFilter;
