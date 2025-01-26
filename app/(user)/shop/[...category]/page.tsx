@@ -1,7 +1,6 @@
 import getProductsAction from "@/actions/get-products";
 import { Product } from "@/types/product_type";
 import { reverseFormatCategory } from "@/utils/format_string";
-import Link from "next/link";
 import ShopFilter from "@/app/components/Shop/ShopFilter";
 
 const Page = async ({ params }: any) => {
@@ -42,7 +41,6 @@ const Page = async ({ params }: any) => {
     return (
       <div>
         <ShopFilter products={products} filtersConfig={filtersConfig} />
-        <p>Path: {categories.join(" / ") || "All Categories"}</p>
       </div>
     );
   } catch (error) {

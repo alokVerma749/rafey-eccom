@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import getProductsAction from '@/actions/get-products';
 import { Product } from '@/types/product_type';
 
 function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
