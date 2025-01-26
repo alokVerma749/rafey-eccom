@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -18,24 +18,36 @@ const ProductSchema = new mongoose.Schema({
     required: true
   },
   category: {
-    type: String, enum: ['candles', 'ceramic art', 'resin art'], required: true
+    type: String,
+    enum: ['candles', 'ceramic art', 'resin art'],
+    required: true
   },
-  tags: [{ type: String }], // For ceramic art and resin art
-  variations: [{ type: String }], // For candles (fragrances)
+  subCategory: {
+    type: Schema.Types.ObjectId,
+    ref: 'SubCategory'
+  },
+  tags: [{ type: String }],
+  variations: [{ type: String }],
   images: {
-    thumbnail: { type: String, required: true }, // Small-sized image (e.g., 150x150)
-    medium: { type: String, required: true }, // Medium-sized image (e.g., 300x300)
-    large: { type: String, required: true }, // High-resolution image (e.g., 1024x1024)
+    thumbnail: {
+      type: String,
+      required: true
+    },
+    medium: {
+      type: String,
+      required: true
+    },
+    large: {
+      type: String,
+      required: true
+    },
   },
   discount: {
-    percentage: { type: Number, default: 0 }, // Discount percentage (e.g., 20 for 20%)
-    startDate: { type: Date }, // Optional: Discount start date
-    endDate: { type: Date }, // Optional: Discount end date
+    percentage: { type: Number, default: 0 },
+    startDate: { type: Date },
+    endDate: { type: Date },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const Products = mongoose.models.Product || mongoose.model('Product', ProductSchema);

@@ -1,10 +1,13 @@
-import { getSession } from "@/utils/auth";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "../components/Admin/Home/AdminSidebar";
+'use client'
 
-export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
-  const session = await getSession()
-  console.log(session)
+import { usePathname } from "next/navigation";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdmin = pathname.includes('admin');
+
   return (
     <div>
       <SidebarProvider>
