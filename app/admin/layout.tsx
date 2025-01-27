@@ -8,14 +8,13 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
   console.log(session)
   return (
     <div>
-    <SidebarProvider>
-      <AdminSidebar />
-      <div>
-        <SidebarTrigger />
-        {children}
-      </div>
-    </SidebarProvider>
-    <Footer/>
+      <SidebarProvider>
+        <AdminSidebar />
+        <div>
+          <SidebarTrigger />
+          {children}
+        </div>
+      </SidebarProvider>
     </div>
   );
 }
