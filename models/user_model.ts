@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface UserAccount {
+  _id: string;
   name: string;
   email: string;
   image: string;

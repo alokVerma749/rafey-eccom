@@ -80,6 +80,7 @@ export function PrimaryHeader() {
 										>
 											Logout
 										</button>
+										<Link href="/profile" className="block px-4 py-2 text-left w-full hover:bg-gray-200">	Profile</Link>
 									</div>
 								)}
 							</div>

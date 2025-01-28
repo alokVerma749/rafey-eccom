@@ -76,6 +76,9 @@ export function Header() {
               >
                 Logout
               </button>
+              <Link href="/profile" className="px-3 py-1 bg-red-500 text-white rounded">
+                Profile
+              </Link>
             </div>
           ) : (
             <button
@@ -113,6 +116,12 @@ export function Header() {
               >
                 Logout
               </button>
+              <Link
+                href="/profile"
+                className="text-left hover:text-gray-200 hover:shadow-md my-1"
+              >
+                Profile
+              </Link>
             </>
           ) : (
             <button
