@@ -7,7 +7,8 @@ export async function GET(request: Request) {
     await connect_db();
     const url = new URL(request.url);
     const productId = url.searchParams.get('productId');
-    const product = await Product.findOne({ _id: productId });
+    const query = productId ? { _id: productId } : {};
+    const product = await Product.find(query);
     return NextResponse.json({ message: "Product fetched successfully", product });
   } catch (error) {
     console.error("Error fetching product:", error);

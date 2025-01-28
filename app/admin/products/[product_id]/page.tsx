@@ -11,20 +11,20 @@ export default function ProductPage() {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await fetch(`/api/product/${product_id}`);
+      const response = await fetch(`/api/admin/product?productId=${product_id}`);
       const data = await response.json();
-      setProduct(data);
+      setProduct(data.product[0]);
     };
     fetchProduct();
   }, []);
 
 
   return <div>
-    <h1>Product {product_id}</h1>
+    <h1>Product {product?._id}</h1>
     <p>{product?.name}</p>
     <p>{product?.description}</p>
     <p>{product?.price}</p>
     <p>{product?.stock}</p>
-    <Image src={product?.image || ''} alt={product?.name || ''} width={100} height={100} />
+    <Image src={product?.images.thumbnail || ''} alt={product?.name || ''} width={100} height={100} />
   </div>
 }

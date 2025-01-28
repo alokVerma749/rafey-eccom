@@ -1,27 +1,26 @@
 import Link from "next/link"
-
 import { LayoutDashboard, PackageSearch, ListOrdered, Shapes } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-// Menu items.
+
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/admin",
     icon: LayoutDashboard,
   },
   {
     title: "All Praduct",
-    url: "#",
+    url: "/admin/products",
     icon: PackageSearch,
   },
   {
     title: "Order List",
-    url: "#",
+    url: "/admin/orders",
     icon: ListOrdered,
   },
   {
     title: "Category",
-    url: "#",
+    url: "/admin/categories",
     icon: Shapes,
   },
 ]

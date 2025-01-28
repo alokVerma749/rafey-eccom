@@ -7,7 +7,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <div>
       <SidebarProvider>
         <AdminSidebar />
-        <div>
+        <div className="w-full">
           <SidebarTrigger />
           {children}
         </div>
