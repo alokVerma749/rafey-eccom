@@ -5,12 +5,10 @@ import { Product } from "@/types/product_type";
 
 function OrderListTable({ order, products }: { order: Order; products: Product[] }) {
   // Calculate subtotal
-  const subtotal = products.reduce((sum, product) => {
-    const productOrder = order.products.find((p: any) => p.product === product._id);
+  const subtotal = order.products.reduce((sum, product) => {
+    const productOrder = order.products.find((p: any) => p.product[0]._id === product._id);
     return sum + (productOrder?.totalPrice || 0);
-  }, 0);
-
-  console.log(products, '###');
+  }, 0); // TODO: fix this
 
   const taxRate = 0.2; // 20%
   const taxAmount = subtotal * taxRate;
@@ -36,8 +34,8 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
             products.map((product) => {
               const productOrder = order.products.find((p: any) => p.product === product[0]._id);
               return (
-                <TableRow key={product._id}>
-                  <TableCell className="font-medium">{product.name}</TableCell>
+                <TableRow key={product[0]._id}>
+                  <TableCell className="font-medium">{product[0].name}</TableCell>
                   <TableCell>{order._id}</TableCell>
                   <TableCell>{productOrder?.quantity || 0}</TableCell>
                   <TableCell className="text-right">₹{(product[0]?.price || 0).toFixed(2)}</TableCell>

@@ -1,4 +1,3 @@
-import { UserAccount } from "@/models/user_model";
 import { Product } from "./product_type";
 
 export interface Order {
