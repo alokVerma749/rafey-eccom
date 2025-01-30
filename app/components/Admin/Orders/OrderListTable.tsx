@@ -10,6 +10,8 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
     return sum + (productOrder?.totalPrice || 0);
   }, 0);
 
+  console.log(products, '###');
+
   const taxRate = 0.2; // 20%
   const taxAmount = subtotal * taxRate;
   const discount = 0; // Assuming no discount for now
@@ -32,13 +34,13 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
         <TableBody>
           {products.length > 0 ? (
             products.map((product) => {
-              const productOrder = order.products.find((p: any) => p.product === product._id);
+              const productOrder = order.products.find((p: any) => p.product === product[0]._id);
               return (
                 <TableRow key={product._id}>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>{order._id}</TableCell>
                   <TableCell>{productOrder?.quantity || 0}</TableCell>
-                  <TableCell className="text-right">₹{(productOrder?.totalPrice || 0).toFixed(2)}</TableCell>
+                  <TableCell className="text-right">₹{(product[0]?.price || 0).toFixed(2)}</TableCell>
                 </TableRow>
               );
             })

@@ -28,6 +28,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
         {/* Customer Info */}
         <div className="p-2 border rounded-lg h-[230px] relative">
           <div className="flex justify-start items-start space-x-2">
@@ -62,10 +63,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
               <p className="text-base text-gray-700 font-medium">Shipping: Next Express</p>
               <p className="text-base text-gray-700 font-medium">
                 <strong>Payment Status:</strong>{" "}
-                <span
-                  className={`px-2 py-1 my-1 rounded ${order.paymentStatus === "Paid" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                    }`}
-                >
+                <span className={`px-2 py-1 my-1 rounded ${order.paymentStatus === "Paid" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
                   {order.paymentStatus}
                 </span>
               </p>
