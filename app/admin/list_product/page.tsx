@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { CldUploadButton } from 'next-cloudinary';
+import Image from 'next/image';
 
 interface ProductFormValues {
   name: string;
@@ -9,7 +11,7 @@ interface ProductFormValues {
   price: number;
   stock: number;
   tags: string[];
-  images: string;
+  image: string;
   category: string;
   subCategory: string;
   discount: number;
@@ -17,12 +19,13 @@ interface ProductFormValues {
 }
 
 export default function ListProductPage() {
-  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<ProductFormValues>();
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<ProductFormValues>();
   const [categories] = useState<string[]>(['candles', 'ceramic art', 'resin art']);
   const [subCategories, setSubCategories] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [newSubCategory, setNewSubCategory] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const addSubCategory = async () => {
     if (newSubCategory && !subCategories.includes(newSubCategory)) {
@@ -62,7 +65,7 @@ export default function ListProductPage() {
       tags,
       subCategory: watch('subCategory') || '',
     };
-    console.log('Form Data:', formData);
+
     reset();
     setTags([]);
     setSubCategories([]);
@@ -72,6 +75,17 @@ export default function ListProductPage() {
       body: JSON.stringify(formData),
     });
     console.log(res);
+  };
+
+
+  const handleImageUpload = (result: any) => {
+    const uploadedImageUrl = result?.info?.secure_url;
+    if (uploadedImageUrl) {
+      setValue('image', uploadedImageUrl); // Ensure this updates the form state
+      setImagePreview(uploadedImageUrl);
+    } else {
+      console.error('Image URL is invalid');
+    }
   };
 
   return (
@@ -120,12 +134,37 @@ export default function ListProductPage() {
 
         <div>
           <input
-            {...register('images', { required: 'Images URL is required' })}
+            {...register('image', { required: 'Images URL is required' })}
             type="text"
             placeholder="Images"
             className="w-full p-3 border border-gray-300 rounded-md"
           />
-          {errors.images && <span className="text-red-500">{errors.images.message}</span>}
+          {errors.image && <span className="text-red-500">{errors.image.message}</span>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1 text-gray-600">Upload Image</label>
+          <CldUploadButton
+            onSuccess={handleImageUpload} // For handling upload success
+            onClose={() => console.log('Upload widget closed')} // Triggered when "Done" is clicked
+            uploadPreset="mmmgkp-news"
+          >
+            <div className="cursor-pointer bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              Upload Image
+            </div>
+          </CldUploadButton>
+
+          {imagePreview && (
+            <div className="mt-4">
+              <Image
+                src={imagePreview}
+                alt="Uploaded Preview"
+                className="w-full h-64 object-cover rounded-lg border border-gray-700"
+                width={800}
+                height={400}
+              />
+            </div>
+          )}
         </div>
 
         <div>
