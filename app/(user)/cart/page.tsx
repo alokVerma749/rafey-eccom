@@ -2,17 +2,18 @@
 
 import { useState } from "react";
 import Script from "next/script";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCart } from "@/context/cartContext";
 import { CartList } from "@/app/components/Cart/CartList";
 import { toast } from "@/hooks/use-toast";
 import { getUser, getUserAccount, updateUser } from "@/db_services/user";
 import { RazorpayOptions, RazorpayPaymentFailedResponse, RazorpayPaymentSuccessResponse } from "@/types/razorpay";
-
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ProcessingAnimation } from "@/app/components/PrcessingAnimation";
 
 interface orderTypes {
   user: string;
@@ -30,6 +31,9 @@ interface orderTypes {
 function Cart() {
   const { state } = useCart();
   const session = useSession();
+  const router = useRouter()
+  const { dispatch } = useCart()
+
   const [loading, setLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState("");
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
@@ -38,6 +42,7 @@ function Cart() {
   const [mobile, setMobile] = useState("");
   const [country, setCountry] = useState("");
   const [countryState, setCountryState] = useState("");
+  const [showProcessing, setShowProcessing] = useState(false);
 
   //clear cart
   const clearCart = async ({ userEmail }: { userEmail: string }) => {
@@ -135,11 +140,12 @@ function Cart() {
       // Fetch user account for address
       const userAccount = await getUserAccount(session.data.user.email);
       const userAccountData = JSON.parse(userAccount);
+
       if (!userAccountData?.address || !userAccountData?.pincode || !userAccountData?.phone) {
         setIsAddressModalOpen(true);
         toast({
           title: 'Add Address Required',
-          description: 'Please provide your address, pincode and mobile number to proceed',
+          description: 'Please provide your address, pincode, and mobile number to proceed',
         });
         return;
       }
@@ -148,18 +154,18 @@ function Cart() {
       const user = await getUser(session.data.user.email);
       const userData = JSON.parse(user);
 
-      // Proceed with payment setup if address is present
+      // Proceed with payment setup
       const response = await fetch('/api/payment/create-order', {
         method: 'POST',
         body: JSON.stringify({
           products: state.items,
           currency: 'INR',
           userEmail: session.data?.user?.email,
-          address,
-          pincode,
-          country,
-          state: countryState,
-          phone: mobile,
+          address: userAccountData.address,
+          pincode: userAccountData.pincode,
+          country: userAccountData.country,
+          state: userAccountData.state,
+          phone: userAccountData.phone,
           name: session.data?.user?.name,
         }),
       });
@@ -174,7 +180,7 @@ function Cart() {
         throw new Error("Payment ID not found.");
       }
 
-      // save order details in the database
+      // Save order details in the database
       await createOrder({
         user: userData._id,
         paymentId: payment._id,
@@ -203,8 +209,9 @@ function Cart() {
           console.log(response, "Payment successful");
           try {
             setPaymentStatus("Payment Successful!");
+            setShowProcessing(true);
 
-            // clear the cart
+            // Clear the cart after payment is successful
             await clearCart({ userEmail: session.data?.user?.email || "" });
             toast({
               title: "Cart cleared successfully",
@@ -213,10 +220,14 @@ function Cart() {
 
             // Update stock after payment
             for (const product of state.items) {
-              await updateProductStock({ productId: product._id, quantityPurchased: product.quantity });
+              await updateProductStock({ productId: product.productId, quantityPurchased: product.quantity });
             }
 
-            // createShipment(payment._id);
+            // Wait for animation to complete before redirecting
+            setTimeout(() => {
+              dispatch({ type: 'CLEAR_CART' });
+            }, 3000); // 3-second delay for animation
+
           } catch (error) {
             console.error("Error clearing cart:", error);
             toast({
@@ -247,7 +258,6 @@ function Cart() {
         title: 'Payment successful',
         description: 'Your order has been placed',
       });
-
     } catch (error) {
       toast({
         title: 'Payment failed',
@@ -256,15 +266,17 @@ function Cart() {
       console.error("Error in payment:", error);
       setPaymentStatus("An error occurred. Please try again.");
     } finally {
-      //reset the cart from the context
-      // dispatch({ type: 'CLEAR_CART' });
       setLoading(false);
-      // router.push('/'); // Redirect to home page after success
     }
   };
 
   return (
     <div >
+      {showProcessing &&
+        <ProcessingAnimation
+          doneDelay={3}
+          onComplete={() => router.push("/")}
+        />}
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
       <div className="bg-gray-50 pb-6">
 
