@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { LayoutDashboard, PackageSearch, ListOrdered, Shapes } from "lucide-react"
+import { LayoutDashboard, PackageSearch, ListOrdered, Shapes, SquareStackIcon } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 
 const items = [
@@ -7,6 +7,11 @@ const items = [
     title: "Dashboard",
     url: "/admin",
     icon: LayoutDashboard,
+  },
+  {
+    title: "List Product",
+    url: "/admin/list_product",
+    icon: SquareStackIcon,
   },
   {
     title: "All Praduct",
@@ -30,7 +35,7 @@ export function AdminSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xl text-black font-bellefair my-4">Wonders Tapestry</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
