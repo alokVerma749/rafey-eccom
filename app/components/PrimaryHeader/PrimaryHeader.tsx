@@ -23,7 +23,7 @@ export function PrimaryHeader() {
 	const toggleMenu = () => setMenuOpen(prev => !prev);
 
 	return (
-		<div className="shadow-md backdrop-blur-sm">
+		<div className="shadow-md">
 			<div className="flex justify-between items-center px-6 py-1 md:px-20">
 				<div className="flex items-center space-x-4 md:hidden">
 					{menuOpen ? (
@@ -33,9 +33,10 @@ export function PrimaryHeader() {
 					)}
 				</div>
 
-				<Link href={"/home"}>
-					<Image src={logo.src} alt="Logo" className="h-fit" height={50} width={50} />
+				<Link href="/home">
+					<Image src={logo} alt="Logo" width={144} height={64} className="h-16 w-36" priority />
 				</Link>
+
 
 				<div className="flex items-center space-x-4 md:hidden">
 					<Link href="/cart" className="relative flex items-center text-white hover:text-gray-200">
@@ -101,7 +102,7 @@ export function PrimaryHeader() {
 			{menuOpen && (
 				<div className="md:hidden flex flex-col px-6 text-white">
 					<div className="flex justify-start items-center space-x-2 cursor-pointer hover:text-gray-200 hover:shadow-md mt-1">
-						<Search size={16}/>
+						<Search size={16} />
 						<span className='text-base'>Search</span>
 					</div>
 
