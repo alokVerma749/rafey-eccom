@@ -9,13 +9,12 @@ import { Order } from "@/types/order";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
-
   if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  } else if (session.user.role !== "admin") {
+  } else if (session.user.role !== "user") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
+  
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
