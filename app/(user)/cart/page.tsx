@@ -271,7 +271,7 @@ function Cart() {
   };
 
   return (
-    <div >
+    <div>
       {showProcessing &&
         <ProcessingAnimation
           doneDelay={3}

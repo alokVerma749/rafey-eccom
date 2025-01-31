@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import Whatsapp from '@/public/whatsapp.svg';
 import { Personalize } from '../../Product/Personalize';
 
-
 export const CartList = () => {
   const { dispatch } = useCart();
   const [cart, setCart] = useState<CartItemModel[]>([]);

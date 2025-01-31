@@ -40,6 +40,8 @@ export default async function ProfilePage() {
       <div>
         <h1>Orders</h1>
         <div className="flex flex-col gap-4 border border-gray-300 p-4 rounded-md">
+
+          <h1>My Orders</h1>
           {ordersData.map((order) => (
             <Link href={`/orders/${order._id}`} key={order._id} className="flex flex-col gap-2 border border-gray-300 p-4 rounded-md">
               <p>Order ID: {order._id}</p>
