@@ -4,13 +4,14 @@ import { useSession, signOut, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Menu, X, UserRound } from 'lucide-react';
 import { useState } from 'react';
+import Loader from "@/app/components/Loader";
 
 export function AdminHeader() {
   const { data: session, status } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div><Loader/></div>;
   }
 
   const toggleMenu = () => setMenuOpen(prev => !prev);

@@ -41,6 +41,8 @@ async function Section5() {
 					</Link>
 				))}
 			</div>
+
+			<Link href={'/shop'} className='hover:text-gray-400'>See More....</Link>
 		</div>
 	);
 }

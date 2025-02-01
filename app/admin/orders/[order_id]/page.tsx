@@ -7,6 +7,7 @@ import { UserAccount } from "@/models/user_model";
 import { Order } from "@/types/order";
 import OrderDetails from "@/app/components/Admin/Orders/OrderDetail";
 import OrderListTable from "@/app/components/Admin/Orders/OrderListTable";
+import Loader from "@/app/components/Loader";
 
 export default function OrderPage() {
   const { order_id } = useParams();
@@ -48,7 +49,7 @@ export default function OrderPage() {
   }, [order_id]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p><Loader/></p>;
   }
 
   if (!order) {

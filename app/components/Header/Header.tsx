@@ -5,6 +5,7 @@ import { useCart } from "@/context/cartContext";
 import Link from "next/link";
 import { Menu, X, ShoppingCart, UserRound } from 'lucide-react';
 import { useState } from 'react';
+import Loader from "../Loader";
 
 export function Header() {
   const { data: session, status } = useSession();
@@ -12,7 +13,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div><Loader/></div>;
   }
 
   const toggleMenu = () => setMenuOpen(prev => !prev);

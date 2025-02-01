@@ -23,7 +23,7 @@ export function Footer() {
 
   return (
     <footer className="bg-[#B2C4B3] text-white p-4 md:px-20">
-      <div className="container m-4">
+      <div className="container">
         <div className="flex flex-col sm:flex-row justify-center items-start sm:justify-center sm:items-start gap-x-10 md:mx-10 lg:mx-40">
           {/* <Image src={logo} alt="Wonders Tapestry Logo" height={200} width={200} className="w-[100px] md:w-[200px] p-0" /> */}
           <Link href="/" className="text-2xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
@@ -43,9 +43,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-300 md:mx-10 lg:mx-40"></div>
+        <div className="border-t border-gray-300 md:mx-10 lg:mx-40 mr-4 sm:mr-0"></div>
 
-        <div className="text-center text-sm text-gray-600 pt-4 md:mx-10 lg:mx-40">
+        <div className="text-center text-sm text-gray-600 pt-4 md:mx-10 lg:mx-40 mr-6 sm:mr-4">
           <p>
             Copyright © 2025 Wonders Tapestry | All Rights Reserved |{" "}
             <Link href="/terms-and-conditions">

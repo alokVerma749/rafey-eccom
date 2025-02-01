@@ -22,11 +22,13 @@ function Hero() {
           <Link
             key={link}
             href={`/shop/${formatCategory(link)}`}
-            className="text-white text-base md:text-lg hover:underline"
+            className="relative text-white text-base md:text-lg group transition-all duration-300"
           >
             {link}
+            <span className="absolute left-0 -bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
           </Link>
         ))}
+
 
         <Link
           href="/shop"
@@ -38,20 +40,20 @@ function Hero() {
       </div>
 
       {/* Mobile View */}
-      <div className='absolute bottom-0 left-0 mt-auto md:hidden'>  
+      <div className='absolute bottom-0 left-0 mt-auto md:hidden'>
 
-      <div className="flex  flex-col items-center gap-y-1 md:gap-y-4 px-6 py-4">
-        <p className="text-white text-sm text-center">Handcrafted Elegance. Made With Love.</p>
-        <h1 className="text-white text-base md:text-xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
+        <div className="flex  flex-col items-center gap-y-1 md:gap-y-4 px-6 py-4">
+          <p className="text-white text-sm text-center">Handcrafted Elegance. Made With Love.</p>
+          <h1 className="text-white text-base md:text-xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
 
-        <Link
-          href="/shop"
-          className="bg-gradient-to-r from-[#D5992E] to-[#F5C56C] px-4 py-2 shadow-md rounded-md uppercase text-sm flex items-center gap-x-2 text-black hover:bg-opacity-90"
+          <Link
+            href="/shop"
+            className="bg-gradient-to-r from-[#D5992E] to-[#F5C56C] px-4 py-2 shadow-md rounded-md uppercase text-sm flex items-center gap-x-2 text-black hover:bg-opacity-90"
           >
-          <ShoppingBag size={16} />
-          <span>Shop Now</span>
-        </Link>
-          </div>
+            <ShoppingBag size={16} />
+            <span>Shop Now</span>
+          </Link>
+        </div>
       </div>
 
       {/* Hero Text */}

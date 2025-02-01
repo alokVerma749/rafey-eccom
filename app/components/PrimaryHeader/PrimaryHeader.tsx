@@ -1,5 +1,6 @@
 'use client';
 
+import Loader from "@/app/components/Loader";
 import { useCart } from '@/context/cartContext';
 // import logo from '@/public/asset/logo.png';
 import { Search, ShoppingCart, UserRound, EllipsisVertical, Menu, X } from 'lucide-react';
@@ -17,7 +18,7 @@ export function PrimaryHeader() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	if (status === "loading") {
-		return <div className="text-center p-4">Loading...</div>;
+		return <div className="text-center p-4"><Loader/></div>;
 	}
 
 	const toggleMenu = () => setMenuOpen(prev => !prev);
