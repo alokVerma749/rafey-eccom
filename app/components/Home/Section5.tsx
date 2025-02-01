@@ -4,7 +4,7 @@ import { Product } from '@/types/product_type';
 import Image from 'next/image';
 
 async function Section5() {
-	const response: string = await getProductsAction({ limit: 10 });
+	const response: string = await getProductsAction({ limit: 8 });
 	const products: Product[] = response ? JSON.parse(response) : [];
 
 	return (
