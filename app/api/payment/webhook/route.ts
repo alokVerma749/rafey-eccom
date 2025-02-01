@@ -7,20 +7,16 @@ export async function POST(req: NextRequest) {
   try {
     const webhookSignature = req.headers.get("X-Razorpay-Signature") || "";
     const body = await req.json();
-    console.log(body, '###webhook body')
     const isValid = await validateWebhookSignature(JSON.stringify(body), webhookSignature, process.env.RAZORPAY_WEBHOOK_SECRET as string);
-    console.log(isValid, '###isValid')
 
     if (!isValid) {
       return new NextResponse("Invalid webhook signature", { status: 400 });
     }
 
     const paymentDetails = body.payload.payment.entity;
-    console.log(paymentDetails, '###')
 
     const payment = await Payment.findOne({ orderId: paymentDetails.order_id });
     payment.status = paymentDetails.status;
-    console.log(payment, '###payment')
     await payment.save();
 
     if (body.event === "payment.captured") {
