@@ -1,3 +1,4 @@
+import { Footer } from "./components/Footer";
 import Banner from "./components/Home/Banner";
 import Hero from "./components/Home/Section1";
 import Section2 from "./components/Home/Section2";
@@ -21,6 +22,9 @@ export default function Home() {
       <div className="w-[95%] mx-auto">
         <Section6 />
         <Section7 />
+      </div>
+      <div className="h-[25dvh] bg-background">
+        <Footer />
       </div>
     </div>
   );

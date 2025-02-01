@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Bellefair, Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import { Footer } from "./components/Footer";
 import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
 import { getSession } from "@/utils/auth";
 import { Toaster } from "@/components/ui/toaster";
@@ -41,9 +40,6 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
             <div className="min-h-[70vh]">
               {children}
               <Toaster />
-            </div>
-            <div className="h-[25dvh] bg-background">
-              <Footer />
             </div>
           </body>
         </CartProvider>
