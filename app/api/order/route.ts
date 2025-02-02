@@ -32,5 +32,5 @@ export async function GET(req: NextRequest) {
 
   const res = productDetails.filter(Boolean);
 
-  return NextResponse.json({ message: "Order fetched successfully", order, products: res });
+  return NextResponse.json({ message: "Order fetched successfully", order, productDetails: res });
 }
