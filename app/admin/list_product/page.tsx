@@ -32,10 +32,12 @@ export default function ListProductPage() {
       setSubCategories((prev) => [...prev, newSubCategory]);
       setNewSubCategory('');
     }
+
     const res = await fetch('/api/subcategory', {
       method: 'POST',
       body: JSON.stringify({ name: newSubCategory, category: watch('category') || '' }),
     });
+
     console.log(res);
   };
 
@@ -44,10 +46,12 @@ export default function ListProductPage() {
       setTags((prev) => [...prev, newTag]);
       setNewTag('');
     }
+
     const res = await fetch('/api/tags', {
       method: 'POST',
-      body: JSON.stringify({ name: newTag, category: watch('tags') || '' }),
+      body: JSON.stringify({ name: newTag }),
     });
+
     console.log(res);
   };
 
@@ -80,12 +84,12 @@ export default function ListProductPage() {
 
   const handleImageUpload = (result: any) => {
     const uploadedImageUrl = result?.info?.secure_url;
-    if (uploadedImageUrl) {
-      setValue('image', uploadedImageUrl); // Ensure this updates the form state
-      setImagePreview(uploadedImageUrl);
-    } else {
-      console.error('Image URL is invalid');
+    if (!uploadedImageUrl) {
+      console.error('Failed to upload image.');
+      return;
     }
+    setValue('image', uploadedImageUrl);
+    setImagePreview(uploadedImageUrl);
   };
 
   return (
@@ -118,6 +122,7 @@ export default function ListProductPage() {
             type="number"
             placeholder="Price"
             className="w-full p-3 border border-gray-300 rounded-md"
+            defaultValue={0}
           />
           {errors.price && <span className="text-red-500">{errors.price.message}</span>}
         </div>
