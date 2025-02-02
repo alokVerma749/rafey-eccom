@@ -6,8 +6,8 @@ import { Product } from "@/types/product_type";
 import Image from "next/image";
 
 function ProductDetail({ product }: { product: Product }) {
-  console.log(product, "&&&&&&")
   const discountedPrice = product?.price - (product?.price * (product.discount?.percentage ?? 0) / 100);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white shadow-md rounded-lg mr-6 ">
       <div className="space-y-4">
@@ -61,7 +61,7 @@ function ProductDetail({ product }: { product: Product }) {
           <span className="text-gray-500">Image Preview</span>
         </div>
         <div className="border-dashed border-2 border-gray-300 rounded-lg p-4 flex items-center justify-center">
-          <input type="file" className="absolute opacity-0 w-full h-full cursor-pointer" />
+          <input type="file" className=" opacity-0 w-full h-full cursor-pointer" />
           <span className="text-gray-500">Drop your image here, or browse</span>
         </div>
         <div className="space-y-2">
