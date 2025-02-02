@@ -1,7 +1,7 @@
 'use client'
 
+import ProductDetail from "@/app/components/Admin/Products/ProductDetail";
 import { Product } from "@/types/product_type";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,12 +19,10 @@ export default function ProductPage() {
   }, []);
 
 
-  return <div>
-    <h1>Product {product?._id}</h1>
-    <p>{product?.name}</p>
-    <p>{product?.description}</p>
-    <p>{product?.price}</p>
-    <p>{product?.stock}</p>
-    <Image src={product?.images.thumbnail || ''} alt={product?.name || ''} width={100} height={100} />
-  </div>
+  return(
+    <div className="w-full mt-6">
+      <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold p-2">Product Detail</h1>
+    {product && <ProductDetail product={product} />}
+    </div>
+  )
 }
