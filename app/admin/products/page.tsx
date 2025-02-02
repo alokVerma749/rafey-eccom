@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import ProductCard from "@/app/components/Admin/Products/ProductCard";
 import { Product } from "@/types/product_type";
 import Loader from "@/app/components/Loader";
-import AddProduct from "@/app/components/Admin/Products/AddProduct";
+import { Button } from "@/components/ui/button"
+import {BadgePlus} from 'lucide-react'
+import Link from "next/link";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,7 +32,7 @@ export default function ProductsPage() {
     <div className="w-full m-4">
       <div className="flex flex-col sm:flex-row justify-between items-center my-2">
         <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold p-2">All Products</h1>
-        <AddProduct/>
+        <Link href={`/admin/list_product`}><Button className="flex justify-start items-center" ><BadgePlus/>ADD NEW PRODUCT</Button></Link>
       </div>
 
       {loading ? (
