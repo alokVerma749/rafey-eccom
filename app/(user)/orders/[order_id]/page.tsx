@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
 import { Product } from '@/types/product_type';
+import Loader from '@/app/components/Loader';
 
 type OrderData = {
   _id: string;
@@ -16,30 +17,20 @@ type OrderData = {
 };
 
 function Page() {
-  const [orderData, setOrderData] = useState<OrderData | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [orderData, setOrderData] = useState<{ order: OrderData; productDetails: Product[] } | null>(null);
   const { order_id } = useParams();
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const response = await fetch(`/api/order?orderId=${order_id}`);
+
         if (!response.ok) {
           throw new Error('Failed to fetch order data.');
         }
-        const fetchedOrder: {message: string, order: OrderData} = await response.json();
-        setOrderData(fetchedOrder.order);
 
-
-        // Fetch products for the order
-        const productResponses = await Promise.all(
-          fetchedOrder.order.products.map((product: any) =>
-            fetch(`/api/product?productId=${product.product}`)
-          )
-        );
-
-        const productData = await Promise.all(productResponses.map((res) => res.json()));
-        setProducts(productData.map((data) => data.product));
+        const fetchedOrder: { message: string; order: OrderData; productDetails: Product[] } = await response.json();
+        setOrderData({ order: fetchedOrder.order, productDetails: fetchedOrder.productDetails });
 
         toast({
           title: fetchedOrder.message,
@@ -57,26 +48,28 @@ function Page() {
   }, [order_id]);
 
   if (!orderData) {
-    return <div>Loading...</div>;
+    return <div><Loader /></div>;
   }
+
+  console.log(orderData);
 
   return (
     <div>
       <h1>Order Details</h1>
       <div>
-        <h2>Order ID: {orderData._id}</h2>
-        <p>Order Date: {new Date(orderData.createdAt).toLocaleDateString()}</p>
-        <p>Order Status: {orderData.orderStatus}</p>
-        <p>Total Amount: {orderData.totalAmount}</p>
-        <p>Payment ID: {orderData.paymentId}</p>
-        <p>Payment Status: {orderData.paymentStatus}</p>
+        <h2>Order ID: {orderData.order._id}</h2>
+        <p>Order Date: {new Date(orderData.order.createdAt).toLocaleDateString()}</p>
+        <p>Order Status: {orderData.order.orderStatus}</p>
+        <p>Total Amount: {orderData.order.totalAmount}</p>
+        <p>Payment ID: {orderData.order.paymentId}</p>
+        <p>Payment Status: {orderData.order.paymentStatus}</p>
 
         <div>
           <h2>Products</h2>
-          {products.length === 0 ? (
+          {orderData.productDetails.length === 0 ? (
             <p>No products found for this order.</p>
           ) : (
-            products.map((product) => (
+            orderData.productDetails.map((product) => (
               <div key={product._id}>
                 <h3>{product.name}</h3>
               </div>
@@ -84,7 +77,6 @@ function Page() {
           )}
         </div>
       </div>
-      
     </div>
   );
 }
