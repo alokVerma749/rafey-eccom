@@ -224,6 +224,8 @@ function Cart() {
               await updateProductStock({ productId: product.productId, quantityPurchased: product.quantity });
             }
 
+            // Shipment
+
             // Wait for animation to complete before redirecting
             setTimeout(() => {
               dispatch({ type: 'CLEAR_CART' });
@@ -273,6 +275,7 @@ function Cart() {
 
   return (
     <div>
+      {loading && <Loader />}
       {showProcessing &&
         <ProcessingAnimation
           doneDelay={3}
@@ -282,11 +285,15 @@ function Cart() {
       <div className="bg-gray-50 pb-6">
 
         <CartList />
-        <div className="p-2 shadow rounded-lg bg-white ml-10 w-2/3">
-          <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-[80%]">
-            {loading ? <Loader/> : 'Place Order'}
-          </button>
-        </div>
+        {
+          !loading && (
+            <div className="p-2 shadow rounded-lg bg-white ml-10 w-2/3">
+              <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-[80%]" >
+                Place Order
+              </button>
+            </div>
+          )
+        }
       </div>
       {paymentStatus && <p className="mt-4 text-center">{paymentStatus}</p>}
 

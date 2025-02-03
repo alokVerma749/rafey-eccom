@@ -79,7 +79,9 @@ function ProductDetail({ product }: { product: Product }) {
         </div>
         <div className="flex justify-between mt-4">
           <Button variant="default">UPDATE</Button>
-          <Button variant="destructive"><Trash2 size={16} className="mr-2" />DELETE</Button>
+          <Button variant="destructive">
+            <Trash2 size={16} className="mr-2" />DELETE
+          </Button>
           <Button variant="outline">CANCEL</Button>
         </div>
       </div>
