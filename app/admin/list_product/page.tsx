@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import { CircleX } from 'lucide-react';
 
 interface ProductFormValues {
   name: string;
@@ -126,11 +127,11 @@ export default function ListProductPage() {
               <Input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add new tag" />
               <Button type="button" onClick={addTag}>Add</Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
               {tags.map((tag, index) => (
-                <div key={index} className="flex items-center justify-between">
+                <div key={index} className="flex items-center justify-between w-fit">
                   <span>{tag}</span>
-                  <Button type="button" onClick={() => removeTag(tag)} className="text-red-500">Remove</Button>
+                  <Button type="button" onClick={() => removeTag(tag)} className="text-red-500 cursor-pointer"><CircleX size={20} strokeWidth={1.25} /></Button>
                 </div>
               ))}
             </div>
@@ -163,11 +164,11 @@ export default function ListProductPage() {
               />
               <Button type="button" onClick={addSubCategory}>Add</Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
               {subCategories.map((subCategory, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <span>{subCategory}</span>
-                  <Button type="button" onClick={() => removeSubCategory(subCategory)} className="text-red-500">Remove</Button>
+                <div key={index} className="flex items-center justify-between w-fit">
+                  <span className='mx-2'>{subCategory}</span>
+                  <div onClick={() => removeSubCategory(subCategory)} className="text-red-500 cursor-pointer"><CircleX size={20} strokeWidth={1.25} /></div>
                 </div>
               ))}
             </div>
