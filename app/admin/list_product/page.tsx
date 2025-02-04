@@ -39,6 +39,8 @@ export default function ListProductPage() {
   const [savedSubCategories, setSavedSubCategories] = useState<string[]>([]); // Track saved subcategories
   const [savedTags, setSavedTags] = useState<string[]>([]); // Track saved tags
 
+  const category = watch('category') || '';
+
   const addSubCategory = async () => {
     if (newSubCategory && !subCategories.includes(newSubCategory)) {
       setSubCategories((prev) => [...prev, newSubCategory]);
@@ -69,29 +71,37 @@ export default function ListProductPage() {
     }
   };
 
-  // TODO
+  // TODO: deletion should be only done if tag is not attached to any product else
   const removeSubCategory = async (subCategoryToRemove: string) => {
-    const res = await fetch(`/api/admin/sub_category/${subCategoryToRemove}`, {
-      method: 'DELETE',
-    });
+    const res = await fetch(
+      `/api/admin/sub_category?name=${subCategoryToRemove}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify(category)
+      }
+    );
+
     if (res.ok) {
       setSubCategories((prev) => prev.filter((subCategory) => subCategory !== subCategoryToRemove));
       setSavedSubCategories((prev) => prev.filter((savedSubCategory) => savedSubCategory !== subCategoryToRemove));
     } else {
-      console.error('Failed to delete subcategory');
+      console.error("Failed to delete subcategory");
     }
   };
 
-  // TODO
   const removeTag = async (tagToRemove: string) => {
-    const res = await fetch(`/api/admin/tags/${tagToRemove}`, {
-      method: 'DELETE',
-    });
-    if (res.ok) {
+    try {
+      const res = await fetch(`/api/admin/tags?name=${tagToRemove}`, {
+        method: 'DELETE',
+        body: JSON.stringify(category)
+      });
+
+      if (!res.ok) throw new Error("Failed to delete tag");
+
       setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
       setSavedTags((prev) => prev.filter((savedTag) => savedTag !== tagToRemove));
-    } else {
-      console.error('Failed to delete tag');
+    } catch (error) {
+      console.error(error);
     }
   };
 
