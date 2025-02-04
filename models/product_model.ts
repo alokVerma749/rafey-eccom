@@ -11,7 +11,8 @@ const ProductSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: true
+    required: true,
+    min: 0
   },
   stock: {
     type: Number,
@@ -20,14 +21,23 @@ const ProductSchema = new mongoose.Schema({
   category: {
     type: String,
     enum: ['candles', 'ceramic art', 'resin art'],
-    required: true
+    required: true,
+    index: true
   },
-  subCategory: {
-    type: Schema.Types.ObjectId,
-    ref: 'SubCategory'
-  },
-  tags: [{ type: String }],
-  variations: [{ type: String }],
+  subCategories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "SubCategory",
+      index: true,
+    },
+  ],
+  tags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Tag",
+      index: true,
+    },
+  ],
   images: {
     thumbnail: {
       type: String,
@@ -44,10 +54,18 @@ const ProductSchema = new mongoose.Schema({
   },
   discount: {
     percentage: { type: Number, default: 0 },
-    startDate: { type: Date },
-    endDate: { type: Date },
+    startDate: {
+      type: Date,
+      default: Date.now
+    },
+    endDate: {
+      type: Date
+    },
   },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
 });
 
 const Products = mongoose.models.Product || mongoose.model('Product', ProductSchema);

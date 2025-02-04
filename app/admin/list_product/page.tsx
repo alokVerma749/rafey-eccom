@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { CldUploadButton } from 'next-cloudinary';
-import Image from 'next/image';
+import { CircleX } from 'lucide-react';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import { CircleX } from 'lucide-react';
 
 interface ProductFormValues {
   name: string;
@@ -17,30 +17,41 @@ interface ProductFormValues {
   tags: string[];
   image: string;
   category: string;
-  subCategory: string;
+  subCategory: string[];
   discount: number;
   variations: string[];
 }
 
 export default function ListProductPage() {
-  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<ProductFormValues>();
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<ProductFormValues>({
+    defaultValues: {
+      tags: [],
+      subCategory: [],
+    }
+  });
+
   const [categories] = useState<string[]>(['candles', 'ceramic art', 'resin art']);
   const [subCategories, setSubCategories] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [newSubCategory, setNewSubCategory] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [savedSubCategories, setSavedSubCategories] = useState<string[]>([]); // Track saved subcategories
+  const [savedTags, setSavedTags] = useState<string[]>([]); // Track saved tags
 
   const addSubCategory = async () => {
     if (newSubCategory && !subCategories.includes(newSubCategory)) {
       setSubCategories((prev) => [...prev, newSubCategory]);
       setNewSubCategory('');
     }
-    const res = await fetch('/api/subcategory', {
+    const res = await fetch('/api/admin/sub_category', {
       method: 'POST',
       body: JSON.stringify({ name: newSubCategory, category: watch('category') || '' }),
     });
     console.log(res);
+    if (res.ok) {
+      setSavedSubCategories((prev) => [...prev, newSubCategory]);
+    }
   };
 
   const addTag = async () => {
@@ -48,33 +59,56 @@ export default function ListProductPage() {
       setTags((prev) => [...prev, newTag]);
       setNewTag('');
     }
-    const res = await fetch('/api/tags', {
+    const res = await fetch('/api/admin/tags', {
       method: 'POST',
-      body: JSON.stringify({ name: newTag, category: watch('tags') || '' }),
+      body: JSON.stringify({ name: newTag, category: watch('category') || '' }),
     });
     console.log(res);
+    if (res.ok) {
+      setSavedTags((prev) => [...prev, newTag]);
+    }
   };
 
-  const removeSubCategory = (subCategoryToRemove: string) => {
-    setSubCategories((prev) => prev.filter((subCategory) => subCategory !== subCategoryToRemove));
+  // TODO
+  const removeSubCategory = async (subCategoryToRemove: string) => {
+    const res = await fetch(`/api/admin/sub_category/${subCategoryToRemove}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      setSubCategories((prev) => prev.filter((subCategory) => subCategory !== subCategoryToRemove));
+      setSavedSubCategories((prev) => prev.filter((savedSubCategory) => savedSubCategory !== subCategoryToRemove));
+    } else {
+      console.error('Failed to delete subcategory');
+    }
   };
 
-  const removeTag = (tagToRemove: string) => {
-    setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
+  // TODO
+  const removeTag = async (tagToRemove: string) => {
+    const res = await fetch(`/api/admin/tags/${tagToRemove}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
+      setSavedTags((prev) => prev.filter((savedTag) => savedTag !== tagToRemove));
+    } else {
+      console.error('Failed to delete tag');
+    }
   };
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
     const formData = {
       ...data,
       tags,
-      subCategory: watch('subCategory') || '',
+      subCategory: subCategories,
     };
 
     reset();
     setTags([]);
     setSubCategories([]);
+    setSavedSubCategories([]);
+    setSavedTags([]);
 
-    const res = await fetch('/api/product', {
+    const res = await fetch('/api/admin/product', {
       method: 'POST',
       body: JSON.stringify(formData),
     });
@@ -84,11 +118,19 @@ export default function ListProductPage() {
   const handleImageUpload = (result: any) => {
     const uploadedImageUrl = result?.info?.secure_url;
     if (uploadedImageUrl) {
-      setValue('image', uploadedImageUrl); // Ensure this updates the form state
+      setValue('image', uploadedImageUrl);
       setImagePreview(uploadedImageUrl);
     } else {
       console.error('Image URL is invalid');
     }
+  };
+
+  const handleDelete = () => {
+    reset();
+    setTags([]);
+    setSubCategories([]);
+    setSavedSubCategories([]);
+    setSavedTags([]);
   };
 
   return (
@@ -122,22 +164,6 @@ export default function ListProductPage() {
           </div>
 
           <div>
-            <Label htmlFor="tags">Tags</Label>
-            <div className="flex gap-2">
-              <Input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add new tag" />
-              <Button type="button" onClick={addTag}>Add</Button>
-            </div>
-            <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
-              {tags.map((tag, index) => (
-                <div key={index} className="flex items-center justify-between w-fit">
-                  <span>{tag}</span>
-                  <Button type="button" onClick={() => removeTag(tag)} className="text-red-500 cursor-pointer"><CircleX size={20} strokeWidth={1.25} /></Button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
             <Label htmlFor="category">Category</Label>
             <select
               {...register('category', { required: 'Category is required' })}
@@ -166,9 +192,40 @@ export default function ListProductPage() {
             </div>
             <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
               {subCategories.map((subCategory, index) => (
-                <div key={index} className="flex items-center justify-between w-fit">
-                  <span className='mx-2'>{subCategory}</span>
-                  <div onClick={() => removeSubCategory(subCategory)} className="text-red-500 cursor-pointer"><CircleX size={20} strokeWidth={1.25} /></div>
+                <div key={index}>
+                  {/* Show the subcategory only if it's saved */}
+                  {savedSubCategories.includes(subCategory) && (
+                    <div className="flex items-center justify-between w-fit">
+                      <span className='mx-2'>{subCategory}</span>
+                      <div onClick={() => removeSubCategory(subCategory)} className="text-red-500 cursor-pointer">
+                        <CircleX size={20} strokeWidth={1.25} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="tags">Tags</Label>
+            <div className="flex gap-2">
+              <Input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add new tag" />
+              <Button type="button" onClick={addTag}>Add</Button>
+            </div>
+
+            <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
+              {tags.map((tag, index) => (
+                <div key={index}>
+                  {/* Show the tag only if it's saved */}
+                  {savedTags.includes(tag) && (
+                    <div className="flex items-center justify-between w-fit">
+                      <span>{tag}</span>
+                      <div onClick={() => removeTag(tag)} className="text-red-500 cursor-pointer">
+                        <CircleX size={20} strokeWidth={1.25} />
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -178,26 +235,19 @@ export default function ListProductPage() {
             <Label htmlFor="discount">Discount</Label>
             <Input id="discount" {...register('discount', { valueAsNumber: true })} type="number" placeholder="Discount" />
           </div>
-
         </div>
 
         <div className="space-y-4">
-          <div className="w-full h-56 bg-gray-200 rounded flex items-center justify-center">
+          <div className="w-full min-h-56 bg-gray-200 rounded flex items-center justify-center">
             {imagePreview ? (
-              <Image src={imagePreview} alt="Uploaded Preview" width={500} height={500} className="object-cover rounded-lg" />
+              <Image src={imagePreview} alt="Uploaded Preview" width={800} height={800} className="object-cover rounded-lg" />
             ) : (
               <span className="text-gray-500">No Image Selected</span>
             )}
           </div>
 
           <div className='flex justify-between flex-col items-center space-x-10'>
-
-            <div className="relative border-dashed border-2 border-gray-300 rounded-lg p-4 flex items-center justify-center w-full h-32">
-              <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-              <span className="text-gray-500 text-center">Drop your image here, or browse</span>
-            </div>
-
-            <div className="mt-4">
+            <div className="mt-8">
               <CldUploadButton
                 onSuccess={handleImageUpload}
                 onClose={() => console.log('Upload widget closed')}
@@ -207,7 +257,7 @@ export default function ListProductPage() {
             </div>
           </div>
           <div className="flex justify-between mt-20 w-[90%] mx-auto">
-            <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">Delete</Button>
+            <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" onClick={handleDelete}>Delete</Button>
             <Button type="submit" className="py-2 px-4 rounded-lg">Create Product</Button>
           </div>
         </div>

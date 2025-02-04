@@ -7,7 +7,6 @@ export interface Product {
   category: 'candles' | 'ceramic art' | 'resin art'; // Restrict to specific categories
   color?: 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'pink' | 'orange' | 'brown' | 'gray' | 'black' | 'white'; // for ceramic only
   tags?: string[]; // Optional: Tags for categorization
-  variations?: string[]; // Optional: Variations for items like candles
   [key: string]: any;
   images: {
     thumbnail: string; // Required: Small image
