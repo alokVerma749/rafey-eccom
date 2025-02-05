@@ -6,29 +6,77 @@ import { Product } from '@/types/product_type';
 import ShopCard from '@/app/components/Shop/ShopCard';
 import { X, SlidersHorizontal } from 'lucide-react';
 
-interface FilterOption {
-  label: string;
-  name: string;
-  options?: string[];
-}
-
 interface FilterProps {
   products: Product[];
-  filtersConfig: FilterOption[];
 }
 
-const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-  const [filters, setFilters] = useState<{
-    price: number;
-    inStock: boolean;
-    [key: string]: any;
-  }>({
-    price: 0, // Default max price
-    inStock: true,
-  });
+interface staticFilters {
+  price: number;
+  inStock: boolean;
+  [key: string]: any;
+}
 
+const initialStaticFiltersValue = {
+  price: 50,
+  inStock: true,
+}
+
+const initialDynamicFiltersValue = [
+  {
+    label: 'Category',
+    name: 'category',
+    options: ['candles', 'ceramic art', 'resin art'],
+  },
+  {
+    label: 'Sub Category',
+    name: 'sub-category',
+    options: [],
+  },
+  {
+    label: 'Tags',
+    name: 'tags',
+    options: [],
+  },
+]
+
+const fetchTagsAndSubCategories = async () => {
+  const tagsRes = await fetch('/api/tags');
+  const tagsData = await tagsRes.json();
+
+  const subCategoriesRes = await fetch('/api/sub_category');
+  const subCategoriesData = await subCategoriesRes.json();
+
+  return {
+    tags: Array.isArray(tagsData.tags) ? tagsData.tags : [],
+    subCategories: Array.isArray(subCategoriesData.subCategories) ? subCategoriesData.subCategories : [],
+  };
+};
+
+const ShopFilter = ({ products }: FilterProps) => {
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [filters, setFilters] = useState<staticFilters>(initialStaticFiltersValue);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [filtersConfig, setFiltersConfig] = useState(initialDynamicFiltersValue);
+
+  useEffect(() => {
+    const loadFilters = async () => {
+      const { tags, subCategories } = await fetchTagsAndSubCategories();
+
+      setFiltersConfig((prevConfig) =>
+        prevConfig.map((filter) => {
+          if (filter.name === 'tags') {
+            return { ...filter, options: Array.isArray(tags) ? tags.map(tag => tag.name) : [] };
+          }
+          if (filter.name === 'sub-category') {
+            return { ...filter, options: Array.isArray(subCategories) ? subCategories.map(sub => sub.name) : [] };
+          }
+          return filter;
+        })
+      );
+    };
+
+    loadFilters();
+  }, []);
 
   // Function to apply the filters
   const applyFilters = () => {
@@ -47,9 +95,21 @@ const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
     // Apply dynamic filters
     filtersConfig.forEach(({ name }) => {
       if (filters[name]?.length > 0) {
-        filtered = filtered.filter((product) =>
-          filters[name].some((option: string) => (product[name] as any)?.includes(option))
-        );
+        filtered = filtered.filter((product) => {
+          const productValue = product[name];
+          if (!productValue) {
+            return false;
+          }
+
+          if (Array.isArray(productValue)) {
+            return filters[name].some((option: string) => productValue.includes(option));
+          } else if (typeof productValue === 'string') {
+            return filters[name].some((option: string) => productValue.toLowerCase() === option.toLowerCase());
+          } else if (typeof productValue === 'object') {
+            return filters[name].some((option: string) => productValue.name?.toLowerCase() === option.toLowerCase());
+          }
+          return false;
+        });
       }
     });
 
@@ -108,10 +168,7 @@ const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
 
 
       {/* Sidebar */}
-      <aside
-        className={`${isMobileFilterOpen ? 'block' : 'hidden'
-          } md:block absolute md:relative top-0 left-0 w-full md:w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6 z-50 h-fit`}
-      >
+      <aside className={`${isMobileFilterOpen ? 'block' : 'hidden'} md:block absolute md:relative top-0 left-0 w-full md:w-64 bg-gray-100 p-4 rounded-lg shadow-md space-y-6 z-50`}>
         {/* Close Button */}
         <div className="absolute top-4 right-4 md:hidden">
           <button
@@ -125,16 +182,16 @@ const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
 
         {/* Max Price */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Max Price</label>
-          <Slider step={5} min={1} max={1000} onValueChange={handleSliderChange} />
+          <label className="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
+          <Slider step={5} min={1} max={1000} defaultValue={[50]} onValueChange={handleSliderChange} />
           <div className="text-center mt-2 text-sm text-gray-500">
             Current Price: ₹{filters.price}
           </div>
         </div>
 
         {/* In Stock */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">In Stock</label>
+        <div className='flex gap-2 items-center'>
+          <label className="block text-sm font-medium text-gray-700">In Stock: </label>
           <input
             type="checkbox"
             name="inStock"

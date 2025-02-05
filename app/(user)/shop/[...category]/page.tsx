@@ -11,24 +11,6 @@ const Page = async ({ params }: any) => {
     const response: string = await getProductsAction({ category: reverseFormatCategory(categories[0]) });
     let products: Product[] = [];
 
-    const filtersConfig = [
-      {
-        label: 'Fragrance Type',
-        name: 'fragrance',
-        options: ['Lavender', 'Rose', 'Vanilla', 'Jasmine', 'Sandalwood'],
-      },
-      {
-        label: 'Color',
-        name: 'color',
-        options: ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'],
-      },
-      {
-        label: 'Tags',
-        name: 'tags',
-        options: ['New', 'Sale', 'Hot'],
-      },
-    ];
-
     if (response) {
       const parsedResponse = JSON.parse(response);
       if (Array.isArray(parsedResponse)) {
@@ -40,7 +22,7 @@ const Page = async ({ params }: any) => {
 
     return (
       <div>
-        <ShopFilter products={products} filtersConfig={filtersConfig} />
+        <ShopFilter products={products} />
       </div>
     );
   } catch (error) {
