@@ -1,8 +1,7 @@
 'use client'
 
 import { DeliveryTracker } from "@/app/components/Profile/DeliveryTracker";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { Product } from '@/types/product_type';
 import { toast } from "@/hooks/use-toast";
@@ -67,16 +66,18 @@ const OrderDetails = () => {
     return <div><Loader /></div>;
   }
 
-  console.log(orderData); // plesae go through the resopnse and try to render it appropriately
   const discountPercentage = orderData.productDetails[0].discount?.percentage || 0;
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md my-4">
+    <div className="max-w-5xl mx-auto p-6 rounded-lg shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <ArrowLeft className="cursor-pointer" />
-          <h2 className="text-lg font-semibold"><strong>ORDER NO: </strong>{orderData.order._id} </h2>
+          <h2 className="text-lg font-semibold"><strong>ORDER ID: </strong>{orderData.order._id} </h2>
         </div>
-        <span className="text-sm text-gray-500">Estimated 24/07/2024</span>
+
+        {/* TODO: hardcoded */}
+        {/* <span className="text-sm text-gray-500">Estimated 24/07/2024</span> */}
       </div>
 
       <DeliveryTracker />
@@ -102,9 +103,9 @@ const OrderDetails = () => {
         </div>
         {discountPercentage > 0 && (
           <div className="flex flex-col items-start justify-start gap-x-4 font-medium">
-            <p className="font-semibold text-black text-sm line-through">${orderData.productDetails[0].price}</p>
+            <p className="font-semibold text-black text-sm line-through">₹{orderData.productDetails[0].price}</p>
             <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
-            <p className='text-base font-semibold text-green-600'> ${(orderData.productDetails[0].price - (orderData.productDetails[0].price * discountPercentage) / 100).toFixed(2)}</p>
+            <p className='text-base font-semibold text-green-600'> ₹{(orderData.productDetails[0].price - (orderData.productDetails[0].price * discountPercentage) / 100).toFixed(2)}</p>
           </div>
         )}
       </div>
@@ -121,7 +122,7 @@ const OrderDetails = () => {
         <hr className="my-2" />
         <div className="flex justify-between font-semibold">
           <span>TOTAL AMOUNT:</span>
-          <p className='text-base font-semibold text-green-600 pr-4'> ${(orderData.productDetails[0].price - (orderData.productDetails[0].price * discountPercentage) / 100).toFixed(2)}</p>
+          <p className='text-base font-semibold text-green-600 pr-4'> ₹{(orderData.productDetails[0].price - (orderData.productDetails[0].price * discountPercentage) / 100).toFixed(2)}</p>
         </div>
       </div>
 
@@ -140,10 +141,10 @@ const OrderDetails = () => {
         <p>{orderData.order.paymentId}</p>
       </div>
 
-      <Button className="w-fit bg-indigo-900 text-white flex items-center gap-2 px-10">
+      {/* <Button className="w-fit bg-indigo-900 text-white flex items-center gap-2 px-10">
         <Download className="w-4 h-4" />
         Download Invoice
-      </Button>
+      </Button> */}
     </div>
   );
 };

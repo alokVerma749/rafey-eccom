@@ -20,8 +20,8 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
                 <h3 className="text-sm text-gray-600">{item.name}</h3>
                 {discountPercentage > 0 && (
                   <div className="flex justify-start items-center gap-x-4 font-medium">
-                    <p className='text-base font-semibold text-green-600'> ${(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
-                    <p className="font-semibold text-black text-sm line-through">${item.price}</p>
+                    <p className='text-base font-semibold text-green-600'> ₹{(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
+                    <p className="font-semibold text-black text-sm line-through">₹{item.price}</p>
                     <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
                   </div>
                 )}

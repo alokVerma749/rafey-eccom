@@ -39,7 +39,7 @@ async function Section2() {
             />
             <div className="flex flex-col items-start pl-2">
               <p className="font-semibold text-base xs:text-lg md:text-xl text-black text-start">
-                ${product.price}
+              ₹{product.price}
               </p>
               <h2 className="text-sm xs:text-base md:text-lg font-medium mb-2 text-start uppercase">
                 {product.name}

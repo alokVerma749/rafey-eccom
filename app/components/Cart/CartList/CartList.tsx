@@ -186,10 +186,10 @@ export const CartList = () => {
                     <div className="flex justify-between items-center gap-x-4 font-medium py-2">
                       <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
                         <p className="text-base font-semibold text-black">
-                          ${(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                        ₹{(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
                         </p>
-                        <p className="text-gray-600 text-sm line-through">MRP ${item.price}</p>
-                        <p className="text-orange-500 text-sm font-medium">(${((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                        <p className="text-gray-600 text-sm line-through">MRP ₹{item.price}</p>
+                        <p className="text-orange-500 text-sm font-medium">(₹{((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
                       </div>
                       <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
                     </div>

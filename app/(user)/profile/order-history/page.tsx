@@ -33,7 +33,7 @@ const OrderHistory = async () => {
   const ordersData: Order[] = JSON.parse(orders);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-5xl mx-auto p-6 shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-gray-800">
           ORDER HISTORY{" "}
@@ -50,16 +50,14 @@ const OrderHistory = async () => {
               <div className="flex justify-between">
                 <div>
                   <p className="text-sm text-gray-700">
-                    Order ID: <span className="font-semibold">{order.razorpayOrderId}</span>
+                    Order ID: <span className="font-semibold">{order._id}</span>
                   </p>
                   <p className="text-sm text-gray-600">Status: {order.orderStatus}</p>
-                  <p className="text-sm text-gray-600">Total: ${order.totalAmount.toFixed(2)}</p>
+                  <p className="text-sm text-gray-600">Total: ₹{order.totalAmount.toFixed(2)}</p>
+                  <p className="text-sm text-gray-600">Quantity: {order.products.length}</p>
                   <p className="text-sm text-gray-600">
                     Payment:{" "}
-                    <span
-                      className={`font-semibold ${order.paymentStatus === "pending" ? "text-red-500" : "text-green-500"
-                        }`}
-                    >
+                    <span className={`font-semibold ${order.paymentStatus === "pending" ? "text-red-500" : "text-green-500"}`}>
                       {order.paymentStatus}
                     </span>
                   </p>

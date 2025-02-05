@@ -48,7 +48,7 @@ export default async function ProductPage({ params }: productProps) {
       <div className="container mx-auto bg-white border-2 py-10 px-5 lg:px-20">
         <div className="flex justify-center md:items-start md:flex-row items-center flex-col gap-x-10">
           <Image
-            alt={`${product.name} thumbnail`}
+            alt={`₹{product.name} thumbnail`}
             className="flex-shrink-0 w-full object-cover object-center pl-20 md:w-3/5 pr-10"
             src={imageSrc}
             width={2000}
@@ -61,10 +61,10 @@ export default async function ProductPage({ params }: productProps) {
             <div className="flex justify-between items-center gap-x-4 font-medium py-2">
               <div className='flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4'>
                 <p className="text-lg font-semibold text-black">
-                  ${(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                ₹{(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
                 </p>
-                <p className="text-gray-600 text-sm line-through">MRP ${product.price}</p>
-                <p className="text-orange-500 text-sm font-medium">(${((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                <p className="text-gray-600 text-sm line-through">MRP ₹{product.price}</p>
+                <p className="text-orange-500 text-sm font-medium">(₹{((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
               </div>
             </div>
 

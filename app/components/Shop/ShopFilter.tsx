@@ -24,7 +24,7 @@ const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
     inStock: boolean;
     [key: string]: any;
   }>({
-    price: 1000, // Default max price
+    price: 0, // Default max price
     inStock: true,
   });
 
@@ -128,7 +128,7 @@ const ShopFilter = ({ products, filtersConfig }: FilterProps) => {
           <label className="block text-sm font-medium text-gray-700">Max Price</label>
           <Slider step={5} min={1} max={1000} onValueChange={handleSliderChange} />
           <div className="text-center mt-2 text-sm text-gray-500">
-            Current Price: ${filters.price}
+            Current Price: ₹{filters.price}
           </div>
         </div>
 

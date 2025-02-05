@@ -40,11 +40,11 @@ function ProductDetail({ product }: { product: Product }) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label htmlFor="price">Regular Price</Label>
-            <Input id="price" type="text" defaultValue={`$${product.price}`} />
+            <Input id="price" type="text" defaultValue={`₹${product.price}`} />
           </div>
           <div>
             <Label htmlFor="sale-price">Sale Price</Label>
-            <Input id="sale-price" type="text" defaultValue={`$${discountedPrice}`} />
+            <Input id="sale-price" type="text" defaultValue={`₹${discountedPrice}`} />
           </div>
         </div>
         <div>
