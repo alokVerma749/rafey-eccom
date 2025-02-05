@@ -1,4 +1,6 @@
 import { AddAddress } from "@/app/components/Profile/AddAddress";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+
 
 const addresses = [
   {
@@ -45,24 +47,34 @@ const AddressCard = ({ address }: { address: typeof addresses[0] }) => {
 function UserAddress() {
   return (
     <div className="max-w-4xl mx-auto p-4">
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-lg font-semibold">Shipping ADDRESS</h1>
         <AddAddress />
       </div>
 
-      {/* Address Cards */}
       <div className="space-y-4 w-full">
         {addresses.map((address) => (
           <AddressCard key={address.id} address={address} />
         ))}
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
-        <button className="text-blue-600">← previous</button>
-        <button className="text-blue-600">next →</button>
-        <span>01/05</span>
+      <div className="mt-4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

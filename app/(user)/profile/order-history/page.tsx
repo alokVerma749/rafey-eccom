@@ -1,7 +1,10 @@
+import Image from "next/image";
+import { Star, Search, Circle } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Star, Search, Circle } from "lucide-react";
-import Image from "next/image";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+
 
 const orders = [
   {
@@ -39,7 +42,6 @@ const orders = [
 const OrderHistory = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-gray-800">
           ORDER HISTORY <span className="text-gray-500">(3 Products Delivered)</span>
@@ -50,11 +52,9 @@ const OrderHistory = () => {
         </div>
       </div>
 
-      {/* Order List */}
       <div className="space-y-6">
         {orders.map((order) => (
           <div key={order.id} className="border border-gray-300 rounded-lg p-4 shadow-sm w-full">
-            {/* Status Header */}
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-2">
                 <Circle className={`${order.statusColor} w-4 h-4`} />
@@ -65,9 +65,7 @@ const OrderHistory = () => {
               )}
             </div>
 
-            {/* Order Details */}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-              {/* Product Image */}
               <div className="md:col-span-1">
                 <Image
                   src="/ring.png"
@@ -77,27 +75,14 @@ const OrderHistory = () => {
                 />
               </div>
 
-              {/* Order Info */}
               <div className="md:col-span-3 text-sm text-gray-700">
-                <p>
-                  <strong>Order Number:</strong> {order.orderNumber}
-                </p>
-                <p>
-                  <strong>Order Date:</strong> {order.orderDate}
-                </p>
-                <p>
-                  <strong>No of Item:</strong> {order.items}
-                </p>
-                <p>
-                  <strong>Total Amount:</strong> {order.totalAmount}
-                </p>
+                <p><strong>Order Number:</strong> {order.orderNumber}</p>
+                <p><strong>Order Date:</strong> {order.orderDate}</p>
+                <p><strong>No of Item:</strong> {order.items}</p>
+                <p><strong>Total Amount:</strong> {order.totalAmount}</p>
               </div>
-
-              {/* More Details Button */}
-
             </div>
 
-            {/* Star Rating */}
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1 mt-3">
                 <span className="text-gray-700 text-sm">Rate the product:</span>
@@ -113,6 +98,25 @@ const OrderHistory = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
