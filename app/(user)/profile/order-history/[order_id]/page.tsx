@@ -70,7 +70,7 @@ const OrderDetails = () => {
   console.log(orderData); // plesae go through the resopnse and try to render it appropriately
   const discountPercentage = orderData.productDetails[0].discount?.percentage || 0;
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <ArrowLeft className="cursor-pointer" />
