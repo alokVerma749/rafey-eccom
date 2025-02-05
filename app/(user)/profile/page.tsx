@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { getUser } from "@/db_services/user";
-import { UserAccount } from "@/models/user_model";
-import { getOrders } from "@/db_services/order";
-import { Order } from "@/types/order";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -20,13 +16,11 @@ export default async function ProfilePage() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = await getUser(session.user.email);
-  const userData: UserAccount = JSON.parse(user);
+  // const user = await getUser(session.user.email);
+  // const userData: UserAccount = JSON.parse(user);
 
-  const orders = await getOrders(userData._id);
-  const ordersData: Order[] = JSON.parse(orders);
-
-  console.log(ordersData, "&&&&&&&&&&&&&&&")
+  // const orders = await getOrders(userData._id);
+  // const ordersData: Order[] = JSON.parse(orders);
 
   return (
     <div className="w-full">Profile Page</div>

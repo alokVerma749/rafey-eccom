@@ -1,9 +1,62 @@
+'use client'
+
 import { DeliveryTracker } from "@/app/components/Profile/DeliveryTracker";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download } from "lucide-react";
 import Image from "next/image";
+import { Product } from '@/types/product_type';
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Loader from "@/app/components/Loader";
+
+type OrderData = {
+  _id: string;
+  createdAt: string;
+  orderStatus: string;
+  products: Product[];
+  totalAmount: number;
+  paymentId: string;
+  paymentStatus: string;
+};
 
 const OrderDetails = () => {
+  const [orderData, setOrderData] = useState<{ order: OrderData; productDetails: Product[] } | null>(null);
+  const { order_id } = useParams();
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const response = await fetch(`/api/order?orderId=${order_id}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch order data.');
+        }
+
+        const fetchedOrder: { message: string; order: OrderData; productDetails: Product[] } = await response.json();
+        setOrderData({ order: fetchedOrder.order, productDetails: fetchedOrder.productDetails });
+
+        toast({
+          title: fetchedOrder.message,
+          description: fetchedOrder.order.orderStatus,
+        });
+      } catch (err: any) {
+        toast({
+          title: 'Error',
+          description: err.message || 'Failed to fetch order data.',
+        });
+      }
+    };
+
+    fetchOrder();
+  }, [order_id]);
+
+  if (!orderData) {
+    return <div><Loader /></div>;
+  }
+
+  console.log(orderData); // plesae go through the resopnse and try to render it appropriately
+
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">

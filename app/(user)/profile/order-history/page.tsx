@@ -1,124 +1,97 @@
-import Image from "next/image";
-import { Star, Search, Circle } from "lucide-react";
-
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { authOptions } from "@/lib/authOptions";
+import { getUser } from "@/db_services/user";
+import { UserAccount } from "@/models/user_model";
+import { getOrders } from "@/db_services/order";
+import { Order } from "@/types/order";
 
+const OrderHistory = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email || !["user", "admin"].includes(session.user.role as string)) {
+    return <p className="text-red-500 text-center">Unauthorized</p>;
+  }
 
-const orders = [
-  {
-    id: 1,
-    status: "Track your order",
-    estimatedDelivery: "24 July",
-    orderNumber: "0000002285",
-    orderDate: "01/07/2023",
-    items: 1,
-    totalAmount: "₹ 2,45,999",
-    statusColor: "text-gray-500",
-  },
-  {
-    id: 2,
-    status: "Delivered",
-    estimatedDelivery: "31 June",
-    orderNumber: "0000002285",
-    orderDate: "01/03/2024",
-    items: 1,
-    totalAmount: "₹ 2,45,999",
-    statusColor: "text-green-500",
-  },
-  {
-    id: 3,
-    status: "Canceled",
-    estimatedDelivery: "",
-    orderNumber: "0000002285",
-    orderDate: "01/03/2024",
-    items: 1,
-    totalAmount: "₹ 2,45,999",
-    statusColor: "text-red-500",
-  },
-];
+  // Fetch user details
+  const user = await getUser(session.user.email);
+  if (!user) {
+    return <p className="text-red-500 text-center">User not found</p>;
+  }
 
-const OrderHistory = () => {
+  const userData: UserAccount = JSON.parse(user);
+
+  const orders = await getOrders(userData._id);
+  const ordersData: Order[] = JSON.parse(orders);
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-gray-800">
-          ORDER HISTORY <span className="text-gray-500">(3 Products Delivered)</span>
+          ORDER HISTORY{" "}
+          <span className="text-gray-500">({ordersData.length} Orders)</span>
         </h2>
-        <div className="relative">
-          <Search className="absolute left-3 top-3 text-gray-500 w-4 h-4" />
-          <Input className="pl-10" placeholder="Search" />
-        </div>
       </div>
 
-      <div className="space-y-6">
-        {orders.map((order) => (
-          <Link href={"#"} key={order.id} className="border border-gray-300 rounded-lg p-4 shadow-sm w-full">
-            <div className="flex justify-between items-center mb-2">
-              <div className="flex items-center gap-2">
-                <Circle className={`${order.statusColor} w-4 h-4`} />
-                <span className="font-semibold text-gray-700">{order.status}</span>
+      {ordersData.length === 0 ? (
+        <p className="text-center text-gray-600">No orders found.</p>
+      ) : (
+        <ul className="divide-y divide-gray-200">
+          {ordersData.map((order) => (
+            <li key={order._id} className="py-4">
+              <div className="flex justify-between">
+                <div>
+                  <p className="text-sm text-gray-700">
+                    Order ID: <span className="font-semibold">{order.razorpayOrderId}</span>
+                  </p>
+                  <p className="text-sm text-gray-600">Status: {order.orderStatus}</p>
+                  <p className="text-sm text-gray-600">Total: ${order.totalAmount.toFixed(2)}</p>
+                  <p className="text-sm text-gray-600">
+                    Payment:{" "}
+                    <span
+                      className={`font-semibold ${order.paymentStatus === "pending" ? "text-red-500" : "text-green-500"
+                        }`}
+                    >
+                      {order.paymentStatus}
+                    </span>
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Placed on: {new Date(order.createdAt).toLocaleString()}
+                  </p>
+                </div>
+                <Link href={`/profile/order-history/${order._id}`} className="text-blue-500 hover:underline">
+                  View Details
+                </Link>
               </div>
-              {order.estimatedDelivery && (
-                <span className="text-sm text-gray-500">Estimated Delivery {order.estimatedDelivery}</span>
-              )}
-            </div>
+            </li>
+          ))}
+        </ul>
+      )}
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-              <div className="md:col-span-1">
-                <Image
-                  src="/ring.png"
-                  alt="Product"
-                  className="w-20 h-20 object-cover rounded-md"
-                  height={200} width={200}
-                />
-              </div>
-
-              <div className="md:col-span-3 text-sm text-gray-700">
-                <p><strong>Order Number:</strong> {order.orderNumber}</p>
-                <p><strong>Order Date:</strong> {order.orderDate}</p>
-                <p><strong>No of Item:</strong> {order.items}</p>
-                <p><strong>Total Amount:</strong> {order.totalAmount}</p>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1 mt-3">
-                <span className="text-gray-700 text-sm">Rate the product:</span>
-                {[...Array(5)].map((_, index) => (
-                  <Star key={index} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                ))}
-              </div>
-              <div className="md:col-span-1 flex justify-end">
-                <Button variant="link" className="text-blue-600">
-                  more details
-                </Button>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      <div className="mt-4">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <Pagination className="mt-6">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };
