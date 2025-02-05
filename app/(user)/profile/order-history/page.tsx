@@ -4,6 +4,7 @@ import { Star, Search, Circle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+import Link from "next/link";
 
 
 const orders = [
@@ -54,7 +55,7 @@ const OrderHistory = () => {
 
       <div className="space-y-6">
         {orders.map((order) => (
-          <div key={order.id} className="border border-gray-300 rounded-lg p-4 shadow-sm w-full">
+          <Link href={"#"} key={order.id} className="border border-gray-300 rounded-lg p-4 shadow-sm w-full">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-2">
                 <Circle className={`${order.statusColor} w-4 h-4`} />
@@ -96,7 +97,7 @@ const OrderHistory = () => {
                 </Button>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
