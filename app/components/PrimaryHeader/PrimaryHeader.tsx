@@ -1,13 +1,11 @@
 'use client';
 
+import { useState } from 'react';
+import Link from 'next/link';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { Search, ShoppingCart, UserRound, EllipsisVertical, Menu, X } from 'lucide-react';
 import Loader from "@/app/components/Loader";
 import { useCart } from '@/context/cartContext';
-// import logo from '@/public/asset/logo.png';
-import { Search, ShoppingCart, UserRound, EllipsisVertical, Menu, X } from 'lucide-react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-// import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
 
 export function PrimaryHeader() {
 
@@ -25,32 +23,32 @@ export function PrimaryHeader() {
 
 	return (
 		<div className="shadow-md">
-			<div className="flex justify-evenly items-center px-6 py-1 md:px-20 bg-white">
+			<div className="flex justify-between items-center px-6 py-1 md:px-20 bg-transparent backdrop-blur-lg">
 				<div className="flex items-center space-x-4 md:hidden">
 					{menuOpen ? (
-						<X className="text-black cursor-pointer" onClick={toggleMenu} />
+						<X className="text-white cursor-pointer" onClick={toggleMenu} />
 					) : (
-						<Menu className="text-black cursor-pointer" onClick={toggleMenu} />
+						<Menu className="text-white cursor-pointer" onClick={toggleMenu} />
 					)}
 				</div>
 
 				{/* <Link href="/home">
 					<Image src={logo} alt="Logo" width={144} height={64} className="h-16 w-36" priority />
 				</Link> */}
-				<Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-black font-semibold text-start sm:py-2">Wonders Tapestry</Link>
+				<Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-white font-semibold text-start sm:py-2">Wonders Tapestry</Link>
 
 				<div className="flex items-center space-x-4 md:hidden">
-					<Link href="/cart" className="relative flex items-center text-black hover:text-gray-200">
+					<Link href="/cart" className="relative flex items-center text-white hover:text-gray-200">
 						<ShoppingCart />
 						{state?.items.length > 0 ? (
-							<span className="absolute -top-2 -right-2 bg-red-500 text-black text-xs px-2 py-1 rounded-full">
+							<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
 								{state?.items.length}
 							</span>
 						) : null}
 					</Link>
 				</div>
 
-				<div className="hidden md:flex justify-start items-center space-x-10 text-black">
+				<div className="hidden md:flex justify-start items-center space-x-10 text-white">
 					<div className="flex items-center space-x-2">
 						<Search />
 						<span className="ml-1">Search</span>
@@ -59,7 +57,7 @@ export function PrimaryHeader() {
 					<Link href="/cart" className="relative flex items-center">
 						<ShoppingCart />
 						{state?.items.length > 0 ? (
-							<span className="absolute -top-2 -right-2 bg-red-500 text-black text-xs px-2 py-1 rounded-full">
+							<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
 								{state?.items.length}
 							</span>
 						) : null}

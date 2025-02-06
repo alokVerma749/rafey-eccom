@@ -22,7 +22,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-[#B2C4B3] text-white p-4 md:px-20">
+    <footer className="bg-[#Bfaf9e] text-white p-4 md:px-20">
       <div className="container">
         <div className="flex flex-col sm:flex-row justify-center items-start sm:justify-center sm:items-start gap-x-10 md:mx-10 lg:mx-40">
           {/* <Image src={logo} alt="Wonders Tapestry Logo" height={200} width={200} className="w-[100px] md:w-[200px] p-0" /> */}
