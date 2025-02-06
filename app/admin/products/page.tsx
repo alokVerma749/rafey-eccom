@@ -29,9 +29,9 @@ export default function ProductsPage() {
   }, []);
 
   return (
-    <div className="w-full m-4">
+    <div className="w-full mx-10 my-6">
       <div className="flex flex-col sm:flex-row justify-between items-center my-2">
-        <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold p-2">All Products</h1>
+        <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold">All Products</h1>
         <Link href={`/admin/list_product`}><Button className="flex justify-start items-center" ><BadgePlus/>ADD NEW PRODUCT</Button></Link>
       </div>
 
