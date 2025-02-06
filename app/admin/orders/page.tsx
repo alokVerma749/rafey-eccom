@@ -10,13 +10,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
+import Loader from "@/app/components/Loader";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<Record<string, UserAccount>>({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/admin/order');
         const data = await response.json();
@@ -39,6 +42,8 @@ export default function OrdersPage() {
         });
       } catch (error) {
         console.error("Error fetching orders or users:", error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -49,8 +54,16 @@ export default function OrdersPage() {
     setOrders(orders.filter((order) => order.orderStatus === status));
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full w-full">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6 space-y-6 min-h-screen relative">
+    <div className="p-6 space-y-6 min-h-screen relative w-full">
       <h2 className="font-semibold text-2xl">Order List</h2>
       <div className="flex justify-between items-center pb-4">
         <div className="flex-1 flex justify-end items-center gap-x-6">

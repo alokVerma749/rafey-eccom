@@ -49,7 +49,11 @@ export default function OrderPage() {
   }, [order_id]);
 
   if (loading) {
-    return <p><Loader/></p>;
+    return (
+      <div className="flex justify-center items-center h-full w-full">
+        <Loader />
+      </div>
+    );
   }
 
   if (!order) {
@@ -59,7 +63,7 @@ export default function OrderPage() {
   return (
     <div className="p-6 space-y-4">
       {user && <OrderDetails order={order} user={user} />}
-      <OrderListTable order={order} products={products}/>
+      <OrderListTable order={order} products={products} />
     </div>
   )
 }

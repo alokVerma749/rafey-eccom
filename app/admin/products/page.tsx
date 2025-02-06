@@ -36,7 +36,7 @@ export default function ProductsPage() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center h-40">
+        <div className="flex justify-center items-center h-[80vh]">
           <Loader />
         </div>
       ) : products.length === 0 ? (
