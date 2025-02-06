@@ -276,15 +276,12 @@ function Cart() {
   return (
     <div>
       {loading && <Loader />}
-      {showProcessing &&
-        <ProcessingAnimation
-          doneDelay={3}
-          onComplete={() => router.push("/")}
-        />}
+      {showProcessing && <ProcessingAnimation doneDelay={3} onComplete={() => router.push("/")} />}
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
       <div className="bg-gray-50 pb-6">
 
         <CartList />
+
         {
           !loading && (
             <div className="p-2 shadow rounded-lg bg-white ml-10 w-2/3">

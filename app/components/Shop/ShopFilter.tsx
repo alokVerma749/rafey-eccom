@@ -17,7 +17,7 @@ interface staticFilters {
 }
 
 const initialStaticFiltersValue = {
-  price: 50,
+  price: 500,
   inStock: true,
 }
 
@@ -183,7 +183,7 @@ const ShopFilter = ({ products }: FilterProps) => {
         {/* Max Price */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
-          <Slider step={5} min={1} max={1000} defaultValue={[50]} onValueChange={handleSliderChange} />
+          <Slider step={5} min={1} max={1000} defaultValue={[500]} onValueChange={handleSliderChange} />
           <div className="text-center mt-2 text-sm text-gray-500">
             Current Price: ₹{filters.price}
           </div>
