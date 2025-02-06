@@ -144,8 +144,8 @@ export default function ListProductPage() {
   };
 
   return (
-    <div className="p-6 shadow-lg w-full">
-      <h1 className="text-2xl font-bold mb-6">List Product</h1>
+    <div className="w-full mx-10 my-6">
+      <h1 className="text-2xl font-bold my-2">List Product</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white shadow-md rounded-lg">
         <div className="space-y-4">
           <div>
@@ -217,7 +217,7 @@ export default function ListProductPage() {
             </div>
           </div>
 
-          <div>
+          <div className='w-full'>
             <Label htmlFor="tags">Tags</Label>
             <div className="flex gap-2">
               <Input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add new tag" />
@@ -257,7 +257,7 @@ export default function ListProductPage() {
           </div>
 
           <div className='flex justify-between flex-col items-center space-x-10'>
-            <div className="mt-8">
+            <div className="ml-auto">
               <CldUploadButton
                 onSuccess={handleImageUpload}
                 onClose={() => console.log('Upload widget closed')}
@@ -266,9 +266,10 @@ export default function ListProductPage() {
               />
             </div>
           </div>
-          <div className="flex justify-between mt-20 w-[90%] mx-auto">
+          <div className="flex justify-around w-[90%] mx-auto pt-52">
             <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" onClick={handleDelete}>Delete</Button>
             <Button type="submit" className="py-2 px-4 rounded-lg">Create Product</Button>
+            <Button type="submit" className="py-2 px-4 rounded-lg bg-gray-300 text-gray-800">Cancel</Button>
           </div>
         </div>
       </form>

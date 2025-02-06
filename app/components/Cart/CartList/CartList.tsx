@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Whatsapp from '@/public/whatsapp.svg';
 import { Personalize } from '../../Product/Personalize';
+import Shimmer from '../../Shimmer';
 
 export const CartList = () => {
   const { dispatch } = useCart();
@@ -26,6 +27,8 @@ export const CartList = () => {
   const [user, setUser] = useState<UserAccount | null>(null);
   const session = useSession();
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
   // fetch user cart
   useEffect(() => {
@@ -36,14 +39,19 @@ export const CartList = () => {
       setCart(cartData.cart.items);
       setCart_id(cartData.cart._id);
     };
-
+  
     const fetchUser = async () => {
       const userAccount = await getUserAccount(session.data?.user?.email ?? '');
       const userAccountData = JSON.parse(userAccount);
-      setUser(userAccountData)
-    }
-    fetchCart();
-    fetchUser();
+      setUser(userAccountData);
+    };
+  
+    const fetchData = async () => {
+      await Promise.all([fetchCart(), fetchUser()]); // Wait for both fetch calls to complete
+      setLoading(false); // Set loading to false after data is loaded
+    };
+  
+    fetchData();
   }, [session.data?.user?.email]);
 
   // fetch cart products
@@ -141,6 +149,10 @@ export const CartList = () => {
   const totalPrice = cartProducts
     .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
     .toFixed(2);
+
+    if (loading) {
+      return <Shimmer />;
+    }
 
   return (
     <>
