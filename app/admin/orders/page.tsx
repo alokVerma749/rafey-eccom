@@ -10,12 +10,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
+import Shimmer from "@/app/components/Admin/Orders/Shimmer";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<Record<string, UserAccount>>({});
-
+  const [loading, setLoading] =useState(true);
+  
   useEffect(() => {
+    
     const fetchOrders = async () => {
       try {
         const response = await fetch('/api/admin/order');
@@ -39,6 +42,8 @@ export default function OrdersPage() {
         });
       } catch (error) {
         console.error("Error fetching orders or users:", error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -50,24 +55,28 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="p-6 space-y-6 min-h-screen relative">
-      <h2 className="font-semibold text-2xl">Order List</h2>
-      <div className="flex justify-between items-center pb-4">
-        <div className="flex-1 flex justify-end items-center gap-x-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="bg-gray-300 px-2 py-1 rounded-md">Sort By</DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleSort("processing")}>Processing</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("shipped")}>Shipped</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("delivered")}>Delivered</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("cancelled")}>Cancelled</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
+    <div className="min-h-screen relative w-full mx-10 my-6">
+      <h2 className="font-semibold text-2xl my-2">Order List</h2>
       <div className="shadow-lg border p-4 rounded-lg">
-        <h3 className="text-xl font-semibold py-2">Recent Purchases</h3>
+
+      {loading ? (
+          <Shimmer />
+        ) : (
+      <>
+        <div className="flex justify-between items-center pb-4">
+          <h3 className="text-xl font-semibold py-2">Recent Purchases</h3>
+          <div className="flex-1 flex justify-end items-center gap-x-6">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="bg-gray-300 px-2 py-1 rounded-md">Sort By</DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => handleSort("processing")}>Processing</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSort("shipped")}>Shipped</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSort("delivered")}>Delivered</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSort("cancelled")}>Cancelled</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
         <Separator />
         <Table>
           <TableHeader>
@@ -115,6 +124,8 @@ export default function OrdersPage() {
             )}
           </TableBody>
         </Table>
+        </>
+        )}
         <Pagination>
           <PaginationContent>
             <PaginationItem>
