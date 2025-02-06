@@ -46,25 +46,31 @@ export default async function ProductPage({ params }: productProps) {
   return (
     <div>
       <div className="container mx-auto bg-white border-2 py-10 px-5 lg:px-20">
-        <div className="flex justify-center md:items-start md:flex-row items-center flex-col gap-x-10">
+        <div className="flex justify-evenly md:items-start md:flex-row items-center flex-col gap-x-6 md:gap-x-10">
+          {/* Image */}
           <Image
-            alt={`₹{product.name} thumbnail`}
-            className="flex-shrink-0 w-full object-cover object-center pl-20 md:w-3/5 pr-10"
+            alt={`${product.name} thumbnail`}
+            className="flex-shrink-0 max-w-full object-contain object-center pl-10 md:w-[50%] pr-6"
             src={imageSrc}
             width={2000}
             height={2000}
           />
-          <div className="">
-            <h1 className="text-xl font-semibold uppercase">{product.name}</h1>
-            <h1 className="text-green-600">In Stock:  {product.stock}</h1>
 
+          {/* Product Info */}
+          <div className="w-full md:w-1/2">
+            <h1 className="text-xl font-semibold uppercase text-center md:text-left">{product.name}</h1>
+            <h1 className="text-green-600 text-center md:text-left">In Stock: {product.stock}</h1>
+
+            {/* Price Details */}
             <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-              <div className='flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4'>
+              <div className="flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4">
                 <p className="text-lg font-semibold text-black">
-                ₹{(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                  ₹{(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
                 </p>
                 <p className="text-gray-600 text-sm line-through">MRP ₹{product.price}</p>
-                <p className="text-orange-500 text-sm font-medium">(₹{((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                <p className="text-orange-500 text-sm font-medium">
+                  (₹{((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)
+                </p>
               </div>
             </div>
 
@@ -72,66 +78,31 @@ export default async function ProductPage({ params }: productProps) {
 
             <ProductInfo product={product} />
 
+            {/* Delivery Options */}
             <div className="py-4">
-              {/* Delivery Options */}
-              <div>
-                <label className="block text-base font-semibold pt-4">🚚 DELIVERY OPTIONS</label>
-                <div className="flex flex-col md:flex-row items-start md:justify-between md:items-center mt-2 space-x-2">
-                  <input
-                    type="text"
-                    placeholder="Enter Pincode"
-                    className="flex-1 border border-gray-300 rounded-md p-1 focus:ring-indigo-500 focus:border-indigo-500"
-                  />
-                  <Button className="m-4 md:m-0">Check</Button>
-
-                </div>
-                <ul className="text-sm text-gray-500 mt-2 list-disc pl-5">
-                  <li>100% Original Products</li>
-                  <li>Pay On Delivery Might Be Available</li>
-                  <li>Easy 7 Days Returns And Exchanges</li>
-                </ul>
+              <label className="block text-base font-semibold pt-4">🚚 DELIVERY OPTIONS</label>
+              <div className="flex flex-col md:flex-row items-start md:justify-between md:items-center mt-2 md:space-x-2 space-y-2 md:space-y-0">
+                <input
+                  type="text"
+                  placeholder="Enter Pincode"
+                  className="flex-1 border border-gray-300 rounded-md p-1 focus:ring-indigo-500 focus:border-indigo-500"
+                />
+                <Button className="mt-2 md:mt-0">Check</Button>
               </div>
+              <ul className="text-sm text-gray-500 mt-2 list-disc pl-5">
+                <li>100% Original Products</li>
+                <li>Only Prepaid payment is acceptable</li>
+                <li>No return and exchange available</li>
+              </ul>
+            </div>
 
-              {/* Best Offers */}
-              <div className="py-4">
-                <h3 className="text-lg font-semibold text-gray-700">BEST OFFERS</h3>
-                <p className="text-indigo-600">Best Price: ₹690</p>
-                <ul className="text-sm text-gray-500 mt-2 list-disc pl-5 space-y-1">
-                  <li>
-                    Applicable On: Purchase Of 4 Or More Items
-                    <br />
-                    <span className="text-gray-800 font-medium">Coupon Code:</span>{' '}
-                    <span className="text-indigo-600 font-semibold">EORSHOME15</span>
-                    <br />
-                    <span className="text-gray-800 font-medium">Coupon Discount:</span> 15% Off (Your Total
-                    Saving: Rs. 809)
-                  </li>
-                </ul>
-
-                {/* Additional Offers */}
-                <div className="mt-4">
-                  <h4 className="text-sm font-semibold text-gray-700 underline cursor-pointer">
-                    VIEW ELIGIBLE PRODUCTS
-                  </h4>
-                  <ul className="text-sm text-gray-500 mt-2 list-disc pl-5 space-y-1">
-                    <li>
-                      10% Discount On Kotak Credit And Debit Cards. <br />
-                      Min Spend ₹3500, Max Discount ₹1000.
-                    </li>
-                    <li>
-                      10% Discount On BOBCARD Credit Cards And Credit Card EMI.
-                      <br />
-                      Min Spend ₹2500, Max Discount ₹1000.
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Terms and Conditions */}
-                <div className="mt-4">
-                  <h4 className="text-sm font-semibold text-indigo-600 underline cursor-pointer">
-                    TERMS & CONDITIONS
-                  </h4>
-                </div>
+            {/* Best Offers */}
+            <div className="py-4">
+              {/* Terms and Conditions */}
+              <div className="mt-4">
+                <h4 className="text-sm font-semibold text-indigo-600 underline cursor-pointer">
+                  TERMS & CONDITIONS
+                </h4>
               </div>
             </div>
           </div>

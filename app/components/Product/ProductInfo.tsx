@@ -15,22 +15,28 @@ type AddToCartProps = {
 const AddToCart = ({ product }: AddToCartProps) => {
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
+      <AccordionItem value="details">
         <AccordionTrigger>Details</AccordionTrigger>
         <AccordionContent>
           {product.description}
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-2">
+      <AccordionItem value="dimensions">
         <AccordionTrigger>Dimensions</AccordionTrigger>
         <AccordionContent>
           Yes. It comes with default styles that matches Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, vitae.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Reviews</AccordionTrigger>
-        <AccordionContent className="">
-          Yes. It is animated by default, but you can disable it if you prefer. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, vitae.
+      <AccordionItem value="weight">
+        <AccordionTrigger>Weight</AccordionTrigger>
+        <AccordionContent>
+          Yes. It comes with default styles that matches Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, vitae.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="tags">
+        <AccordionTrigger>Tags</AccordionTrigger>
+        <AccordionContent>
+          Yes. It comes with default styles that matches Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, vitae.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
