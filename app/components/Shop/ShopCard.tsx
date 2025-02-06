@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Product } from '@/types/product_type';
 
 function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
-  console.log(filteredProducts, '###')
   return (
     <div className="flex-1 grid grid-col-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-2">
       {filteredProducts.length > 0 ? (
@@ -16,7 +15,7 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
                 width={200}
                 src={item.images.thumbnail}
                 alt={item.name}
-                className="w-full h-40 object-cover rounded"
+                className="w-full h-54 object-cover rounded"
               />
               <h3 className="text-sm text-gray-600">{item.name}</h3>
               {discountPercentage > 0 && (
