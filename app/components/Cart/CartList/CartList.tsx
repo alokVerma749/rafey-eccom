@@ -39,18 +39,18 @@ export const CartList = () => {
       setCart(cartData.cart.items);
       setCart_id(cartData.cart._id);
     };
-  
+
     const fetchUser = async () => {
       const userAccount = await getUserAccount(session.data?.user?.email ?? '');
       const userAccountData = JSON.parse(userAccount);
       setUser(userAccountData);
     };
-  
+
     const fetchData = async () => {
       await Promise.all([fetchCart(), fetchUser()]); // Wait for both fetch calls to complete
       setLoading(false); // Set loading to false after data is loaded
     };
-  
+
     fetchData();
   }, [session.data?.user?.email]);
 
@@ -150,9 +150,9 @@ export const CartList = () => {
     .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
     .toFixed(2);
 
-    if (loading) {
-      return <Shimmer />;
-    }
+  if (loading) {
+    return <Shimmer />;
+  }
 
   return (
     <>
@@ -346,9 +346,7 @@ export const CartList = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="pincode" className="text-right">
-                Pincode
-              </Label>
+              <Label htmlFor="pincode" className="text-right">Pincode</Label>
               <Input
                 id="pincode"
                 value={user?.pincode}
@@ -359,9 +357,7 @@ export const CartList = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" onClick={handleSaveAddress}>
-              Save
-            </Button>
+            <Button type="button" onClick={handleSaveAddress}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
