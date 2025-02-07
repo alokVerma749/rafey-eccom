@@ -1,23 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { useSession, signOut, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Menu, X, UserRound } from 'lucide-react';
-import { useState } from 'react';
 import Loader from "@/app/components/Loader";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export function AdminHeader() {
   const { data: session, status } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (status === "loading") {
-    return <div><Loader/></div>;
+    return <div><Loader /></div>;
   }
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
   return (
-    <header className="p-4 bg-gray-100 shadow-md ">
+    <header className="p-2 bg-gray-100 shadow-md ">
       <div className="flex justify-between items-center py-1 md:px-20">
 
         <div className="block md:hidden">
@@ -28,17 +29,20 @@ export function AdminHeader() {
           )}
         </div>
 
-        <Link href="/" className="text-lg font-bellefair">
-          Wonders Tapestry
-        </Link>
+        <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+
 
         <div className="hidden md:flex justify-start items-center space-x-10 text-gray-700">
           <Link href="/shop" className="flex items-center gap-2">Shop</Link>
 
           {session ? (
-            <div className="flex items-center gap-4">
-              <button onClick={() => signOut()} className="px-3 py-1 bg-red-500 text-white rounded" > Logout </button>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="focus:outline-none"><UserRound /></DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem >Profile</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : <button onClick={() => signIn()} className="px-3 py-1 bg-blue-500 text-white rounded" >Login</button>
           }
         </div>
