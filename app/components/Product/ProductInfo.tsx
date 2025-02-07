@@ -30,7 +30,7 @@ const AddToCart = ({ product }: AddToCartProps) => {
       {product.weight && (
         <AccordionItem value="weight">
           <AccordionTrigger>Weight</AccordionTrigger>
-          <AccordionContent>{product.weight} KG</AccordionContent>
+          <AccordionContent>{product.weight} grams</AccordionContent>
         </AccordionItem>
       )}
 

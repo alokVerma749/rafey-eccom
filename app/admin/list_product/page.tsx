@@ -8,6 +8,7 @@ import { CircleX } from 'lucide-react';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
 
 interface ProductFormValues {
   name: string;
@@ -122,10 +123,14 @@ export default function ListProductPage() {
     setSavedSubCategories([]);
     setSavedTags([]);
 
-    await fetch('/api/admin/product', {
+    const res = await fetch('/api/admin/product', {
       method: 'POST',
       body: JSON.stringify(formData),
     });
+
+    if (res.ok) {
+      toast({ title: 'Product added successfully' })
+    }
   };
 
   const handleImageUpload = (result: any) => {
@@ -165,19 +170,19 @@ export default function ListProductPage() {
 
           <div>
             <Label htmlFor="height">Height</Label>
-            <Input id="height" {...register('height', { required: 'Height is required' })} placeholder="Height(in cm)" />
+            <Input id="height" type="number" {...register('height', { required: 'Height is required' })} placeholder="Height(in cm)" />
             {errors.height && <span className="text-red-500">{errors.height.message}</span>}
           </div>
 
           <div>
             <Label htmlFor="width">Width</Label>
-            <Input id="width" {...register('width', { required: 'Width is required' })} placeholder="Width(in cm)" />
+            <Input id="width" type="number" {...register('width', { required: 'Width is required' })} placeholder="Width(in cm)" />
             {errors.width && <span className="text-red-500">{errors.width.message}</span>}
           </div>
 
           <div>
             <Label htmlFor="weight">Weight</Label>
-            <Input id="weight" {...register('weight', { required: 'Weight is required' })} placeholder="Weight(in kg)" />
+            <Input id="weight" type="number" {...register('weight', { required: 'Weight is required' })} placeholder="Weight(in grams)" />
             {errors.weight && <span className="text-red-500">{errors.weight.message}</span>}
           </div>
 
