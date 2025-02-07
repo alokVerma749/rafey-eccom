@@ -2,11 +2,15 @@ export interface Product {
   _id: string;
   name: string;
   description: string;
+  weight: string;
+  height: string;
+  width: string;
   price: number; // Required: The price of the product
   stock: number; // Required: The stock availability
   category: 'candles' | 'ceramic art' | 'resin art'; // Restrict to specific categories
   color?: 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'pink' | 'orange' | 'brown' | 'gray' | 'black' | 'white'; // for ceramic only
   tags?: string[]; // Optional: Tags for categorization
+  subCategories?: string[]; // Optional: Tags for categorization
   [key: string]: any;
   images: {
     thumbnail: string; // Required: Small image

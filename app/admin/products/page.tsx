@@ -1,20 +1,20 @@
 'use client'
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import {BadgePlus} from 'lucide-react'
 import ProductCard from "@/app/components/Admin/Products/ProductCard";
 import { Product } from "@/types/product_type";
 import Loader from "@/app/components/Loader";
 import { Button } from "@/components/ui/button"
-import {BadgePlus} from 'lucide-react'
-import Link from "next/link";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // Loader state
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
         const response = await fetch('/api/admin/product');
         const data = await response.json();
@@ -22,7 +22,7 @@ export default function ProductsPage() {
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
     fetchProducts();

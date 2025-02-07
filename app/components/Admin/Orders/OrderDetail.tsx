@@ -61,7 +61,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
                 {new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}
               </p>
               <p className="text-base text-gray-700 font-medium">
-                <strong>Total Amount:</strong> ${order.totalAmount}
+                <strong>Total Amount:</strong> ₹{order.totalAmount}
               </p>
             </div>
           </div>

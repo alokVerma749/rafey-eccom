@@ -12,6 +12,10 @@ import { Button } from '@/components/ui/button';
 interface ProductFormValues {
   name: string;
   description: string;
+  height: string;
+  width: string;
+  weight: string;
+  fragrance?: string;
   price: number;
   stock: number;
   tags: string[];
@@ -30,7 +34,7 @@ export default function ListProductPage() {
     }
   });
 
-  const [categories] = useState<string[]>(['candles', 'ceramic art', 'resin art']);
+  const [categories] = useState<string[]>(['ceramic art', 'candles', 'resin art']);
   const [subCategories, setSubCategories] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [newSubCategory, setNewSubCategory] = useState<string>('');
@@ -118,11 +122,10 @@ export default function ListProductPage() {
     setSavedSubCategories([]);
     setSavedTags([]);
 
-    const res = await fetch('/api/admin/product', {
+    await fetch('/api/admin/product', {
       method: 'POST',
       body: JSON.stringify(formData),
     });
-    console.log(res);
   };
 
   const handleImageUpload = (result: any) => {
@@ -159,6 +162,32 @@ export default function ListProductPage() {
             <Input id="description" {...register('description', { required: 'Description is required' })} placeholder="Description" />
             {errors.description && <span className="text-red-500">{errors.description.message}</span>}
           </div>
+
+          <div>
+            <Label htmlFor="height">Height</Label>
+            <Input id="height" {...register('height', { required: 'Height is required' })} placeholder="Height(in cm)" />
+            {errors.height && <span className="text-red-500">{errors.height.message}</span>}
+          </div>
+
+          <div>
+            <Label htmlFor="width">Width</Label>
+            <Input id="width" {...register('width', { required: 'Width is required' })} placeholder="Width(in cm)" />
+            {errors.width && <span className="text-red-500">{errors.width.message}</span>}
+          </div>
+
+          <div>
+            <Label htmlFor="weight">Weight</Label>
+            <Input id="weight" {...register('weight', { required: 'Weight is required' })} placeholder="Weight(in kg)" />
+            {errors.weight && <span className="text-red-500">{errors.weight.message}</span>}
+          </div>
+
+          {category === 'candles' && (
+            <div>
+              <Label htmlFor="fragrance">Fragrance</Label>
+              <Input id="fragrance" {...register('fragrance', { required: 'Fragrance is required' })} placeholder="Fragrance" />
+              {errors.fragrance && <span className="text-red-500">{errors.fragrance.message}</span>}
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

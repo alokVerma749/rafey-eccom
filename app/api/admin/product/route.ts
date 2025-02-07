@@ -34,6 +34,10 @@ export async function POST(request: NextRequest) {
     const newProduct = new Products({
       name: body.name,
       description: body.description,
+      height: body.height,
+      width: body.width,
+      weight: body.weight,
+      fragrance: body?.fragrance || '',
       price: body.price,
       stock: body.stock,
       category: body.category,
@@ -50,8 +54,6 @@ export async function POST(request: NextRequest) {
         endDate: null,
       },
     });
-
-    console.log(newProduct, '###')
 
     const savedProduct = await newProduct.save();
 

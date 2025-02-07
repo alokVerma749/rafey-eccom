@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
-import { LayoutDashboard, PackageSearch, ListOrdered, Shapes, SquareStackIcon } from "lucide-react";
+import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 const items = [
@@ -26,11 +26,6 @@ const items = [
     url: "/admin/orders",
     icon: ListOrdered,
   },
-  {
-    title: "Category",
-    url: "/admin/categories",
-    icon: Shapes,
-  },
 ];
 
 export function AdminSidebar() {
@@ -43,7 +38,7 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive = pathname === item.url; // Check if current path matches the menu item
+                const isActive = pathname === item.url;
 
                 return (
                   <SidebarMenuItem key={item.title}>

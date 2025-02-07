@@ -33,17 +33,11 @@ function ProductCard({ products }: { products: Product[] }) {
               <h4 className="text-sm font-medium mt-3">Summary</h4>
               <p className="text-xs text-gray-500">{product.description}</p>
               <div className="mt-3 p-2 bg-gray-100 rounded-lg">
-                <div className="flex justify-between text-sm font-medium">
-                  <p>Sales</p>
-                  <p className="flex items-center text-gray-700">
-                    <span className="text-orange-500">↑</span> 1269
-                  </p>
-                </div>
                 <div className="flex justify-between text-sm font-medium mt-2">
                   <p>Remaining Products</p>
                   <div className="flex items-center gap-2">
                     <div className="h-1.5 w-16 bg-orange-400 rounded-full"></div>
-                    <p>1269</p>
+                    <p>{product.stock}</p>
                   </div>
                 </div>
               </div>

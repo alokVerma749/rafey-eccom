@@ -185,7 +185,7 @@ export const CartList = () => {
                   key={item._id}
                   className="flex justify-between items-start rounded-lg"
                 >
-                  <Image src={item.images.medium} alt={item.name} width={100} height={100} />
+                  <Image src={item.images.medium} alt={item.name} width={200} height={150} />
                   <div className="ml-4 flex-1 mr-20">
                     <div className="flex w-full justify-between items-center gap-x-4">
                       <h3 className="text-lg uppercase">{item.name}</h3>
