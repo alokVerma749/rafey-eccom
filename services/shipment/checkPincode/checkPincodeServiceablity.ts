@@ -15,7 +15,7 @@ export const checkPincodeServiceabilityService = async (pincode: string) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e0ebff7fda9d3f79bbf6deee1c401a83330e98e8",
+          Authorization: `Token ${process.env.DELHIVERY_API_TOKEN}`,
         },
       }
     );
