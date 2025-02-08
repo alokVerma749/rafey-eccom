@@ -301,12 +301,11 @@ export default function ListProductPage() {
           </div>
 
         </div>
+        <div className="flex justify-around w-[90%] mx-auto">
+          <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" onClick={handleDelete}>Delete</Button>
+          <Button type="submit" className="py-2 px-4 rounded-lg bg-green-600 hover:bg-green-200 hover:text-black">Create Product</Button>
+        </div>
       </form>
-      <div className="flex justify-around w-[90%] mx-auto">
-        <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" onClick={handleDelete}>Delete</Button>
-        <Button type="submit" className="py-2 px-4 rounded-lg bg-green-600 hover:bg-green-200 hover:text-black">Create Product</Button>
-        <Button type="submit" className="py-2 px-4 rounded-lg bg-gray-300 text-gray-800 hover:text-white">Cancel</Button>
-      </div>
     </div>
   );
 }

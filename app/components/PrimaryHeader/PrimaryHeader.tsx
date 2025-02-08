@@ -18,7 +18,7 @@ export function PrimaryHeader() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	if (status === "loading") {
-		return <div className="text-center p-4"><Loader/></div>;
+		return <div className="text-center p-4"><Loader /></div>;
 	}
 
 	const toggleMenu = () => setMenuOpen(prev => !prev);
@@ -62,49 +62,17 @@ export function PrimaryHeader() {
 						) : null}
 					</Link>
 					{session ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="focus:outline-none"><UserRound /></DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>{session.user?.name}</DropdownMenuItem>
-                <Separator />
-                <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : <button onClick={() => signIn()} className="px-3 py-1 rounded text-white" >Login</button>
-          }
-
-					{/* {session ? (
-						<div className="flex items-center gap-2">
-							<UserRound />
-							<span className="hidden md:block">Hi, {session.user?.name}!</span>
-							<div className="relative">
-								<EllipsisVertical className="cursor-pointer" onClick={toggleMenu} />
-								{menuOpen && (
-									<div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md z-50">
-										<button
-											onClick={() => {
-												setMenuOpen(false);
-												signOut();
-											}}
-											className="block px-4 py-2 text-left w-full hover:bg-gray-200"
-										>
-											Logout
-										</button>
-										<Link href="/profile" className="block px-4 py-2 text-left w-full hover:bg-gray-200">	Profile</Link>
-									</div>
-								)}
-							</div>
-						</div>
-					) : (
-						<button
-							onClick={() => signIn()}
-							className="px-3 py-1 text-black rounded flex items-center gap-2"
-						>
-							<UserRound />
-							<span>Login</span>
-						</button>
-					)} */}
+						<DropdownMenu>
+							<DropdownMenuTrigger className="focus:outline-none"><UserRound /></DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuItem>{session.user?.name}</DropdownMenuItem>
+								<Separator />
+								<DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
+								<DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					) : <button onClick={() => signIn()} className="px-3 py-1 rounded text-white" >Login</button>
+					}
 				</div>
 			</div>
 
