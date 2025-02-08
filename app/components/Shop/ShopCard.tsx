@@ -15,17 +15,19 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
                 width={200}
                 src={item.images.thumbnail}
                 alt={item.name}
-                className="w-full h-54 object-cover rounded-t-md"
+                className="w-full h-54 object-cover rounded-t-md h-[70%]"
               />
-              <h3 className="text-sm md:text-sm lg:text-base text-gray-600">{item.name}</h3>
-              {discountPercentage > 0 && (
-                <div className="flex justify-start items-center mt-1 gap-x-4 font-medium">
-                  <p className='text-sm md:text-base font-semibold text-green-600'> ₹{(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
-                  <p className="font-semibold text-black text-sm line-through">₹{item.price}</p>
-                  <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
-                </div>
-              )}
-              <p className="text-sm text-gray-400">{item.category}</p>
+              <div className='p-2'>
+                <h3 className="text-sm md:text-sm lg:text-base text-gray-600">{item.name}</h3>
+                {discountPercentage > 0 && (
+                  <div className="flex justify-start items-center mt-1 gap-x-4 font-medium">
+                    <p className='text-sm md:text-base font-semibold text-green-600'> ₹{(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
+                    <p className="font-semibold text-black text-sm line-through">₹{item.price}</p>
+                    <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
+                  </div>
+                )}
+                <p className="text-sm text-gray-400">{item.category}</p>
+              </div>
             </Link>
           );
         })

@@ -57,6 +57,7 @@ const ShopFilter = ({ products }: FilterProps) => {
    const [filters, setFilters] = useState<staticFilters>(initialStaticFiltersValue);
    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
    const [filtersConfig, setFiltersConfig] = useState(initialDynamicFiltersValue);
+
    useEffect(() => {
       const loadFilters = async () => {
          const { tags, subCategories } = await fetchTagsAndSubCategories();
@@ -192,7 +193,7 @@ const ShopFilter = ({ products }: FilterProps) => {
                   <Slider
                      step={5}
                      min={1}
-                     max={1000}
+                     max={5000}
                      defaultValue={[5000]}
                      onValueChange={handleSliderChange}
                   />
@@ -202,7 +203,7 @@ const ShopFilter = ({ products }: FilterProps) => {
                </div>
 
                {/* In Stock */}
-               <div className="flex gap-2 items-center">
+               <div className="flex gap-2 items-center my-2">
                   <label className="block text-sm font-medium text-gray-700">
                      In Stock:{' '}
                   </label>
