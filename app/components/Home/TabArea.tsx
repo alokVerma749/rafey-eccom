@@ -3,7 +3,8 @@ import { TabCard } from "./TabCard";
 import { Product } from "@/types/product_type";
 
 export function TabArea({ cardDetail }: { cardDetail: Product[] }) {
-  const deafult = cardDetail[0];
+  console.log("Rendering TabArea with cardDetail:", cardDetail);
+  const defaultCard = cardDetail[0]; // Corrected variable name
 
   return (
     <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg">
@@ -12,12 +13,11 @@ export function TabArea({ cardDetail }: { cardDetail: Product[] }) {
           <ResizablePanel defaultSize={50}>
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel defaultSize={50}>
-                <TabCard cardDetail={deafult || cardDetail[0]} />
+                <TabCard cardDetail={cardDetail[0]} />
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={50}>
-                <TabCard cardDetail={deafult || cardDetail[1]} />
-
+                <TabCard cardDetail={cardDetail.length > 1 ? cardDetail[1] : defaultCard} />
               </ResizablePanel>
             </ResizablePanelGroup>
           </ResizablePanel>
@@ -25,7 +25,7 @@ export function TabArea({ cardDetail }: { cardDetail: Product[] }) {
           <ResizableHandle />
 
           <ResizablePanel defaultSize={50}>
-            <TabCard cardDetail={deafult || cardDetail[2]} />
+            <TabCard cardDetail={cardDetail.length > 2 ? cardDetail[2] : defaultCard} />
           </ResizablePanel>
 
         </ResizablePanelGroup>
@@ -33,7 +33,7 @@ export function TabArea({ cardDetail }: { cardDetail: Product[] }) {
       <ResizableHandle />
 
       <ResizablePanel defaultSize={50}>
-        <TabCard cardDetail={deafult || cardDetail[3]} />
+        <TabCard cardDetail={cardDetail.length > 3 ? cardDetail[3] : defaultCard} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

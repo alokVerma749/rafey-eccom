@@ -29,25 +29,24 @@ const items = [
 ];
 
 export function AdminSidebar() {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="">
+            <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-4">Wonders Tapestry</Link>
               {items.map((item) => {
                 const isActive = pathname === item.url;
-
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <Link
                         href={item.url}
-                        className={`flex items-center gap-2 p-2 rounded-lg ${
-                          isActive ? "bg-blue-500 text-white" : "hover:bg-gray-200"
-                        }`}
+                        className={`flex items-center gap-2 p-2 rounded-lg ${isActive ? "text-indigo-600 bg-gray-100" : "hover:bg-gray-200"
+                          }`}
                       >
                         <item.icon className="w-5 h-5" />
                         <span>{item.title}</span>

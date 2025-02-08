@@ -21,6 +21,8 @@ export function AdminHeader() {
     <header className="p-2 bg-gray-100 shadow-md ">
       <div className="flex justify-between items-center py-1 md:px-20">
 
+        <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+        
         <div className="block md:hidden">
           {menuOpen ? (
             <X className="text-gray-700 cursor-pointer" onClick={toggleMenu} />
@@ -29,9 +31,6 @@ export function AdminHeader() {
           )}
         </div>
 
-        <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
-
-
         <div className="hidden md:flex justify-start items-center space-x-10 text-gray-700">
           <Link href="/shop" className="flex items-center gap-2">Shop</Link>
 
@@ -39,7 +38,6 @@ export function AdminHeader() {
             <DropdownMenu>
               <DropdownMenuTrigger className="focus:outline-none"><UserRound /></DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem >Profile</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
