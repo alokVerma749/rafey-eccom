@@ -9,7 +9,7 @@ async function Section5() {
 
 	return (
 		<div className="flex flex-col flex-wrap gap-5 justify-center md:px-10 py-4">
-			<div className='flex justify-between items-center text-base md:text-lg'>
+			<div className='flex justify-between mx-[5vw] sm:mx-[3vw] md:mx-[5vw] lg:mx-[3vw] items-center text-base md:text-lg'>
 				<h1 className='relative group cursor-pointer'>
 					QUALITY YOU TRUST
 					<span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
@@ -19,19 +19,19 @@ async function Section5() {
 				</Link>
 			</div>
 
-			<div className="flex flex-wrap w-full gap-5 justify-between">
+			<div className="flex flex-wrap w-full gap-5 justify-evenly">
 				{products.map((product, index) => (
 					<Link
 						key={index}
 						href={`/product/${product._id}`}
-						className="border border-gray-300 rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
+						className="hover:pointer shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
 					>
 						<Image
 							height={200}
 							width={200}
 							src={(product.images as any).medium}
 							alt={product.name}
-							className="w-full h-auto max-w-xs mx-auto mb-4"
+							className="w-full h-auto max-w-full mx-auto mb-4"
 						/>
 						<div className='px-2'>
 							<p className="font-bold text-base md:text-lg text-black text-start">${product.price}</p>
