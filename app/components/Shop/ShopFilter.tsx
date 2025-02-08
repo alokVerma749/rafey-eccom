@@ -7,6 +7,7 @@ import ShopCard from '@/app/components/Shop/ShopCard';
 import { X, SlidersHorizontal } from 'lucide-react';
 
 interface FilterProps {
+   isSubroute?: boolean;
    products: Product[];
 }
 
@@ -52,11 +53,13 @@ const fetchTagsAndSubCategories = async () => {
    };
 };
 
-const ShopFilter = ({ products }: FilterProps) => {
+const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
    const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
    const [filters, setFilters] = useState<staticFilters>(initialStaticFiltersValue);
    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-   const [filtersConfig, setFiltersConfig] = useState(initialDynamicFiltersValue);
+   const [filtersConfig, setFiltersConfig] = useState(
+      isSubroute ? initialDynamicFiltersValue.slice(1) : initialDynamicFiltersValue
+   );
 
    useEffect(() => {
       const loadFilters = async () => {

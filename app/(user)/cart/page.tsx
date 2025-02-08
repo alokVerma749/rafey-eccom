@@ -284,8 +284,8 @@ function Cart() {
 
         {
           !loading && (
-            <div className="p-2 shadow rounded-lg">
-              <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-10" >
+            <div className="w-2/3">
+              <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center ml-[80%]" >
                 Place Order
               </button>
             </div>

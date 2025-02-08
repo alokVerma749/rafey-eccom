@@ -90,16 +90,10 @@ export function Header() {
 
           {session ? (
             <>
-              <div className="flex items-center mt-1">
+              <div className="flex items-center my-2">
                 <span>{session.user?.name}!</span>
               </div>
               <Separator />
-              <Link
-                href="/shop"
-                className="text-gray-700 text-base hover:text-gray-200 mt-2"
-              >
-                Shop
-              </Link>
               <Link
                 href="/profile"
                 className="text-left hover:text-gray-200 hover:shadow-md my-1"
