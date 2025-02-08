@@ -14,13 +14,13 @@ function Banner() {
         </div>
         <Button className="w-fit bg-transparent mb-10 hover:scale-105 hover:bg-transparent px-2 md:px-0">Explore more <MoveRight /></Button>
       </div>
-      <div className="flex-1 lg:max-w-md flex items-center justify-center px-2 md:pr-4">
+      <div className="flex-1 lg:max-w-md flex items-center justify-center px-0 md:pr-0">
         <Image
-          width={100}
-          height={100}
+          width={400}
+          height={400}
           src={homeImage.src}
           alt="McDonald's Food"
-          className="h-[50vh] w-full"
+          className="h-[50vh] w-full object-cover"
         />
       </div>
     </div>

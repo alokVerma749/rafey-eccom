@@ -9,18 +9,18 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
         filteredProducts.map((item) => {
           const discountPercentage = item.discount?.percentage || 0;
           return (
-            <Link href={`/product/${item._id}`} key={item._id} className="bg-white rounded mb-4 w-full">
+            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md mb-4 w-full">
               <Image
                 height={200}
                 width={200}
                 src={item.images.thumbnail}
                 alt={item.name}
-                className="w-full h-54 object-cover rounded"
+                className="w-full h-54 object-cover rounded-t-md"
               />
-              <h3 className="text-sm text-gray-600">{item.name}</h3>
+              <h3 className="text-sm md:text-sm lg:text-base text-gray-600">{item.name}</h3>
               {discountPercentage > 0 && (
-                <div className="flex justify-start items-center gap-x-4 font-medium">
-                  <p className='text-base font-semibold text-green-600'> ₹{(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
+                <div className="flex justify-start items-center mt-1 gap-x-4 font-medium">
+                  <p className='text-sm md:text-base font-semibold text-green-600'> ₹{(item.price - (item.price * discountPercentage) / 100).toFixed(2)}</p>
                   <p className="font-semibold text-black text-sm line-through">₹{item.price}</p>
                   <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
                 </div>

@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: productProps) {
 
   return (
     <div>
-      <div className="container mx-auto bg-white border-2 py-10 px-5 lg:px-20">
+      <div className="container mx-auto mt-2 rounded-sm bg-white border shadow-lg py-10 px-5 lg:px-20">
         <div className="flex justify-evenly md:items-start md:flex-row items-center flex-col gap-x-6 md:gap-x-10">
           {/* Image */}
           <Image
@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: productProps) {
 
             {/* Price Details */}
             <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-              <div className="flex flex-col gap-y-1 md:flex-row justify-start items-center md:gap-x-4">
+              <div className="flex flex-row gap-x-2 gap-y-1 md:flex-row justify-start items-center md:gap-x-4">
                 <p className="text-lg font-semibold text-black">
                   ₹{(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
                 </p>
