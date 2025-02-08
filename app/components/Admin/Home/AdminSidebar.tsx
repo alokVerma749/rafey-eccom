@@ -46,7 +46,7 @@ export function AdminSidebar() {
                       <Link
                         href={item.url}
                         className={`flex items-center gap-2 p-2 rounded-lg ${
-                          isActive ? "bg-blue-500 text-white" : "hover:bg-gray-200"
+                          isActive ? "text-indigo-600 bg-gray-100" : "hover:bg-gray-200"
                         }`}
                       >
                         <item.icon className="w-5 h-5" />
