@@ -152,9 +152,9 @@ export default function ListProductPage() {
   };
 
   return (
-    <div className="w-full mx-10 my-6">
+    <div className="w-full mx-10 my-6 bg-white shadow-md rounded-lg p-3">
       <h1 className="text-2xl font-bold my-2">List Product</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white shadow-md rounded-lg">
+      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         <div className="space-y-4">
           <div>
             <Label htmlFor="name">Product Name</Label>
@@ -208,10 +208,17 @@ export default function ListProductPage() {
           </div>
 
           <div>
+            <Label htmlFor="discount">Discount</Label>
+            <Input id="discount" {...register('discount', { valueAsNumber: true })} type="number" placeholder="Discount" />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div>
             <Label htmlFor="category">Category</Label>
             <select
               {...register('category', { required: 'Category is required' })}
-              className="w-full p-3 border border-gray-300 rounded-md"
+              className="w-full p-1 border border-gray-300 rounded-md"
             >
               {categories.map((category, index) => (
                 <option key={index} value={category}>
@@ -221,20 +228,19 @@ export default function ListProductPage() {
             </select>
             {errors.category && <span className="text-red-500">{errors.category.message}</span>}
           </div>
-
-          <div>
+          <div className=''>
             <Label htmlFor="subCategory">Sub-Category</Label>
             <div className="flex gap-2">
-              <input
+              <Input
                 type="text"
                 value={newSubCategory}
                 onChange={(e) => setNewSubCategory(e.target.value)}
                 placeholder="Add new subcategory"
-                className="p-2 w-[90%] border border-gray-300 rounded-md"
+                className="p-1 w-[90%] border border-gray-300 rounded-md"
               />
               <Button type="button" onClick={addSubCategory}>Add</Button>
             </div>
-            <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
+            <div className="space-y-2 flex w-full justify-start gap-2 text-wrap overflow-auto">
               {subCategories.map((subCategory, index) => (
                 <div key={index}>
                   {/* Show the subcategory only if it's saved */}
@@ -275,38 +281,32 @@ export default function ListProductPage() {
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="discount">Discount</Label>
-            <Input id="discount" {...register('discount', { valueAsNumber: true })} type="number" placeholder="Discount" />
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="w-full min-h-56 bg-gray-200 rounded flex items-center justify-center">
+          <div className="min-h-48 border rounded flex items-center justify-center">
             {imagePreview ? (
-              <Image src={imagePreview} alt="Uploaded Preview" width={800} height={800} className="object-cover rounded-lg" />
+              <Image src={imagePreview} alt="Uploaded Preview" width={200} height={200} className="w-[300px] h-54 rounded-lg" />
             ) : (
               <span className="text-gray-500">No Image Selected</span>
             )}
           </div>
 
-          <div className='flex justify-between flex-col items-center space-x-10'>
-            <div className="ml-auto">
+          <div className='flex justify-between flex-col items-center space-x-10 w-full'>
+            <div className="ml-auto ">
               <CldUploadButton
                 onSuccess={handleImageUpload}
                 onClose={() => console.log('Upload widget closed')}
                 uploadPreset="mmmgkp-news"
-                className='bg-black p-2 text-white rounded-xl my-2'
+                className='bg-black p-2 text-white my-2 w-full rounded'
               />
             </div>
           </div>
-          <div className="flex justify-around w-[90%] mx-auto pt-52">
-            <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" onClick={handleDelete}>Delete</Button>
-            <Button type="submit" className="py-2 px-4 rounded-lg">Create Product</Button>
-            <Button type="submit" className="py-2 px-4 rounded-lg bg-gray-300 text-gray-800">Cancel</Button>
-          </div>
+
         </div>
       </form>
+      <div className="flex justify-around w-[90%] mx-auto">
+        <Button variant="destructive" className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" onClick={handleDelete}>Delete</Button>
+        <Button type="submit" className="py-2 px-4 rounded-lg bg-green-600 hover:bg-green-200 hover:text-black">Create Product</Button>
+        <Button type="submit" className="py-2 px-4 rounded-lg bg-gray-300 text-gray-800 hover:text-white">Cancel</Button>
+      </div>
     </div>
   );
 }
