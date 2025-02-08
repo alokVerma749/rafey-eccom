@@ -21,7 +21,6 @@ export function TabCard({ cardDetail }: { cardDetail: Product }) {
         <div className="p-5 bottom-10 left-10">
           <p className="font-semibold text-xl text-start">${price}</p>
           <h2 className="text-lg font-semibold mb-2 text-start">{name}</h2>
-
         </div>
       </div>
     </Card>
