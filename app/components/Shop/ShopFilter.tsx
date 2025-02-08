@@ -17,7 +17,7 @@ interface staticFilters {
 }
 
 const initialStaticFiltersValue = {
-   price: 500,
+   price: 5000,
    inStock: true,
 }
 
@@ -193,7 +193,7 @@ const ShopFilter = ({ products }: FilterProps) => {
                      step={5}
                      min={1}
                      max={1000}
-                     defaultValue={[500]}
+                     defaultValue={[5000]}
                      onValueChange={handleSliderChange}
                   />
                   <div className="text-center mt-2 text-sm text-gray-500">

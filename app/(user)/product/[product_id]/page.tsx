@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: productProps) {
   const imageSrc = product?.images.thumbnail || defaultImage;
 
   if (!product) {
-    return <div className="h-[100vh] text-center m-8">No products found</div>;
+    return <div className="h-[100vh] text-center m-8">No product found</div>;
   }
 
   return (
