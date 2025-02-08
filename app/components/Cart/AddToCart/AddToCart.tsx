@@ -58,13 +58,13 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       {isDisabled ?
         <p className="text-sm text-green-500">Item already in cart</p>
         :
-        <div className="flex justify-start items-center gap-x-6 py-4">
+        <div className="flex justify-center md:justify-start items-center gap-x-6 py-4">
           <div className="flex justify-start items-center gap-x-6">
-            <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-16 rounded-md cursor-pointer" onClick={handleAddToCart}>
+            <div className="flex justify-center items-center bg-[#3A3845] w-fit py-[1px] px-4 sm:px-16 rounded-md cursor-pointer" onClick={handleAddToCart}>
               <ShoppingCart className="text-white" />
               <Button
                 disabled={isDisabled}
-                className="bg-transparent hover:bg-transparent"
+                className="bg-transparent hover:bg-transparent w-full"
               >
                 Add to Cart
               </Button>

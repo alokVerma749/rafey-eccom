@@ -34,14 +34,14 @@ export function Header() {
 
         <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
 
-        <div className="flex items-center gap-4 md:hidden">
+        <div className="flex items-center gap-4 md:hidden mr-2">
           <Link
             href="/cart"
             className="relative flex items-center text-gray-700"
           >
             <ShoppingCart />
             {state.items.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-[2px] rounded-full">
                 {state.items.length}
               </span>
             )}
@@ -62,7 +62,7 @@ export function Header() {
           >
             <ShoppingCart />
             {state.items.length > 0 && (
-              <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs">
                 {state.items.length}
               </span>
             )}
@@ -86,20 +86,20 @@ export function Header() {
       </div>
       {menuOpen && (
         <div className="md:hidden flex flex-col text-gray-700">
-          <div className="flex flex-col items-start mt-4">
-            <Link
-              href="/shop"
-              className="text-gray-700 text-base hover:text-gray-200 mt-2"
-            >
-              Shop
-            </Link>
-          </div>
+
 
           {session ? (
             <>
-              <div className="flex items-center mt-1">
-                <span>Hi, {session.user?.name}!</span>
+              <div className="flex items-center my-2">
+                <span>{session.user?.name}!</span>
               </div>
+              <Separator />
+              <Link
+                href="/profile"
+                className="text-left hover:text-gray-200 hover:shadow-md my-1"
+              >
+                Profile
+              </Link>
               <button
                 onClick={() => {
                   setMenuOpen(false);
@@ -109,12 +109,6 @@ export function Header() {
               >
                 Logout
               </button>
-              <Link
-                href="/profile"
-                className="text-left hover:text-gray-200 hover:shadow-md my-1"
-              >
-                Profile
-              </Link>
             </>
           ) : (
             <button

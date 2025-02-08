@@ -8,7 +8,7 @@ async function Section5() {
 	const products: Product[] = response ? JSON.parse(response) : [];
 
 	return (
-		<div className="flex flex-col flex-wrap gap-5 justify-center md:px-10 py-4">
+		<div className="flex flex-col flex-wrap gap-5 justify-center md:px-10 py-4 mt-8">
 			<div className='flex justify-between mx-[5vw] sm:mx-[3vw] md:mx-[5vw] lg:mx-[3vw] items-center text-base md:text-lg'>
 				<h1 className='relative group cursor-pointer'>
 					QUALITY YOU TRUST

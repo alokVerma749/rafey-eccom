@@ -45,11 +45,11 @@ export default async function ProductPage({ params }: productProps) {
   return (
     <div>
       <div className="container mx-auto mt-2 rounded-sm bg-white border shadow-lg py-10 px-5 lg:px-20">
-        <div className="flex justify-evenly md:items-start md:flex-row items-center flex-col gap-x-6 md:gap-x-10">
+        <div className="flex justify-evenly sm:items-start sm:flex-row items-center flex-col gap-x-6 sm:gap-x-10">
           {/* Image */}
           <Image
             alt={`${product.name} thumbnail`}
-            className="flex-shrink-0 max-w-full object-contain object-center pl-10 md:w-[50%] pr-6"
+            className="flex-shrink-0 max-w-full object-contain object-center md:pl-10 sm:w-[50%] md:pr-6 w-full"
             src={imageSrc}
             width={2000}
             height={2000}
@@ -57,12 +57,12 @@ export default async function ProductPage({ params }: productProps) {
 
           {/* Product Info */}
           <div className="w-full md:w-1/2">
-            <h1 className="text-xl font-semibold uppercase text-center md:text-left">{product.name}</h1>
+            <h1 className="text-base sm:text-lg md:text-xl font-semibold uppercase text-center md:text-left">{product.name}</h1>
             <h1 className="text-green-600 text-center md:text-left">In Stock: {product.stock}</h1>
 
             {/* Price Details */}
-            <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-              <div className="flex flex-row gap-x-2 gap-y-1 md:flex-row justify-start items-center md:gap-x-4">
+            <div className="flex justify-between items-center gap-x-4 font-medium py-2 w-full">
+              <div className="flex flex-col gap-x-2 gap-y-1 sm:flex-row justify-center sm:justify-start items-center sm:gap-x-4 w-full">
                 <p className="text-lg font-semibold text-black">
                   ₹{(product.price - (product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)}
                 </p>

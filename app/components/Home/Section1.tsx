@@ -42,9 +42,9 @@ function Hero() {
       {/* Mobile View */}
       <div className='absolute bottom-0 left-0 mt-auto md:hidden'>
 
-        <div className="flex mx-auto w-screen flex-col items-center gap-y-2 md:gap-y-4 px-6 py-8">
+        <div className="flex mx-auto w-screen flex-col items-center gap-y-1 md:gap-y-4 px-6 py-8">
           <p className="text-white text-sm text-center">Handcrafted Elegance. Made With Love.</p>
-          <h1 className="text-white text-2xl md:text-3xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
+          <h1 className="text-white text-xl md:text-2xl lg:text-3xl font-medium text-center">Resin, Ceramic Arts, Candles</h1>
 
           <Link
             href="/shop"

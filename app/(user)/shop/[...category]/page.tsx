@@ -22,7 +22,7 @@ const Page = async ({ params }: any) => {
 
     return (
       <div>
-        <ShopFilter products={products} />
+        <ShopFilter isSubroute={true} products={products} />
       </div>
     );
   } catch (error) {
