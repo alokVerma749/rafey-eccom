@@ -24,8 +24,8 @@ export function PrimaryHeader() {
 	const toggleMenu = () => setMenuOpen(prev => !prev);
 
 	return (
-		<div className="shadow-md">
-			<div className="flex justify-between items-center px-6 py-1 md:px-20 bg-transparent backdrop-blur-lg">
+		<div className="shadow-md bg-transparent backdrop-blur-lg">
+			<div className="flex justify-between items-center px-6 py-1 md:px-20">
 				<div className="flex items-center space-x-4 md:hidden">
 					{menuOpen ? (
 						<X className="text-white cursor-pointer" onClick={toggleMenu} />
@@ -40,7 +40,7 @@ export function PrimaryHeader() {
 					<Link href="/cart" className="relative flex items-center text-white hover:text-gray-200">
 						<ShoppingCart />
 						{state?.items.length > 0 ? (
-							<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+							<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-[2px] mt-1 rounded-full">
 								{state?.items.length}
 							</span>
 						) : null}
@@ -73,6 +73,7 @@ export function PrimaryHeader() {
 						</DropdownMenu>
 					) : <button onClick={() => signIn()} className="px-3 py-1 rounded text-white" >Login</button>
 					}
+
 				</div>
 			</div>
 

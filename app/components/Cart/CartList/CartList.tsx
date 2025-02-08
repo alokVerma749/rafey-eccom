@@ -178,71 +178,73 @@ export const CartList = () => {
           </div>
 
           {/* Cart Items */}
-          <div className="flex justify-between items-start gap-4 ">
-            <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 ">
+            <div className="flex justify-between items-start flex-col md:flex-row gap-4 bg-white shadow rounded-md p-6 w-full">
               {cartProducts.map((item) => (
                 <div
                   key={item._id}
-                  className="flex justify-between items-start rounded-lg"
+                  className="flex flex-col justify-between items-start rounded-lg"
                 >
                   <Image src={item.images.medium} alt={item.name} width={200} height={150} />
-                  <div className="ml-4 flex-1 mr-20">
-                    <div className="flex w-full justify-between items-center gap-x-4">
-                      <h3 className="text-lg uppercase">{item.name}</h3>
-                      <p className=" text-gray-300 text-sm">
-                        <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
-                      </p>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words"> {item.description}</p>
-
-                    <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-                      <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
-                        <p className="text-base font-semibold text-black">
-                          ₹{(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                  <div>
+                    <div className="ml-4 flex-1 mr-20">
+                      <div className="flex w-full justify-between items-center gap-x-4">
+                        <h3 className="text-lg uppercase">{item.name}</h3>
+                        <p className=" text-gray-300 text-sm">
+                          <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
                         </p>
-                        <p className="text-gray-600 text-sm line-through">MRP ₹{item.price}</p>
-                        <p className="text-orange-500 text-sm font-medium">(₹{((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
                       </div>
-                      <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
-                    </div>
+                      <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words"> {item.description}</p>
 
-                    {/* Personalization Section */}
-                    <div>
-                      <div className="flex justify-between items-center gap-x-4">
-                        <Personalize product={item} cart_id={cart_id} />
-
-                        {/* Whatsapp Button */}
-                        <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
-                          target="_blank"
-                          className="bg-green-500 rounded-full p-2">
-                          <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
-                        </Link>
+                      <div className="flex justify-start items-center gap-x-4 font-medium py-2">
+                        <div className='flex flex-col gap-y-1 sm:flex-row sm:gap-x-4'>
+                          <p className="text-base font-semibold text-black">
+                            ₹{(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
+                          </p>
+                          <p className="text-gray-600 text-sm line-through">MRP ₹{item.price}</p>
+                          <p className="text-orange-500 text-sm font-medium">(₹{((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
+                        </div>
+                        <p className="text-white bg-green-700 px-2 py-[1px] text-sm rounded-md">1 offer</p>
                       </div>
-                      <p className="text-sm text-gray-500 mt-1">
-                        Customize Your Product By Adding Your Name For A Personal Touch
-                      </p>
-                    </div>
 
-                  </div>
-                  <div className="flex justify-start items-center w-fit rounded-md mt-auto mb-2">
-                    <div
-                      className="px-2 border py-1 cursor-pointer text-blue-600 bg-blue-100 mx-1 rounded"
-                      onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                    >
-                      <Minus size={20} />
+                      {/* Personalization Section */}
+                      <div>
+                        <div className="flex justify-start items-center gap-x-4">
+                          <Personalize product={item} cart_id={cart_id} />
+
+                          {/* Whatsapp Button */}
+                          <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                            target="_blank"
+                            className="bg-green-500 rounded-full p-2">
+                            <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
+                          </Link>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Customize Your Product By Adding Your Name For A Personal Touch
+                        </p>
+                      </div>
+
                     </div>
-                    <span className="text-base px-10 border py-[2px] rounded">{item.quantity}</span>
-                    <div
-                      className="px-2 border-l-2 py-1 cursor-pointer text-blue-600 bg-blue-100 border mx-1 rounded"
-                      onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                    >
-                      <Plus size={20} />
+                    <div className="flex justify-start items-center w-fit rounded-md m-2">
+                      <div
+                        className="px-2 border py-1 cursor-pointer text-blue-600 bg-blue-100 mx-1 rounded"
+                        onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                      >
+                        <Minus size={20} />
+                      </div>
+                      <span className="text-base px-10 border py-[2px] rounded">{item.quantity}</span>
+                      <div
+                        className="px-2 border-l-2 py-1 cursor-pointer text-blue-600 bg-blue-100 border mx-1 rounded"
+                        onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                      >
+                        <Plus size={20} />
+                      </div>
+                      <Trash2
+                        className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
+                        onClick={() => handleRemove(item._id)}
+                      />
                     </div>
                   </div>
-                  <Trash2
-                    className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
-                    onClick={() => handleRemove(item._id)}
-                  />
                 </div>
               ))}
             </div>

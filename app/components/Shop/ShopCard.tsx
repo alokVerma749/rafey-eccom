@@ -4,7 +4,7 @@ import { Product } from '@/types/product_type';
 
 function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
   return (
-    <div className="flex-1 grid grid-col-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-2">
+    <div className="flex-1 grid grid-col-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
       {filteredProducts.length > 0 ? (
         filteredProducts.map((item) => {
           const discountPercentage = item.discount?.percentage || 0;
