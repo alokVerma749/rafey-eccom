@@ -65,22 +65,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="p-6 space-y-6 min-h-screen relative w-full">
-      <h2 className="font-semibold text-2xl">Order List</h2>
-      <div className="flex justify-between items-center pb-4">
-        <div className="flex-1 flex justify-end items-center gap-x-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="bg-gray-300 px-2 py-1 rounded-md">Sort By</DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleSort("processing")}>Processing</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("shipped")}>Shipped</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("delivered")}>Delivered</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("cancelled")}>Cancelled</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
+    <div className="p-6 space-y-6 min-h-screen relative">
       <div className="min-h-screen relative w-full mx-10 my-6">
         <h2 className="font-semibold text-2xl my-2">Order List</h2>
         <div className="shadow-lg border p-4 rounded-lg">

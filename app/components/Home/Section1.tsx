@@ -57,7 +57,7 @@ function Hero() {
       </div>
 
       {/* Hero Text */}
-      <div className="hidden md:block absolute bottom-[50%] left-0 px-6 md:px-10">
+      <div className="hidden md:block absolute bottom-16 left-0 px-6 md:px-10">
         <h1 className="text-white text-xl md:text-4xl font-medium">
           Handmade Elegance. Made With Love.
         </h1>
