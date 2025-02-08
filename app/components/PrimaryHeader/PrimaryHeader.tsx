@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { Search, ShoppingCart, UserRound, EllipsisVertical, Menu, X } from 'lucide-react';
+import { Search, ShoppingCart, UserRound, Menu, X } from 'lucide-react';
 import Loader from "@/app/components/Loader";
 import { useCart } from '@/context/cartContext';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Separator } from "@/components/ui/separator";
 
 export function PrimaryHeader() {
 
@@ -32,9 +34,6 @@ export function PrimaryHeader() {
 					)}
 				</div>
 
-				{/* <Link href="/home">
-					<Image src={logo} alt="Logo" width={144} height={64} className="h-16 w-36" priority />
-				</Link> */}
 				<Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-white font-semibold text-start sm:py-2">Wonders Tapestry</Link>
 
 				<div className="flex items-center space-x-4 md:hidden">
@@ -62,15 +61,27 @@ export function PrimaryHeader() {
 							</span>
 						) : null}
 					</Link>
-
 					{session ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="focus:outline-none"><UserRound /></DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>{session.user?.name}</DropdownMenuItem>
+                <Separator />
+                <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : <button onClick={() => signIn()} className="px-3 py-1 rounded text-white" >Login</button>
+          }
+
+					{/* {session ? (
 						<div className="flex items-center gap-2">
 							<UserRound />
 							<span className="hidden md:block">Hi, {session.user?.name}!</span>
 							<div className="relative">
 								<EllipsisVertical className="cursor-pointer" onClick={toggleMenu} />
 								{menuOpen && (
-									<div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md text-black z-50">
+									<div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md z-50">
 										<button
 											onClick={() => {
 												setMenuOpen(false);
@@ -93,7 +104,7 @@ export function PrimaryHeader() {
 							<UserRound />
 							<span>Login</span>
 						</button>
-					)}
+					)} */}
 				</div>
 			</div>
 
