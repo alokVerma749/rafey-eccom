@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Menu, X, ShoppingCart, UserRound } from 'lucide-react';
 import { useState } from 'react';
 import Loader from "../Loader";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Separator } from "@/components/ui/separator";
 
 export function Header() {
   const { data: session, status } = useSession();
@@ -13,13 +15,13 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (status === "loading") {
-    return <div><Loader/></div>;
+    return <div><Loader /></div>;
   }
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
   return (
-    <header className="p-4 bg-gray-100 shadow-md ">
+    <header className="p-2 bg-gray-100 shadow-md ">
       <div className="flex justify-between items-center py-1 md:px-20">
 
         <div className="block md:hidden">
@@ -46,12 +48,19 @@ export function Header() {
           </Link>
         </div>
 
+
         <div className="hidden md:flex justify-start items-center space-x-10 text-gray-700">
+          <Link
+            href="/shop"
+            className="flex items-center gap-2"
+          >
+            Shop
+          </Link>
           <Link
             href="/cart"
             className="relative flex items-center gap-2"
           >
-            Cart
+            <ShoppingCart />
             {state.items.length > 0 && (
               <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
                 {state.items.length}
@@ -59,34 +68,19 @@ export function Header() {
             )}
           </Link>
 
-          <Link
-            href="/shop"
-            className="flex items-center gap-2"
-          >
-            Shop
-          </Link>
 
           {session ? (
-            <div className="flex items-center gap-4">
-              <span className="font-poppins">Welcome, {session.user?.name}!</span>
-              <button
-                onClick={() => signOut()}
-                className="px-3 py-1 bg-red-500 text-white rounded"
-              >
-                Logout
-              </button>
-              <Link href="/profile" className="px-3 py-1 bg-red-500 text-white rounded">
-                Profile
-              </Link>
-            </div>
-          ) : (
-            <button
-              onClick={() => signIn()}
-              className="px-3 py-1 bg-blue-500 text-white rounded"
-            >
-              Login
-            </button>
-          )}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="focus:outline-none"><UserRound /></DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>{session.user?.name}</DropdownMenuItem>
+                <Separator />
+                <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer"><Link href={"#"}>Logout</Link></DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : <button onClick={() => signIn()} className="px-3 py-1 rounded" >Login</button>
+          }
         </div>
 
       </div>
