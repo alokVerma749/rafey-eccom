@@ -19,10 +19,10 @@ export default function ProductPage() {
   }, []);
 
 
-  return(
+  return (
     <div className="w-full mt-6">
       <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold p-2">Product Detail</h1>
-    {product && <ProductDetail product={product} />}
+      {product && <ProductDetail product={product} />}
     </div>
   )
 }

@@ -21,8 +21,8 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  fragrance:{
-    type:String,
+  fragrance: {
+    type: String,
   },
   price: {
     type: Number,
@@ -76,6 +76,10 @@ const ProductSchema = new mongoose.Schema({
     endDate: {
       type: Date
     },
+  },
+  onSale: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,

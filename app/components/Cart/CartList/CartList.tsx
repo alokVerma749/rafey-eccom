@@ -26,6 +26,9 @@ export const CartList = () => {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [voucherCode, setVoucherCode] = useState('');
+  const [vocherDiscount, setVoucherDiscount] = useState(0);
+  const [voucherError, setVoucherError] = useState('');
 
   // fetch user cart
   useEffect(() => {
@@ -44,8 +47,8 @@ export const CartList = () => {
     };
 
     const fetchData = async () => {
-      await Promise.all([fetchCart(), fetchUser()]); // Wait for both fetch calls to complete
-      setLoading(false); // Set loading to false after data is loaded
+      await Promise.all([fetchCart(), fetchUser()]);
+      setLoading(false);
     };
 
     fetchData();
@@ -147,6 +150,38 @@ export const CartList = () => {
     .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
     .toFixed(2);
 
+
+  const handleApplyVoucher = async () => {
+    if (!voucherCode) {
+      setVoucherError('Please enter a voucher code.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/apply-voucher', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ voucherCode, cartTotal: totalPrice }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        setVoucherError('Invalid or expired voucher.');
+        return;
+      }
+
+      setVoucherDiscount(data.discountAmount);
+      toast({ title: "Voucher Applied", description: `₹${data.discountAmount} off applied!` });
+      setVoucherError('');
+      setVoucherCode('');
+    } catch (error) {
+      console.error("Error applying voucher:", error);
+      setVoucherError('Failed to validate voucher. Try again.');
+    }
+  };
+
   if (loading) {
     return <Shimmer />;
   }
@@ -239,6 +274,14 @@ export const CartList = () => {
                   </span>
                 </div>
 
+                {/* voucher discount */}
+                {vocherDiscount > 0 && (<div className="flex justify-between text-gray-700">
+                  <span>Voucher Discount</span>
+                  <span className="text-green-600">
+                    -₹{vocherDiscount.toFixed(2)}
+                  </span>
+                </div>)}
+
                 {/* Delivery Fee */}
                 <div className="flex justify-between text-gray-700">
                   <span>Delivery Fee</span>
@@ -248,14 +291,29 @@ export const CartList = () => {
                 {/* Total Amount */}
                 <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
                   <span>Total Amount</span>
-                  <span>₹{totalPrice}</span>
+                  <span>₹{vocherDiscount ? (Number(totalPrice) - vocherDiscount).toFixed(2) : totalPrice}</span>
                 </div>
               </div>
 
               {/* Savings */}
               <p className="text-green-600 text-sm">
-                You Will Save ₹{cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0).toFixed(2)} On This Order
+                You Will Save ₹{(cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0) + vocherDiscount).toFixed(2)} On This Order
               </p>
+
+              {/* Voucher Section */}
+              <div className="my-4 p-4 bg-white shadow rounded-md">
+                <p className="font-semibold mb-2">Apply Voucher</p>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="text"
+                    placeholder="Enter voucher code"
+                    value={voucherCode}
+                    onChange={(e) => setVoucherCode(e.target.value)}
+                  />
+                  <Button onClick={handleApplyVoucher} className="bg-blue-600 text-white">Apply</Button>
+                </div>
+                {voucherError && <p className="text-red-500 text-sm mt-2">{voucherError}</p>}
+              </div>
             </div>
           </div>
         </div>

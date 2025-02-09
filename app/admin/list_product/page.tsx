@@ -55,7 +55,6 @@ export default function ListProductPage() {
       method: 'POST',
       body: JSON.stringify({ name: newSubCategory, category: watch('category') || '' }),
     });
-    console.log(res);
     if (res.ok) {
       setSavedSubCategories((prev) => [...prev, newSubCategory]);
     }

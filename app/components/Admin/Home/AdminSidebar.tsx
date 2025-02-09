@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
-import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon } from "lucide-react";
+import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon, Ticket } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 const items = [
@@ -25,6 +25,11 @@ const items = [
     title: "Order List",
     url: "/admin/orders",
     icon: ListOrdered,
+  },
+  {
+    title: "Vouchers",
+    url: "/admin/voucher",
+    icon: Ticket,
   },
 ];
 

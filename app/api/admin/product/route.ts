@@ -53,6 +53,7 @@ export async function POST(request: NextRequest) {
         startDate: new Date(),
         endDate: null,
       },
+      onSale: body.onSale || false,
     });
 
     const savedProduct = await newProduct.save();
@@ -60,6 +61,82 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Product listed successfully", product: savedProduct });
   } catch (error) {
     console.error("Error fetching product:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { id, ...updateData } = body;
+
+    if (!mongoose.isValidObjectId(id)) {
+      return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
+    }
+
+    await connect_db();
+
+    const subCategoryIds = (body.subCategories || [])
+      .map((id: string) => (mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null))
+      .filter((id: mongoose.Types.ObjectId | null): id is mongoose.Types.ObjectId => id !== null);
+
+    const tagIds = (body.tags || [])
+      .map((id: string) => (mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null))
+      .filter((id: mongoose.Types.ObjectId | null): id is mongoose.Types.ObjectId => id !== null);
+
+    const updatedProduct = await Products.findByIdAndUpdate(
+      id,
+      {
+        ...updateData,
+        subCategories: subCategoryIds,
+        tags: tagIds,
+        images: {
+          thumbnail: updateData.image || "",
+          medium: updateData.image|| "",
+          large: updateData.image || "",
+        },
+        discount: updateData.discount !== undefined
+          ? {
+            percentage: updateData.discount ?? 0,
+            startDate: updateData.discount.startDate ? new Date(updateData.discount.startDate) : new Date(),
+            endDate: updateData.discount.endDate ? new Date(updateData.discount.endDate) : null,
+          }
+          : undefined,
+        onSale: updateData.onSale || false,
+      },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Product updated successfully", product: updatedProduct });
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { id } = body;
+
+    if (!mongoose.isValidObjectId(id)) {
+      return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
+    }
+
+    await connect_db();
+
+    const deletedProduct = await Products.findByIdAndDelete(id);
+    if (!deletedProduct) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -4,9 +4,10 @@ const AdminSettingsSchema = new mongoose.Schema({
   featureFlags: {
     type: Object,
     default: {
-      enableDiscounts: false, // Toggle discounts globally
-      showOutOfStock: true,  // Show out-of-stock products
-    }
+      enableDiscounts: false,
+      showOutOfStock: true,
+      enableMarquee: true,
+    },
   },
   siteSettings: {
     type: Object,
@@ -15,20 +16,20 @@ const AdminSettingsSchema = new mongoose.Schema({
       contactEmail: 'support@store.com',
       phoneNumber: '+1-234-567-890',
       address: '123 Main Street, City, Country',
-    }
+      freeDeliveryThreshold: 1000, // Minimum cart value for free delivery
+    },
   },
   homepageSettings: {
-    bannerImage: { type: String }, // URL for homepage banner
-    bannerText: { type: String }, // Banner description or headline
+    bannerImage: { type: String, default: '' },
+    bannerText: { type: String, default: '' },
+    marqueeText: { type: String, default: '' },
   },
   announcements: [{
-    message: { type: String },
+    message: { type: String, required: true },
     active: { type: Boolean, default: true },
-    expiresAt: { type: Date }, // Optional expiry for announcements
+    expiresAt: { type: Date, index: true },
   }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
 const AdminSettings = mongoose.models.AdminSettings || mongoose.model('AdminSettings', AdminSettingsSchema);
 export default AdminSettings;
