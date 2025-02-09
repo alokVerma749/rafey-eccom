@@ -16,7 +16,7 @@ type OrderData = {
   _id: string;
   createdAt: string;
   orderStatus: string;
-  products: Product[];
+  products: { product: string; quantity: number }[];
   totalAmount: number;
   paymentId: string;
   paymentStatus: string;
@@ -38,7 +38,7 @@ const OrderDetails = () => {
         }
 
         const fetchedOrder: { message: string; order: OrderData; productDetails: Product[] } = await response.json();
-        setOrderData({ order: fetchedOrder.order, productDetails: fetchedOrder.productDetails });
+        setOrderData(fetchedOrder);
 
         toast({
           title: fetchedOrder.message,
@@ -55,8 +55,8 @@ const OrderDetails = () => {
     const fetchUser = async () => {
       const userAccount = await getUserAccount(session.data?.user?.email ?? '');
       const userAccountData = JSON.parse(userAccount);
-      setUser(userAccountData)
-    }
+      setUser(userAccountData);
+    };
 
     fetchOrder();
     fetchUser();
@@ -66,54 +66,56 @@ const OrderDetails = () => {
     return <div><Loader /></div>;
   }
 
-  const discountPercentage = orderData.productDetails[0].discount?.percentage || 0;
-
   return (
     <div className="max-w-5xl mx-auto p-6 rounded-lg shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <ArrowLeft className="cursor-pointer" />
-          <h2 className="text-lg font-semibold"><strong>ORDER ID: </strong>{orderData.order._id} </h2>
+          <h2 className="text-lg font-semibold"><strong>ORDER ID: </strong>{orderData.order._id}</h2>
         </div>
-
-        {/* TODO: hardcoded */}
-        {/* <span className="text-sm text-gray-500">Estimated 24/07/2024</span> */}
       </div>
 
       <DeliveryTracker />
 
       <h3 className="text-md font-semibold mb-3">ORDER SUMMARY</h3>
-      <div className="flex justify-between items-center border border-gray-300 rounded-lg p-4 mb-4">
-        <div className="flex justify-start items-center gap-x-6">
-          <Image
-            src={orderData.productDetails[0]?.images?.medium}
-            alt="Solitaire Diamond Ring"
-            height={80}
-            width={80}
-            className="object-cover rounded-md"
-          />
-          <div className="flex-1 text-sm text-gray-700">
-            <p className="font-semibold">{orderData.productDetails[0].name}</p>
-            <p><strong>Category: </strong>{orderData.productDetails[0].category}</p>
-            <p><strong>Colour: </strong>{orderData.productDetails[0].color}</p>
-            <p><strong>Order Date: </strong>{new Date(orderData.productDetails[0].createdAt).toLocaleDateString()}</p>
-            <p>{orderData.productDetails[0].description}</p>
+      {orderData.productDetails.map((product, index) => {
+        const orderProduct = orderData.order.products.find(p => p.product === product._id);
+        const discountPercentage = product.discount?.percentage || 0;
+        const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2);
 
+        return (
+          <div key={index} className="flex justify-between items-center border border-gray-300 rounded-lg p-4 mb-4">
+            <div className="flex justify-start items-center gap-x-6">
+              <Image
+                src={product.images.medium}
+                alt={product.name}
+                height={80}
+                width={80}
+                className="object-cover rounded-md"
+              />
+              <div className="flex-1 text-sm text-gray-700">
+                <p className="font-semibold">{product.name}</p>
+                <p><strong>Category: </strong>{product.category}</p>
+                <p><strong>Order Date: </strong>{new Date(orderData.order.createdAt).toLocaleDateString()}</p>
+                <p><strong>Quantity: </strong>{orderProduct?.quantity}</p>
+                <p>{product.description}</p>
+              </div>
+            </div>
+            {discountPercentage > 0 && (
+              <div className="flex flex-col items-start justify-start gap-x-4 font-medium">
+                <p className="font-semibold text-black text-sm line-through">₹{product.price}</p>
+                <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
+                <p className='text-base font-semibold text-green-600'> ₹{discountedPrice}</p>
+              </div>
+            )}
           </div>
-        </div>
-        {discountPercentage > 0 && (
-          <div className="flex flex-col items-start justify-start gap-x-4 font-medium">
-            <p className="font-semibold text-black text-sm line-through">₹{orderData.productDetails[0].price}</p>
-            <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
-            <p className='text-base font-semibold text-green-600'> ₹{(orderData.productDetails[0].price - (orderData.productDetails[0].price * discountPercentage) / 100).toFixed(2)}</p>
-          </div>
-        )}
-      </div>
+        );
+      })}
 
       <div className="text-sm text-gray-700 mb-4">
         <div className="flex justify-between">
           <span>Subtotal:</span>
-          <span></span>
+          <span>₹{orderData.order.totalAmount}</span>
         </div>
         <div className="flex justify-between">
           <span>Delivery:</span>
@@ -122,7 +124,7 @@ const OrderDetails = () => {
         <hr className="my-2" />
         <div className="flex justify-between font-semibold">
           <span>TOTAL AMOUNT:</span>
-          <p className='text-base font-semibold text-green-600 pr-4'> ₹{(orderData.productDetails[0].price - (orderData.productDetails[0].price * discountPercentage) / 100).toFixed(2)}</p>
+          <span className='text-base font-semibold text-green-600 pr-4'> ₹{orderData.order.totalAmount}</span>
         </div>
       </div>
 
@@ -137,14 +139,9 @@ const OrderDetails = () => {
       </div>
 
       <div className="text-sm text-gray-700 mb-6">
-        <p className="font-semibold">Payment ID:</p>
-        <p>{orderData.order.paymentId}</p>
+        <p className="font-semibold">Payment Status:</p>
+        <p>{orderData.order.paymentStatus}</p>
       </div>
-
-      {/* <Button className="w-fit bg-indigo-900 text-white flex items-center gap-2 px-10">
-        <Download className="w-4 h-4" />
-        Download Invoice
-      </Button> */}
     </div>
   );
 };

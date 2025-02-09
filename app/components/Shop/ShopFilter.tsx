@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Product } from '@/types/product_type';
 import ShopCard from '@/app/components/Shop/ShopCard';
-import { X, SlidersHorizontal } from 'lucide-react';
+import { X, SlidersHorizontal, CircleX } from 'lucide-react';
 
 interface FilterProps {
    isSubroute?: boolean;
@@ -239,15 +239,15 @@ const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
                         {(filters[name] || []).map((selected: string) => (
                            <span
                               key={selected}
-                              className="bg-indigo-600 text-white px-2 py-1 rounded-md flex items-center"
+                              className="px-2 py-1 rounded-md flex items-center"
                            >
                               {selected}
                               <button
                                  type="button"
-                                 className="ml-1 text-white hover:text-gray-300"
+                                 className="hover:text-gray-600 ml-1 text-red-800"
                                  onClick={() => removeSelectedFilter(name, selected)}
                               >
-                                 ✕
+                                 <CircleX size={16} strokeWidth={1} />
                               </button>
                            </span>
                         ))}
