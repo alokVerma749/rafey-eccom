@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
         endDate: null,
       },
       onSale: body.onSale || false,
+      isCustomizable: body.iscustomizable || false,
     });
 
     const savedProduct = await newProduct.save();
@@ -92,7 +93,7 @@ export async function PATCH(request: NextRequest) {
         tags: tagIds,
         images: {
           thumbnail: updateData.image || "",
-          medium: updateData.image|| "",
+          medium: updateData.image || "",
           large: updateData.image || "",
         },
         discount: updateData.discount !== undefined

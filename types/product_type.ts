@@ -23,6 +23,7 @@ export interface Product {
     endDate?: Date; // Optional: End date of the discount
   };
   onSale: boolean;
+  isCustomizable: boolean;
   createdAt: Date; // Required: Date of product creation
   updatedAt: Date; // Required: Date of last update
 }

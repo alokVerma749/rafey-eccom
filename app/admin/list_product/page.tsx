@@ -25,6 +25,7 @@ interface ProductFormValues {
   subCategory: string[];
   discount: number;
   variations: string[];
+  iscustomizable: boolean;
 }
 
 export default function ListProductPage() {
@@ -43,6 +44,7 @@ export default function ListProductPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [savedSubCategories, setSavedSubCategories] = useState<string[]>([]); // Track saved subcategories
   const [savedTags, setSavedTags] = useState<string[]>([]); // Track saved tags
+  const [iscustomizable, setIscustomizable] = useState<boolean>(false);
 
   const category = watch('category') || '';
 
@@ -114,6 +116,7 @@ export default function ListProductPage() {
       ...data,
       tags,
       subCategory: subCategories,
+      iscustomizable,
     };
 
     reset();
@@ -239,6 +242,7 @@ export default function ListProductPage() {
               />
               <Button type="button" onClick={addSubCategory}>Add</Button>
             </div>
+
             <div className="space-y-2 flex w-full justify-start gap-2 text-wrap overflow-auto">
               {subCategories.map((subCategory, index) => (
                 <div key={index}>
@@ -278,6 +282,18 @@ export default function ListProductPage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* fix this field */}
+          <div className="flex items-center space-x-2">
+            <Label htmlFor="customizable">Customizable</Label>
+            <input
+              id="customizable"
+              type="checkbox"
+              {...register('iscustomizable')}
+              checked={iscustomizable}
+              onChange={(e) => setIscustomizable(e.target.checked)}
+            />
           </div>
 
           <div className="min-h-48 border rounded flex items-center justify-center">
