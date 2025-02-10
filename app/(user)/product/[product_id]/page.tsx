@@ -80,29 +80,24 @@ export default async function ProductPage({ params }: productProps) {
             {/* Delivery Options */}
             <div className="py-4">
               <label className="block text-base font-semibold pt-4">🚚 DELIVERY OPTIONS</label>
-              <div className="flex flex-col md:flex-row items-start md:justify-between md:items-center mt-2 md:space-x-2 space-y-2 md:space-y-0">
+              <div className="mt-2 space-x-2 space-y-2 md:space-y-0">
                 <input
                   type="text"
                   placeholder="Enter Pincode"
-                  className="flex-1 border border-gray-300 rounded-md p-1 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="flex-1 border w-[60%] md:w-1/2 rounded-md p-1 focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 <Button className="mt-2 md:mt-0">Check</Button>
               </div>
+
+              <div className="border mt-6 mb-4 w-1/2 mx-auto md:hidden"></div>
               <ul className="text-sm text-gray-500 mt-2 list-disc pl-5">
+                {
+                  product.isCustomizable && <li className="text-green-700">This product is customizable</li>
+                }
                 <li>100% Original Products</li>
                 <li>Only Prepaid payment is acceptable</li>
                 <li>No return and exchange available</li>
               </ul>
-            </div>
-
-            {/* Best Offers */}
-            <div className="py-4">
-              {/* Terms and Conditions */}
-              <div className="mt-4">
-                <h4 className="text-sm font-semibold text-indigo-600 underline cursor-pointer">
-                  TERMS & CONDITIONS
-                </h4>
-              </div>
             </div>
           </div>
         </div>
