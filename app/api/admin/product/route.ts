@@ -85,6 +85,7 @@ export async function PATCH(request: NextRequest) {
       .map((id: string) => (mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null))
       .filter((id: mongoose.Types.ObjectId | null): id is mongoose.Types.ObjectId => id !== null);
 
+    console.log(updateData, 'updateData')
     const updatedProduct = await Products.findByIdAndUpdate(
       id,
       {
@@ -98,7 +99,7 @@ export async function PATCH(request: NextRequest) {
         },
         discount: updateData.discount !== undefined
           ? {
-            percentage: updateData.discount ?? 0,
+            percentage: updateData.discount.percentage ?? 0,
             startDate: updateData.discount.startDate ? new Date(updateData.discount.startDate) : new Date(),
             endDate: updateData.discount.endDate ? new Date(updateData.discount.endDate) : null,
           }

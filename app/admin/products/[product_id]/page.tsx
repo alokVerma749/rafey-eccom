@@ -1,9 +1,9 @@
 'use client'
 
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import ProductDetail from "@/app/components/Admin/Products/ProductDetail";
 import { Product } from "@/types/product_type";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function ProductPage() {
   const { product_id } = useParams();

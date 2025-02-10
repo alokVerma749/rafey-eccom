@@ -42,6 +42,8 @@ function ProductDetail({ product }: { product: Product }) {
 
   const handleUpdate = async () => {
     try {
+
+      console.log(formData,'FormData')
       const response = await fetch(`/api/admin/product`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -157,7 +159,7 @@ function ProductDetail({ product }: { product: Product }) {
           {(["large", "medium", "thumbnail"] as const).map((key) => (
             <div key={key} className="flex items-center gap-2 bg-gray-100 p-2 rounded">
               {product?.images?.[key] ? (
-                <Image src={product.images[key]} alt={`${key} Image`} width={40} height={40} className="rounded" />
+                <Image src={product.images[key] || formData.image} alt={`${key} Image`} width={40} height={40} className="rounded" />
               ) : (
                 <span className="text-gray-500">No {key} Image</span>
               )}
