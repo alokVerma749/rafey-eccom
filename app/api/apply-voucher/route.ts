@@ -31,7 +31,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     if (voucher.usedCount > voucher.maxUsage) {
-      return NextResponse.json({ message: 'Voucher reached its maximum usage' }, { status: 200 });
+      return NextResponse.json({ message: 'Voucher reached its maximum usage' }, { status: 500 });
     }
 
     const discountAmount = (cartTotal * voucher.percentage) / 100;

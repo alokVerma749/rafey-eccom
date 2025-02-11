@@ -1,47 +1,46 @@
-'use client'
+"use client"
 
-import { useState } from 'react';
-import { IDiscountToken } from "@/types/vouchers_type";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Plus } from 'lucide-react';
-import { VoucherCard } from '../VoucherCard';
+import { useState } from "react"
+import type { IDiscountToken } from "@/types/vouchers_type"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { Plus } from "lucide-react"
+import { VoucherCard } from "../VoucherCard"
 
 interface VoucherListProps {
-  vouchers: IDiscountToken[];
+  vouchers: IDiscountToken[]
+  isActive: boolean
 }
 
-export function VoucherList({ vouchers: initialVouchers }: VoucherListProps) {
-  const [vouchers, setVouchers] = useState(initialVouchers);
+export function VoucherList({ vouchers: initialVouchers, isActive }: VoucherListProps) {
+  const [vouchers, setVouchers] = useState(initialVouchers)
 
-  const handleDisableVoucher = async (code: string) => {
-    // TODO: Implement the API call to disable the voucher
-    console.log(`Disabling voucher with code: ${code}`);
-    
-    setVouchers(vouchers.map(v => 
-      v.code === code ? { ...v, isActive: false } : v
-    ));
-  };
+  const handleToggleVoucher = async (code: string) => {
+    const res = await fetch(`/api/admin/voucher`, {
+      method: "PATCH",
+      body: JSON.stringify({ code, isActive: !isActive }),
+    })
+
+    if (res.ok) {
+      setVouchers(vouchers.filter((v) => v.code !== code))
+    }
+  }
 
   return (
     <div className="max-w-md mx-auto space-y-4">
       {vouchers.map((voucher) => (
-        <VoucherCard
-          key={voucher.code} 
-          voucher={voucher} 
-          onDisable={handleDisableVoucher} 
-        />
+        <VoucherCard key={voucher.code} voucher={voucher} onToggle={handleToggleVoucher} />
       ))}
-      
-      <Link href="/admin/voucher/create-voucher" className="block">
-        <Button 
-          variant="outline" 
-          className="w-full mt-6 border-dashed"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          <Link href="/admin/voucher/create-voucher">Add New Voucher</Link>
-        </Button>
-      </Link>
+
+      {isActive && (
+        <Link href="/admin/voucher/create-voucher" className="block">
+          <Button variant="outline" className="w-full mt-6 border-dashed">
+            <Plus className="mr-2 h-4 w-4" />
+            Add New Voucher
+          </Button>
+        </Link>
+      )}
     </div>
-  );
+  )
 }
+

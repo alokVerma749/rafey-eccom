@@ -32,3 +32,41 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  try {
+    await connect_db();
+
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const { code } = await request.json();
+    const voucher = await DiscountToken.findOne({ code });
+
+    if (!voucher) {
+      return NextResponse.json(
+        { error: 'Voucher not found' },
+        { status: 404 }
+      );
+    }
+
+    voucher.isActive = !voucher.isActive;
+    await voucher.save();
+
+    return NextResponse.json(
+      { message: 'Voucher deactivated', voucher },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error('Error deactivating voucher:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

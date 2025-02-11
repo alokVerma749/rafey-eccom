@@ -297,7 +297,7 @@ export const CartList = () => {
 
               {/* Savings */}
               <p className="text-green-600 text-sm">
-                You Will Save ₹{(cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0) + vocherDiscount).toFixed(2)} On This Order
+                You Will Save ₹{(cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0) + vocherDiscount).toFixed(2) || 0} On This Order
               </p>
 
               {/* Voucher Section */}
