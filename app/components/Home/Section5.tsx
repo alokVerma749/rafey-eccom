@@ -24,8 +24,13 @@ async function Section5() {
 					<Link
 						key={index}
 						href={`/product/${product._id}`}
-						className="hover:pointer shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
+						className="cursor-pointer relative shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
 					>
+						{product.onSale && (
+							<div className="absolute top-[-8] right-[-8] bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+								On Sale
+							</div>
+						)}
 						<Image
 							height={200}
 							width={200}
@@ -34,7 +39,7 @@ async function Section5() {
 							className="w-full h-auto max-w-full mx-auto mb-4"
 						/>
 						<div className='px-2'>
-							<p className="font-bold text-base md:text-lg text-black text-start">${product.price}</p>
+							<p className="font-bold text-base md:text-lg text-black text-start">₹{product.price}</p>
 							<h2 className="text-base font-medium mb-2 text-start">{product.name}</h2>
 							<p className="text-sm text-gray-600 mb-2 text-start">{product.description}</p>
 						</div>

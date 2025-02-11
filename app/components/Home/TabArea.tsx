@@ -3,8 +3,7 @@ import { TabCard } from "./TabCard";
 import { Product } from "@/types/product_type";
 
 export function TabArea({ cardDetail }: { cardDetail: Product[] }) {
-  console.log("Rendering TabArea with cardDetail:", cardDetail);
-  const defaultCard = cardDetail[0]; // Corrected variable name
+  const defaultCard = cardDetail[0];
 
   return (
     <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg">

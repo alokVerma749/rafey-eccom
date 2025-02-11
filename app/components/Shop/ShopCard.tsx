@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/types/product_type';
+import { Pencil } from 'lucide-react';
 
 function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
   return (
@@ -9,7 +10,17 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
         filteredProducts.map((item) => {
           const discountPercentage = item.discount?.percentage || 0;
           return (
-            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md mb-4 w-full">
+            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md mb-4 w-full relative">
+              {item.onSale && (
+                <div className="absolute top-[-8] right-[-8] bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                  On Sale
+                </div>
+              )}
+              {item.isCustomizable && (
+                <div className="absolute top-2 left-2 bg-slate-300 text-black text-xs font-bold p-2 rounded-full flex items-center">
+                  <Pencil size={14} strokeWidth={1.5} />
+                </div>
+              )}
               <Image
                 height={200}
                 width={200}
@@ -38,4 +49,4 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
   )
 }
 
-export default ShopCard
+export default ShopCard;

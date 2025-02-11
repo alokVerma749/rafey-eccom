@@ -22,15 +22,11 @@ function ProductDetail({ product }: { product: Product }) {
     stock: product?.stock || 0,
     price: product?.price || 0,
     onSale: product?.onSale || false,
-    discount: {
-      percentage: product?.discount?.percentage || 0,
-      startDate: product?.discount?.startDate || new Date(),
-      endDate: product?.discount?.endDate || null,
-    },
+    discount: product?.discount?.percentage || 0 ,
     image: product?.images?.large || "",
   });
 
-  const discountedPrice = formData.price - (formData.price * (formData.discount.percentage ?? 0)) / 100;
+  const discountedPrice = formData.price - (formData.price * (formData.discount ?? 0)) / 100;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, checked } = e.target;
@@ -123,7 +119,7 @@ function ProductDetail({ product }: { product: Product }) {
         <Input id="price" type="number" value={formData.price} onChange={handleChange} />
 
         <Label htmlFor="discount">Discount (%)</Label>
-        <Input id="discount" type="number" value={formData.discount.percentage} onChange={handleChange} />
+        <Input id="discount" type="number" value={formData.discount} onChange={handleChange} />
         <p className="text-gray-600 text-sm">Sale Price: ₹{discountedPrice.toFixed(2)}</p>
 
         <div className="flex items-center space-x-2">

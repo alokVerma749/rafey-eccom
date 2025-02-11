@@ -6,7 +6,6 @@ import Link from "next/link";
 export function TabCard({ cardDetail }: { cardDetail: Product }) {
   const { name, price, images, discount, _id } = cardDetail;
   const discountText = discount ? `${discount.percentage}% OFF` : "No Discount";
-  console.log(cardDetail, "%%%%%%")
 
   return (
     <Link href={`/product/${_id}`}>

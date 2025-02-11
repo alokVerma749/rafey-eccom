@@ -85,7 +85,6 @@ export async function PATCH(request: NextRequest) {
       .map((id: string) => (mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null))
       .filter((id: mongoose.Types.ObjectId | null): id is mongoose.Types.ObjectId => id !== null);
 
-    console.log(updateData, 'updateData')
     const updatedProduct = await Products.findByIdAndUpdate(
       id,
       {

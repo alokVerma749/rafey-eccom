@@ -28,8 +28,13 @@ async function Section2() {
           <Link
             key={index}
             href={`/product/${product._id}`}
-            className="hover:pointer shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
+            className="cursor-pointer relative shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
           >
+            {product.onSale && (
+              <div className="absolute top-[-8] right-[-8] bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                On Sale
+              </div>
+            )}
             <Image
               height={200}
               width={200}
@@ -39,7 +44,7 @@ async function Section2() {
             />
             <div className="flex flex-col items-start pl-2">
               <p className="font-semibold text-base xs:text-lg md:text-xl text-black text-start">
-              ₹{product.price}
+                ₹{product.price}
               </p>
               <h2 className="text-sm xs:text-base md:text-lg font-medium mb-2 text-start uppercase">
                 {product.name}
