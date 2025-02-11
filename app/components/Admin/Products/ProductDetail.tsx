@@ -42,8 +42,6 @@ function ProductDetail({ product }: { product: Product }) {
 
   const handleUpdate = async () => {
     try {
-
-      console.log(formData,'FormData')
       const response = await fetch(`/api/admin/product`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },

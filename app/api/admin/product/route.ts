@@ -99,7 +99,7 @@ export async function PATCH(request: NextRequest) {
         },
         discount: updateData.discount !== undefined
           ? {
-            percentage: updateData.discount.percentage ?? 0,
+            percentage: updateData.discount ?? 0,
             startDate: updateData.discount.startDate ? new Date(updateData.discount.startDate) : new Date(),
             endDate: updateData.discount.endDate ? new Date(updateData.discount.endDate) : null,
           }
