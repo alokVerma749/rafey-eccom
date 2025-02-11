@@ -10,7 +10,7 @@ import Section7 from "./components/Home/Section7";
 
 export default function Home() {
   return (
-    <div>
+    <div className="font-bellefair">
       <Hero />
       <div className="w-[95%] mx-auto">
         <Section2 />

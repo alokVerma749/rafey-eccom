@@ -49,19 +49,19 @@ const OrderHistory = async () => {
             <li key={order._id} className="py-4">
               <div className="flex justify-between">
                 <div>
-                  <p className="text-sm text-gray-700">
+                  <p className="text-base text-gray-700">
                     Order ID: <span className="font-semibold">{order._id}</span>
                   </p>
-                  <p className="text-sm text-gray-600">Status: {order.orderStatus}</p>
-                  <p className="text-sm text-gray-600">Total: ₹{order.totalAmount.toFixed(2)}</p>
-                  <p className="text-sm text-gray-600">Quantity: {order.products.length}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-base text-gray-600">Status: {order.orderStatus}</p>
+                  <p className="text-base text-gray-600">Total: ₹{order.totalAmount.toFixed(2)}</p>
+                  <p className="text-base text-gray-600">Quantity: {order.products.length}</p>
+                  <p className="text-base text-gray-600">
                     Payment:{" "}
                     <span className={`font-semibold ${order.paymentStatus === "pending" ? "text-red-500" : "text-green-500"}`}>
                       {order.paymentStatus}
                     </span>
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-base text-gray-500">
                     Placed on: {new Date(order.createdAt).toLocaleString()}
                   </p>
                 </div>

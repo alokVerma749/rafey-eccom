@@ -1,7 +1,6 @@
 'use client'
 
 import { DeliveryTracker } from "@/app/components/Profile/DeliveryTracker";
-import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { Product } from '@/types/product_type';
 import { toast } from "@/hooks/use-toast";
@@ -70,7 +69,6 @@ const OrderDetails = () => {
     <div className="max-w-5xl mx-auto p-6 rounded-lg shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
-          <ArrowLeft className="cursor-pointer" />
           <h2 className="text-lg font-semibold"><strong>ORDER ID: </strong>{orderData.order._id}</h2>
         </div>
       </div>
@@ -93,7 +91,7 @@ const OrderDetails = () => {
                 width={80}
                 className="object-cover rounded-md"
               />
-              <div className="flex-1 text-sm text-gray-700">
+              <div className="flex-1 text-base text-gray-700">
                 <p className="font-semibold">{product.name}</p>
                 <p><strong>Category: </strong>{product.category}</p>
                 <p><strong>Order Date: </strong>{new Date(orderData.order.createdAt).toLocaleDateString()}</p>
@@ -103,8 +101,8 @@ const OrderDetails = () => {
             </div>
             {discountPercentage > 0 && (
               <div className="flex flex-col items-start justify-start gap-x-4 font-medium">
-                <p className="font-semibold text-black text-sm line-through">₹{product.price}</p>
-                <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
+                <p className="font-semibold text-black text-base line-through">₹{product.price}</p>
+                <p className="text-green-600 text-base">{discountPercentage} % OFF</p>
                 <p className='text-base font-semibold text-green-600'> ₹{discountedPrice}</p>
               </div>
             )}
@@ -112,7 +110,7 @@ const OrderDetails = () => {
         );
       })}
 
-      <div className="text-sm text-gray-700 mb-4">
+      <div className="text-base text-gray-700 mb-4">
         <div className="flex justify-between">
           <span>Subtotal:</span>
           <span>₹{orderData.order.totalAmount}</span>
@@ -128,17 +126,17 @@ const OrderDetails = () => {
         </div>
       </div>
 
-      <div className="text-sm text-gray-700 mb-4">
+      <div className="text-base text-gray-700 mb-4">
         <p><strong>Order updates sent to:</strong> {user?.email} | {user?.phone}</p>
       </div>
 
-      <div className="text-sm text-gray-700 mb-4">
+      <div className="text-base text-gray-700 mb-4">
         <p className="font-semibold">Delivering at:</p>
         <p>{user?.address}</p>
         <p>Phone: {user?.phone}</p>
       </div>
 
-      <div className="text-sm text-gray-700 mb-6">
+      <div className="text-base text-gray-700 mb-6">
         <p className="font-semibold">Payment Status:</p>
         <p>{orderData.order.paymentStatus}</p>
       </div>

@@ -40,7 +40,7 @@ function Section4() {
           <div className="p-6 md:p-8 flex flex-col h-[400px] md:h-[300px] justify-between">
             <div className="md:max-w-[60%]">
               <h2 className="font-serif text-xl md:text-2xl mb-2 md:mb-4">{card.name}</h2>
-              <p className="text-sm tracking-wide">{card.description}</p>
+              <p className="tracking-wide text-base">{card.description}</p>
             </div>
           </div>
           <div className="absolute top-0 right-0 w-full md:w-[40%] h-1/2 md:h-full">

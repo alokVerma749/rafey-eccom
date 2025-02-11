@@ -26,7 +26,7 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
                     <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
                   </div>
                 )}
-                <p className="text-sm text-gray-400">{item.category}</p>
+                <p className="text-base text-gray-400">{item.category}</p>
               </div>
             </Link>
           );

@@ -65,7 +65,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="p-6 space-y-6 min-h-screen relative">
+    <div className="p-6 space-y-6 min-h-screen relative font-bellefair w-[80%]">
       <div className="min-h-screen relative w-full mx-10 my-6">
         <h2 className="font-semibold text-2xl my-2">Order List</h2>
         <div className="shadow-lg border p-4 rounded-lg">
@@ -107,7 +107,7 @@ export default function OrdersPage() {
                     orders.map((order, idx) => {
                       const products = order.products;
                       return (
-                        <TableRow key={order._id}>
+                        <TableRow key={order._id} className="text-base">
                           <TableCell>{idx + 1}</TableCell>
                           <TableCell>{new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}</TableCell>
                           <TableCell>

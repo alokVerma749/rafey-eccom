@@ -41,7 +41,7 @@ export function AdminSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="">
+            <SidebarMenu className="font-bellefair">
             <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-4">Wonders Tapestry</Link>
               {items.map((item) => {
                 const isActive = pathname === item.url;
@@ -50,11 +50,10 @@ export function AdminSidebar() {
                     <SidebarMenuButton asChild>
                       <Link
                         href={item.url}
-                        className={`flex items-center gap-2 p-2 rounded-lg ${isActive ? "text-indigo-600 bg-gray-100" : "hover:bg-gray-200"
-                          }`}
+                        className={`flex items-center gap-2 p-2 rounded-lg ${isActive ? "text-indigo-600 bg-gray-100" : "hover:bg-gray-200"}`}
                       >
                         <item.icon className="w-5 h-5" />
-                        <span>{item.title}</span>
+                        <span className="text-lg">{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

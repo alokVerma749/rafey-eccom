@@ -20,7 +20,7 @@ export default function ProductPage() {
 
 
   return (
-    <div className="w-full mt-6">
+    <div className="w-full mt-6 font-bellefair">
       <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold p-2">Product Detail</h1>
       {product && <ProductDetail product={product} />}
     </div>
