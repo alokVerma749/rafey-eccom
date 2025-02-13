@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const FeatureFlagsSchema = new mongoose.Schema({
-  enableDiscounts: { type: Boolean, default: false },
+  enableSale: { type: Boolean, default: false },
   showOutOfStock: { type: Boolean, default: true },
   enableMarquee: { type: Boolean, default: true },
 }, { _id: false });

@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { products, currency, userEmail, address, pincode, phone, name } = await req.json();
+    const { products, currency, userEmail, address, pincode, phone, name, finalPrice } = await req.json();
 
     if (!products || !Array.isArray(products) || products.length === 0) {
       return NextResponse.json(
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
       userId: user?._id, //next-auth userId
       orderId: order.id,
       status: order.status,
-      amount: totalAmount,
+      amount: finalPrice || totalAmount,
       currency: currency || "INR",
       receipt: order.receipt,
       notes: order.notes,

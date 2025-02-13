@@ -1,83 +1,41 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { CartItem } from '@/types/cart';
 import { useCart } from '@/context/cartContext';
-import { CartItem as CartItemModel } from '@/models/cart-model';
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import { getUserAccount, updateUser } from '@/db_services/user';
-import { UserAccount } from '@/models/user_model';
-import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogContent, DialogFooter } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
+import { updateUser } from '@/db_services/user';
 import { Input } from '@/components/ui/input';
 import Shimmer from '../../Shimmer';
-import Link from 'next/link';
+import { AdressDialog } from '../AddressDialog';
+import { useCartData } from '@/hooks/useCartData';
 
 export const CartList = () => {
   const { dispatch } = useCart();
-  const [cart, setCart] = useState<CartItemModel[]>([]);
-  const [, setCart_id] = useState<string>("");
-  const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number, description: string, customization: string })[]>([]);
-  const [user, setUser] = useState<UserAccount | null>(null);
   const session = useSession();
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  const [voucherCode, setVoucherCode] = useState('');
-  const [vocherDiscount, setVoucherDiscount] = useState(0);
-  const [voucherError, setVoucherError] = useState('');
-
-  // fetch user cart
-  useEffect(() => {
-    const fetchCart = async () => {
-      if (!session.data?.user?.email) return;
-      const cartResponse = await fetch(`/api/cart?userId=${session.data.user.email}`);
-      const cartData = await cartResponse.json();
-      setCart(cartData.cart.items);
-      setCart_id(cartData.cart._id);
-    };
-
-    const fetchUser = async () => {
-      const userAccount = await getUserAccount(session.data?.user?.email ?? '');
-      const userAccountData = JSON.parse(userAccount);
-      setUser(userAccountData);
-    };
-
-    const fetchData = async () => {
-      await Promise.all([fetchCart(), fetchUser()]);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [session.data?.user?.email]);
-
-  // fetch cart products
-  useEffect(() => {
-    const fetchCartProducts = async () => {
-      const products = await Promise.all(
-        cart.map(async (item: CartItemModel) => {
-          const productResponse = await fetch(`/api/product?productId=${item.productId}`);
-          const productData = await productResponse.json();
-
-          // Merge product data with quantity
-          return {
-            ...productData.product,
-            quantity: item.quantity,
-            customization: item.customization,
-          };
-        })
-      );
-      setCartProducts(products);
-    };
-
-    if (cart.length > 0) {
-      fetchCartProducts();
-    }
-  }, [cart]);
+  const {
+    cart,
+    cartProducts,
+    user,
+    threshold,
+    loading,
+    voucherCode,
+    setVoucherCode,
+    voucherDiscount,
+    setVoucherDiscount,
+    voucherError,
+    setVoucherError,
+    DELIVERY_FEE,
+    setUser,
+    setCart,
+    setCartProducts,
+  } = useCartData();
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
     //if quantity is less than 0, restrict from increasing quantity
@@ -146,12 +104,6 @@ export const CartList = () => {
     }
   };
 
-  const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-  const totalPrice = cartProducts
-    .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
-    .toFixed(2);
-
-
   const handleApplyVoucher = async () => {
     if (!voucherCode) {
       setVoucherError('Please enter a voucher code.');
@@ -164,7 +116,7 @@ export const CartList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ voucherCode, cartTotal: totalPrice }),
+        body: JSON.stringify({ voucherCode, cartTotal: finalPrice }),
       });
       const data = await response.json();
 
@@ -182,6 +134,14 @@ export const CartList = () => {
       setVoucherError('Failed to validate voucher. Try again.');
     }
   };
+
+  const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+  const totalPrice = cartProducts
+    .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
+     DELIVERY_FEE.toFixed(2);
+
+  // Calculate final price
+  const finalPrice = threshold !== null && Number(totalPrice) >= threshold ? totalPrice : totalPrice + DELIVERY_FEE;
 
   if (loading) {
     return <Shimmer />;
@@ -214,11 +174,13 @@ export const CartList = () => {
           <div className="flex flex-col md:flex-row justify-between items-start gap-4 ">
             <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6 w-full md:w-2/3">
               {cartProducts.map((item) => (
-                <Link href={`/product/${item._id}`}
+                <div
                   key={item._id}
                   className="flex flex-col sm:flex-row justify-between items-start rounded-lg border w-full"
                 >
-                  <Image src={item.images?.medium} alt={item.name} width={200} height={250} />
+                  <Link href={`/product/${item._id}`}>
+                    <Image src={item.images?.medium} alt={item.name} width={200} height={250} />
+                  </Link>
                   <div className="sm:ml-4 flex-1 py-2">
                     <h3 className="text-lg uppercase">{item.name}</h3>
                     <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">{item.description}</p>
@@ -252,7 +214,7 @@ export const CartList = () => {
                       />
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
 
@@ -274,29 +236,31 @@ export const CartList = () => {
                 </div>
 
                 {/* voucher discount */}
-                {vocherDiscount > 0 && (<div className="flex justify-between text-gray-700">
+                {voucherDiscount > 0 && (<div className="flex justify-between text-gray-700">
                   <span>Voucher Discount</span>
                   <span className="text-green-600">
-                    -₹{vocherDiscount.toFixed(2)}
+                    -₹{voucherDiscount.toFixed(2)}
                   </span>
                 </div>)}
 
                 {/* Delivery Fee */}
                 <div className="flex justify-between text-gray-700">
                   <span>Delivery Fee</span>
-                  <span className="text-gray-700">+₹000.00</span>
+                  <span className="text-gray-700">
+                    {threshold !== null && Number(totalPrice) >= threshold ? "+₹0.00" : `+₹${DELIVERY_FEE}.00`}
+                  </span>
                 </div>
 
                 {/* Total Amount */}
                 <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
                   <span>Total Amount</span>
-                  <span>₹{vocherDiscount ? (Number(totalPrice) - vocherDiscount).toFixed(2) : totalPrice}</span>
+                  <span>₹{voucherDiscount ? (Number(finalPrice) - voucherDiscount).toFixed(2) : finalPrice}</span>
                 </div>
               </div>
 
               {/* Savings */}
               <p className="text-green-600 text-sm">
-                You Will Save ₹{(cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0) + vocherDiscount).toFixed(2) || 0} On This Order
+                You Will Save ₹{(cartProducts.reduce((total, item) => total + (item.price * (item.discount?.percentage ?? 0)) / 100 * item.quantity, 0) + voucherDiscount).toFixed(2) || 0} On This Order
               </p>
 
               {/* Voucher Section */}
@@ -319,102 +283,13 @@ export const CartList = () => {
       </div>
 
       {/* Address Modal */}
-      <Dialog open={isAddressModalOpen} onOpenChange={setIsAddressModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Update Address</DialogTitle>
-            <DialogDescription>
-              Please update your address and pincode to proceed with checkout.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="mobile" className="text-right">
-                Mobile
-              </Label>
-              <Input
-                id="mobile"
-                value={user?.phone}
-                onChange={(e) => setUser({ ...user, phone: e.target.value } as UserAccount)}
-                placeholder="Enter your mobile number"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="country" className="text-right">
-                Country
-              </Label>
-              <Input
-                id="country"
-                value={user?.country}
-                onChange={(e) => setUser({ ...user, country: e.target.value } as UserAccount)}
-                placeholder="Enter your country"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="state" className="text-right">
-                State
-              </Label>
-              <Input
-                id="state"
-                value={user?.state}
-                onChange={(e) => setUser({ ...user, state: e.target.value } as UserAccount)}
-                placeholder="Enter your state"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="address" className="text-right">
-                Address
-              </Label>
-              <Input
-                id="address"
-                value={user?.address}
-                onChange={(e) => setUser({ ...user, address: e.target.value } as UserAccount)}
-                placeholder="Enter your address"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="pincode" className="text-right">Pincode</Label>
-              <Input
-                id="pincode"
-                value={user?.pincode}
-                onChange={(e) => setUser({ ...user, pincode: e.target.value } as UserAccount)}
-                placeholder="Enter your pincode"
-                className="col-span-3"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="button" onClick={handleSaveAddress}>Save</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <AdressDialog
+        isOpen={isAddressModalOpen}
+        onClose={setIsAddressModalOpen}
+        user={user}
+        setUser={setUser}
+        handleSaveAddress={handleSaveAddress}
+      />
     </>
   );
 };
-
-
-// TODO:
-{/* Personalization Section */ }
-//  <div>
-//  <div className="flex justify-between items-center gap-x-4">
-//    <Personalize product={item} cart_id={cart_id} />
-
-//    {/* Whatsapp Button */}
-//    <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
-//      target="_blank"
-//      className="bg-green-500 rounded-full p-2">
-//      <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} />
-//    </Link>
-//  </div>
-//  <p className="text-sm text-gray-500 mt-1">
-//    Customize Your Product By Adding Your Name For A Personal Touch
-//  </p>
-//  <p className=" text-gray-300 text-sm">
-//    <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
-//  </p>
-// </div>

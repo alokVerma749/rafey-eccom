@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 interface FeatureFlags {
-  enableDiscounts: boolean
+  enableSale: boolean
   showOutOfStock: boolean
   enableMarquee: boolean
 }
@@ -45,7 +45,7 @@ interface AdminSettings {
 
 const defaultSettings: AdminSettings = {
   featureFlags: {
-    enableDiscounts: false,
+    enableSale: false,
     showOutOfStock: true,
     enableMarquee: true,
   },
@@ -181,7 +181,7 @@ export default function AdminSettingsForm() {
           <h2 className="text-2xl font-bold mb-6">Feature Flags</h2>
           <div className="space-y-4">
             {[
-              { id: "enableDiscounts", label: "Enable Discounts" },
+              { id: "enableSale", label: "Enable Sale" },
               { id: "showOutOfStock", label: "Show Out of Stock Items" },
               { id: "enableMarquee", label: "Enable Marquee" },
             ].map(({ id, label }) => (
