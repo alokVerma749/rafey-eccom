@@ -7,10 +7,12 @@ import Section4 from "./components/Home/Section4";
 import Section5 from "./components/Home/Section5";
 import Section6 from "./components/Home/Section6";
 import Section7 from "./components/Home/Section7";
+import { Marquee } from "./components/Marquee";
 
 export default function Home() {
   return (
     <div className="font-bellefair">
+      <Marquee messages={["Welcome! to Wonders Tapestry", "Luxury Gold & Silver Pieces", "Handcrafted Elegance", "Timeless Beauty"]} />
       <Hero />
       <div className="w-[95%] mx-auto">
         <Section2 />

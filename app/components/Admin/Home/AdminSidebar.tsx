@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname
-import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon, Ticket } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 const items = [
@@ -31,6 +31,11 @@ const items = [
     url: "/admin/voucher",
     icon: Ticket,
   },
+  {
+    title: "Settings",
+    url: "/admin/settings",
+    icon: Settings,
+  },
 ];
 
 export function AdminSidebar() {
@@ -42,7 +47,7 @@ export function AdminSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="font-bellefair">
-            <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-4">Wonders Tapestry</Link>
+              <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-4">Wonders Tapestry</Link>
               {items.map((item) => {
                 const isActive = pathname === item.url;
                 return (

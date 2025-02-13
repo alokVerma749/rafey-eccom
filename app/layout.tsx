@@ -5,7 +5,6 @@ import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
 import { getSession } from "@/utils/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from "@/context/cartContext";
-import { Marquee } from "./components/Marquee";
 
 const bellefairFont = Bellefair({
   weight: "400",
@@ -37,7 +36,6 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
       <SessionProviderWrapper session={session}>
         <CartProvider session={session}>
           <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
-            <Marquee messages={["Welcome! to Wonders Tapestry", "Luxury Gold & Silver Pieces", "Handcrafted Elegance", "Timeless Beauty"]} />
             <div className="bg-background"></div>
             <div className="min-h-[70vh]">
               {children}
