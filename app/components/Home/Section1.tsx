@@ -3,8 +3,12 @@ import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
 import { ShoppingBag } from 'lucide-react';
+import getAdminSettingsAction from '@/actions/adminSettings/get-admin-settings';
 
-function Hero() {
+async function Hero() {
+  const response = await getAdminSettingsAction();
+  const settings = response ? JSON.parse(response as string) : [];
+
   const navLinks = ['Candles', 'Ceramic Art', 'Resin Art'];
 
   return (
@@ -14,7 +18,15 @@ function Hero() {
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.6) 100%), url(${homeImage1.src})`,
       }}
     >
+
       <PrimaryHeader />
+
+      {/* Sales Ribbon */}
+      {settings[0].featureFlags.enableSale && (
+        <Link href={'/sales'} className="absolute top-20 right-2 bg-red-500 text-white text-sm md:text-base px-3 py-1 font-bold shadow-lg rounded-md rotate-[-10deg]">
+          🎉 Sale is Live!
+        </Link>
+      )}
 
       {/* Navigation Links */}
       <div className="hidden md:flex flex-row gap-x-10 py-2 items-start md:justify-center gap-y-4 px-10">
