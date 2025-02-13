@@ -15,6 +15,7 @@ import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogContent, Di
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Shimmer from '../../Shimmer';
+import Link from 'next/link';
 
 export const CartList = () => {
   const { dispatch } = useCart();
@@ -188,7 +189,7 @@ export const CartList = () => {
 
   return (
     <>
-      <div className="px-10 py-6">
+      <div className="px-2 sm:px-10 py-6">
         <div className="mx-auto">
 
           {/* Address Section */}
@@ -210,22 +211,20 @@ export const CartList = () => {
           </div>
 
           {/* Cart Items */}
-          <div className="flex justify-between items-start gap-4 ">
-            <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-4 ">
+            <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6 w-full md:w-2/3">
               {cartProducts.map((item) => (
-                <div
+                <Link href={`/product/${item._id}`}
                   key={item._id}
-                  className="flex justify-between items-start rounded-lg border"
+                  className="flex flex-col sm:flex-row justify-between items-start rounded-lg border w-full"
                 >
-                  <Image src={item.images.medium} alt={item.name} width={200} height={250} />
-                  <div className="ml-4 flex-1 mr-20">
-                    <div className="flex w-full justify-between items-center gap-x-4">
-                      <h3 className="text-lg uppercase">{item.name}</h3>
-                    </div>
+                  <Image src={item.images?.medium} alt={item.name} width={200} height={250} />
+                  <div className="sm:ml-4 flex-1 py-2">
+                    <h3 className="text-lg uppercase">{item.name}</h3>
                     <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">{item.description}</p>
 
                     <div className="flex justify-between items-center gap-x-4 font-medium py-2">
-                      <div className='flex flex-col gap-y-1 md:flex-row md:gap-x-4'>
+                      <div className='flex flex-col gap-y-1 sm:flex-row sm:gap-x-4'>
                         <p className="text-base font-semibold text-black">
                           ₹{(item.price - (item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)}
                         </p>
@@ -233,32 +232,32 @@ export const CartList = () => {
                         <p className="text-orange-500 text-sm font-medium">(₹{((item.price * (item.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex justify-start items-center w-fit rounded-md mt-auto mb-2">
-                    <div
-                      className="px-2 border py-1 cursor-pointer text-blue-600 bg-blue-100 mx-1 rounded"
-                      onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                    >
-                      <Minus size={20} />
+                    <div className="flex justify-start items-center w-fit rounded-md">
+                      <div
+                        className="px-2 border py-1 cursor-pointer mx-1 rounded"
+                        onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                      >
+                        <Minus size={20} />
+                      </div>
+                      <span className="text-base px-4 border py-[2px] rounded">{item.quantity}</span>
+                      <div
+                        className="px-2 border-l-2 py-1 cursor-pointer border mx-1 rounded"
+                        onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                      >
+                        <Plus size={20} />
+                      </div>
+                      <Trash2
+                        className="text-red-500 mt-auto mb-1 mx-2 cursor-pointer"
+                        onClick={() => handleRemove(item._id)}
+                      />
                     </div>
-                    <span className="text-base px-10 border py-[2px] rounded">{item.quantity}</span>
-                    <div
-                      className="px-2 border-l-2 py-1 cursor-pointer text-blue-600 bg-blue-100 border mx-1 rounded"
-                      onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                    >
-                      <Plus size={20} />
-                    </div>
                   </div>
-                  <Trash2
-                    className="text-red-500 mt-auto mb-3 mx-6 cursor-pointer"
-                    onClick={() => handleRemove(item._id)}
-                  />
-                </div>
+                </Link>
               ))}
             </div>
 
             {/* Price Details Section */}
-            <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 md:w-1/3 h-fit">
+            <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 w-full md:w-1/3 h-fit">
               <h3 className="font-semibold text-lg">PRICE DETAILS</h3>
               <div className="space-y-2">
                 <div className="flex justify-between text-gray-700">
