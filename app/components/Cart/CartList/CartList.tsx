@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import Shimmer from '../../Shimmer';
 import { AdressDialog } from '../AddressDialog';
 import { useCartData } from '@/hooks/useCartData';
+import { Personalize } from '../../Product/Personalize';
 
 export const CartList = () => {
   const { dispatch } = useCart();
@@ -21,6 +22,7 @@ export const CartList = () => {
 
   const {
     cart,
+    cart_id,
     cartProducts,
     user,
     threshold,
@@ -138,7 +140,7 @@ export const CartList = () => {
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = cartProducts
     .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
-     DELIVERY_FEE.toFixed(2);
+  DELIVERY_FEE.toFixed(2);
 
   // Calculate final price
   const finalPrice = threshold !== null && Number(totalPrice) >= threshold ? totalPrice : totalPrice + DELIVERY_FEE;
@@ -213,7 +215,29 @@ export const CartList = () => {
                         onClick={() => handleRemove(item._id)}
                       />
                     </div>
+
+                    <div>
+                      <div className="flex justify-between items-center gap-x-4">
+                        <Personalize product={item} cart_id={cart_id} />
+                        {/* Whatsapp Button */}
+                        <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                          target="_blank"
+                          className="bg-green-500 rounded-full p-2">
+                          {/* <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} /> */}
+                          Whatsapp
+                        </Link>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Customize Your Product By Adding Your Name For A Personal Touch
+                      </p>
+                      <p className=" text-gray-300 text-sm">
+                        <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
+                      </p>
+                    </div>
                   </div>
+
+
+
                 </div>
               ))}
             </div>
