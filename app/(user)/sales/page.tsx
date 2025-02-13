@@ -15,7 +15,7 @@ export default async function SalesPage() {
   console.log(products);
 
   return (
-    <div>
+    <div className="px-2 sm:px-10">
       <h1>Sales Page</h1>
     </div>
   );

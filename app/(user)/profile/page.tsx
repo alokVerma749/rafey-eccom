@@ -28,10 +28,10 @@ export default async function ProfilePage() {
   const userData: UserAccount = JSON.parse(user)
 
   return (
-    <div className="container mx-auto py-6 px-4 max-w-4xl">
-      <div className="bg-white rounded-lg shadow-sm p-6 space-y-8">
+    <div className="container mx-auto py-6 px-2 sm:px-10 max-w-4xl">
+      <div className="bg-white rounded-lg shadow-sm space-y-8">
         {/* Profile Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-y-4 md:flex-row items-start md:items-center justify-between">
           <div className="flex items-center gap-4">
             <Image
               height={80}
@@ -41,11 +41,11 @@ export default async function ProfilePage() {
               className="rounded-full"
             />
             <div>
-              <h2 className="text-2xl font-semibold">{userData.name}</h2>
+              <h2 className="text-base sm:text-xl md:text-2xl font-semibold">{userData.name}</h2>
               <p className="text-muted-foreground">{userData.email}</p>
             </div>
           </div>
-          <Button variant="default">
+          <Button variant="default" className="w-full sm:w-fit">
             <Link href='/profile/order-history'>My Orders</Link>
           </Button>
         </div>

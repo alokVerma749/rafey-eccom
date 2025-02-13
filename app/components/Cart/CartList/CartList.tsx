@@ -15,6 +15,7 @@ import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogContent, Di
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Shimmer from '../../Shimmer';
+import Link from 'next/link';
 
 export const CartList = () => {
   const { dispatch } = useCart();
@@ -188,7 +189,7 @@ export const CartList = () => {
 
   return (
     <>
-      <div className="px-10 py-6">
+      <div className="px-2 sm:px-10 py-6">
         <div className="mx-auto">
 
           {/* Address Section */}
@@ -213,7 +214,7 @@ export const CartList = () => {
           <div className="flex flex-col md:flex-row justify-between items-start gap-4 ">
             <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6 w-full md:w-2/3">
               {cartProducts.map((item) => (
-                <div
+                <Link href={`/product/${item._id}`}
                   key={item._id}
                   className="flex flex-col sm:flex-row justify-between items-start rounded-lg border w-full"
                 >
@@ -251,7 +252,7 @@ export const CartList = () => {
                       />
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
 

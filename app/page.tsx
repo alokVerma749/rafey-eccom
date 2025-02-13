@@ -12,14 +12,14 @@ export default function Home() {
   return (
     <div className="font-bellefair">
       <Hero />
-      <div className="w-[95%] mx-auto">
+      <div className="w-full sm:w-[95%] mx-auto">
         <Section2 />
         <Section3 />
         <Section4 />
         <Section5 />
       </div>
       <Banner />
-      <div className="w-[95%] mx-auto">
+      <div className="w-full sm:w-[95%] mx-auto">
         <Section6 />
         <Section7 />
       </div>

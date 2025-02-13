@@ -33,7 +33,7 @@ const OrderHistory = async () => {
   const ordersData: Order[] = JSON.parse(orders);
 
   return (
-    <div className="max-w-5xl mx-auto p-6 shadow-md my-4">
+    <div className="max-w-5xl mx-auto px-2 sm:px-10 shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-gray-800">
           ORDER HISTORY{" "}

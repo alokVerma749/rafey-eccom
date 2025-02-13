@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: productProps) {
 
   return (
     <div>
-      <div className="container mx-auto mt-2 rounded-sm bg-white border shadow-lg py-10 px-5 lg:px-20">
+      <div className="container mx-auto mt-2 rounded-sm bg-white border shadow-lg py-10 px-2 sm:px-10">
         <div className="flex justify-evenly sm:items-start sm:flex-row items-center flex-col gap-x-6 sm:gap-x-10">
           {/* Image */}
           <Image

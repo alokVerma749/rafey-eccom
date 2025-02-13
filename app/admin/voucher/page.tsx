@@ -9,7 +9,7 @@ export default async function AdminPage() {
   const inactiveVouchers: IDiscountToken[] = inactiveResponse ? JSON.parse(inactiveResponse as string) : []
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-2 sm:px-10 py-8">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bellefair">Admin Vouchers</h1>
       </div>
