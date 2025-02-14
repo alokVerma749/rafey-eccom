@@ -26,6 +26,9 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
             <TableHead>Product Name</TableHead>
             <TableHead>Order ID</TableHead>
             <TableHead>Quantity</TableHead>
+            <TableHead>Height</TableHead>
+            <TableHead>Width</TableHead>
+            <TableHead>Weight</TableHead>
             <TableHead className="text-right">Total</TableHead>
           </TableRow>
         </TableHeader>
@@ -38,6 +41,9 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
                   <TableCell className="font-medium">{product[0].name}</TableCell>
                   <TableCell>{order._id}</TableCell>
                   <TableCell>{productOrder?.quantity || 0}</TableCell>
+                  <TableCell>{product[0]?.height || 0} cm</TableCell>
+                  <TableCell>{product[0]?.width || 0} cm</TableCell>
+                  <TableCell>{product[0]?.weight || 0} grams</TableCell>
                   <TableCell className="text-right">₹{(product[0]?.price || 0).toFixed(2)}</TableCell>
                 </TableRow>
               );
