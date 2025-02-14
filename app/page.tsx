@@ -1,3 +1,4 @@
+import getAdminSettingsAction from "@/actions/adminSettings/get-admin-settings";
 import { Footer } from "./components/Footer";
 import Banner from "./components/Home/Banner";
 import Hero from "./components/Home/Section1";
@@ -9,10 +10,14 @@ import Section6 from "./components/Home/Section6";
 import Section7 from "./components/Home/Section7";
 import { Marquee } from "./components/Marquee";
 
-export default function Home() {
+export default async function Home() {
+  const response = await getAdminSettingsAction();
+  const settings = response ? JSON.parse(response as string) : [];
+  const marqueeTexts = settings[0].homepageSettings.marqueeText
+
   return (
     <div className="font-bellefair">
-      <Marquee messages={["Welcome! to Wonders Tapestry", "Luxury Gold & Silver Pieces", "Handcrafted Elegance", "Timeless Beauty"]} />
+      <Marquee messages={["Welcome! to Wonders Tapestry", ...marqueeTexts]} />
       <Hero />
       <div className="w-[95%] mx-auto">
         <Section2 />

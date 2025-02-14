@@ -27,7 +27,7 @@ interface SiteSettings {
 interface HomepageSettings {
   bannerImage: string
   bannerText: string
-  marqueeText: string
+  marqueeText: string[]
 }
 
 interface Announcement {
@@ -59,7 +59,7 @@ const defaultSettings: AdminSettings = {
   homepageSettings: {
     bannerImage: "",
     bannerText: "",
-    marqueeText: "",
+    marqueeText: [],
   },
   announcements: [],
 }
@@ -126,6 +126,27 @@ export default function AdminSettingsForm() {
       },
     }))
   }
+
+  const handleAddMarqueeText = () => {
+    setSettings((prev) => ({
+      ...prev,
+      homepageSettings: {
+        ...prev.homepageSettings,
+        marqueeText: [...prev.homepageSettings.marqueeText, ""],
+      },
+    }));
+  };
+
+  const handleRemoveMarqueeText = (index: number) => {
+    setSettings((prev) => ({
+      ...prev,
+      homepageSettings: {
+        ...prev.homepageSettings,
+        marqueeText: prev.homepageSettings.marqueeText.filter((_, i) => i !== index),
+      },
+    }));
+  };
+
 
   const handleAddAnnouncement = () => {
     setSettings((prev) => ({
@@ -249,9 +270,42 @@ export default function AdminSettingsForm() {
                 className="w-full bg-black text-white p-2 rounded hover:bg-gray-800 transition-colors"
               />
             </div>
+
+            {/* Marquee Text List */}
+            <div className="space-y-2">
+              <Label>Marquee Text</Label>
+              {settings.homepageSettings.marqueeText.map((text, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Input
+                    value={text}
+                    onChange={(e) => {
+                      const newMarqueeText = [...settings.homepageSettings.marqueeText];
+                      newMarqueeText[index] = e.target.value;
+                      setSettings((prev) => ({
+                        ...prev,
+                        homepageSettings: {
+                          ...prev.homepageSettings,
+                          marqueeText: newMarqueeText,
+                        },
+                      }));
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => handleRemoveMarqueeText(index)}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+              <Button type="button" onClick={handleAddMarqueeText}>
+                Add Marquee Text
+              </Button>
+            </div>
+
             {[
               { id: "bannerText", label: "Banner Text" },
-              { id: "marqueeText", label: "Marquee Text" },
             ].map(({ id, label }) => (
               <div key={id} className="space-y-2">
                 <Label htmlFor={id}>{label}</Label>
@@ -307,13 +361,13 @@ export default function AdminSettingsForm() {
             ))}
           </div>
         </Card>
-      </div>
+      </div >
 
       <div className="flex justify-end">
         <Button type="submit" disabled={loading}>
           {loading ? "Saving..." : "Save Settings"}
         </Button>
       </div>
-    </form>
+    </form >
   )
 }

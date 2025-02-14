@@ -17,7 +17,7 @@ const SiteSettingsSchema = new mongoose.Schema({
 const HomepageSettingsSchema = new mongoose.Schema({
   bannerImage: { type: String, default: '' },
   bannerText: { type: String, default: '' },
-  marqueeText: { type: String, default: '' },
+  marqueeText: { type: [String], default: [] },
 }, { _id: false });
 
 const AnnouncementSchema = new mongoose.Schema({
