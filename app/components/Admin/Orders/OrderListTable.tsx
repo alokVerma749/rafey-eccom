@@ -24,7 +24,6 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
         <TableHeader>
           <TableRow className="text-base font-semibold">
             <TableHead>Product Name</TableHead>
-            <TableHead>Order ID</TableHead>
             <TableHead>Quantity</TableHead>
             <TableHead>Height</TableHead>
             <TableHead>Width</TableHead>
@@ -39,7 +38,6 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
               return (
                 <TableRow key={product[0]._id}>
                   <TableCell className="font-medium">{product[0].name}</TableCell>
-                  <TableCell>{order._id}</TableCell>
                   <TableCell>{productOrder?.quantity || 0}</TableCell>
                   <TableCell>{product[0]?.height || 0} cm</TableCell>
                   <TableCell>{product[0]?.width || 0} cm</TableCell>

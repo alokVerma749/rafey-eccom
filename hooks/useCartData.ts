@@ -25,7 +25,7 @@ export const useCartData = () => {
   useEffect(() => {
     const fetchThreshold = async () => {
       try {
-        const response = await fetch("/api/admin/settings");
+        const response = await fetch("/api/settings");
         const data = await response.json();
         setThreshold(data.settings.siteSettings?.freeDeliveryThreshold);
       } catch (error) {

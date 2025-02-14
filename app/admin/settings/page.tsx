@@ -71,7 +71,7 @@ export default function AdminSettingsForm() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch("/api/admin/settings")
+        const res = await fetch("/api/settings")
         const data = await res.json()
         setSettings(data.settings || defaultSettings)
       } catch (error) {

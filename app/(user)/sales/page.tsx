@@ -17,8 +17,6 @@ export default async function SalesPage() {
     };
   }
 
-  console.log(products);
-
   return (
     <div>
       <Header />

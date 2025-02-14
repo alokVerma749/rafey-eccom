@@ -92,7 +92,7 @@ export default function OrdersPage() {
               <Table>
                 <TableHeader>
                   <TableRow className="text-base font-semibold">
-                    <TableHead>Order ID</TableHead>
+                    <TableHead>S.No.</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Customer Name</TableHead>
                     <TableHead>Order Status</TableHead>
