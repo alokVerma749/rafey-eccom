@@ -278,7 +278,7 @@ export const CartList = () => {
                 {/* Total Amount */}
                 <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
                   <span>Total Amount</span>
-                  <span>₹{voucherDiscount ? (Number(finalPrice) - voucherDiscount).toFixed(2) : finalPrice}</span>
+                  <span>₹{voucherDiscount ? (Number(finalPrice) - voucherDiscount).toFixed(2) : finalPrice.toFixed(2)}</span>
                 </div>
               </div>
 
