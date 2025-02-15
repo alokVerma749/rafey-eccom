@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -15,7 +15,11 @@ import { AdressDialog } from '../AddressDialog';
 import { useCartData } from '@/hooks/useCartData';
 import { Personalize } from '../../Product/Personalize';
 
-export const CartList = () => {
+interface CartListProps {
+  setFinalAmount: (amount: number) => void;
+}
+
+export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
   const { dispatch } = useCart();
   const session = useSession();
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
@@ -145,6 +149,12 @@ export const CartList = () => {
   // Calculate final price
   const finalPrice = threshold !== null && Number(totalPrice) >= threshold ? totalPrice : totalPrice + DELIVERY_FEE;
 
+
+  // Update setFinalAmount whenever finalPrice changes
+  useEffect(() => {
+    setFinalAmount(voucherDiscount ? Number(finalPrice) - voucherDiscount : finalPrice);
+  }, [finalPrice, voucherDiscount, setFinalAmount]);
+
   if (loading) {
     return <Shimmer />;
   }
@@ -235,9 +245,6 @@ export const CartList = () => {
                       </p>
                     </div>
                   </div>
-
-
-
                 </div>
               ))}
             </div>

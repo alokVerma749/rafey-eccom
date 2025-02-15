@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { products, currency, userEmail, address, pincode, phone, name, finalPrice } = await req.json();
+    const { products, currency, userEmail, address, pincode, phone, name, finalAmount } = await req.json();
 
     if (!products || !Array.isArray(products) || products.length === 0) {
       return NextResponse.json(
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     const user = await User.findOne({ email: userEmail });
 
     const options = {
-      amount: totalAmount * 100,
+      amount: finalAmount ? Number(finalAmount.toFixed(0) * 100) : totalAmount * 100,
       currency: currency || "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
       userId: user?._id, //next-auth userId
       orderId: order.id,
       status: order.status,
-      amount: finalPrice || totalAmount,
+      amount: finalAmount ?? totalAmount,
       currency: currency || "INR",
       receipt: order.receipt,
       notes: order.notes,
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(
-      { message: 'Payment initiated', payment },
+      { message: 'Payment initiated', payment, totalAmount },
       { status: 200 }
     );
   } catch (error) {

@@ -7,7 +7,7 @@ import AdminSettings from "@/models/admin_settings";
 export async function GET() {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user || session.user.role !== "admin") {
+  if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

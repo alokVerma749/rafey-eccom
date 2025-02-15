@@ -95,9 +95,6 @@ export default async function ProfilePage() {
               <p className="text-sm text-muted-foreground">1 month ago</p>
             </div>
           </div>
-          {/* <Button variant="secondary" className="text-blue-600">
-            + Add Email Address
-          </Button> */}
         </div>
       </div>
     </div>

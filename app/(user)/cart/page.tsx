@@ -21,6 +21,7 @@ interface orderTypes {
   paymentId: string;
   products: { product: string, quantity: number }[];
   totalAmount: number;
+  payableAmount: number;
   razorpayOrderId: string;
   paymentStatus: string;
   orderStatus: string;
@@ -44,6 +45,7 @@ function Cart() {
   const [country, setCountry] = useState("");
   const [countryState, setCountryState] = useState("");
   const [showProcessing, setShowProcessing] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(0); // being set in CartList
 
   //clear cart
   const clearCart = async ({ userEmail }: { userEmail: string }) => {
@@ -168,6 +170,7 @@ function Cart() {
           state: userAccountData.state,
           phone: userAccountData.phone,
           name: session.data?.user?.name,
+          finalAmount,
         }),
       });
 
@@ -175,7 +178,7 @@ function Cart() {
         throw new Error("Failed to create order.");
       }
 
-      const { payment } = await response.json();
+      const { payment, totalAmount } = await response.json();
 
       if (!payment._id) {
         throw new Error("Payment ID not found.");
@@ -190,7 +193,8 @@ function Cart() {
           product: item.productId,
           quantity: item.quantity,
         })),
-        totalAmount: payment.amount || 0,
+        totalAmount: totalAmount || 0,
+        payableAmount: finalAmount || 0,
         paymentStatus: "pending",
         orderStatus: 'processing',
         address: userAccountData.address,
@@ -280,7 +284,7 @@ function Cart() {
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
       <div className="bg-gray-50 pb-6">
 
-        <CartList />
+        <CartList setFinalAmount={setFinalAmount} />
 
         {
           !loading && (
@@ -377,4 +381,4 @@ function Cart() {
   )
 }
 
-export default Cart
+export default Cart;

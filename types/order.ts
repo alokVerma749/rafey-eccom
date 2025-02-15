@@ -6,6 +6,7 @@ export interface Order {
     user: string;
     products: Product[];
     totalAmount: number;
+    payableAmount: number;
     paymentStatus: string;
     orderStatus: string;
     paymentId: string;

@@ -53,7 +53,7 @@ const OrderHistory = async () => {
                     Order ID: <span className="font-semibold">{order._id}</span>
                   </p>
                   <p className="text-base text-gray-600">Status: {order.orderStatus}</p>
-                  <p className="text-base text-gray-600">Total: ₹{order.totalAmount.toFixed(2)}</p>
+                  <p className="text-base text-green-600">Total: ₹{order.payableAmount && order.payableAmount.toFixed(2)} <span className="line-through text-gray-600">₹{order.totalAmount.toFixed(2)}</span></p>
                   <p className="text-base text-gray-600">Quantity: {order.products.length}</p>
                   <p className="text-base text-gray-600">
                     Payment:{" "}

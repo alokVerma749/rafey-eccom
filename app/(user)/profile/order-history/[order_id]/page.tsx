@@ -17,6 +17,7 @@ type OrderData = {
   orderStatus: string;
   products: { product: string; quantity: number }[];
   totalAmount: number;
+  payableAmount: number;
   paymentId: string;
   paymentStatus: string;
 };
@@ -99,7 +100,7 @@ const OrderDetails = () => {
                 <p>{product.description}</p>
               </div>
             </div>
-            {discountPercentage > 0 && (
+            {discountPercentage >= 0 && (
               <div className="flex flex-col items-start justify-start gap-x-4 font-medium">
                 <p className="font-semibold text-black text-base line-through">₹{product.price}</p>
                 <p className="text-green-600 text-base">{discountPercentage} % OFF</p>
@@ -113,16 +114,19 @@ const OrderDetails = () => {
       <div className="text-base text-gray-700 mb-4">
         <div className="flex justify-between">
           <span>Subtotal:</span>
-          <span>₹{orderData.order.totalAmount}</span>
+          <span className="text-green-600">₹{orderData.order.totalAmount} </span>
         </div>
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <span>Delivery:</span>
           <span className="pr-4">Free</span>
-        </div>
+        </div> */}
         <hr className="my-2" />
         <div className="flex justify-between font-semibold">
           <span>TOTAL AMOUNT:</span>
-          <span className='text-base font-semibold text-green-600 pr-4'> ₹{orderData.order.totalAmount}</span>
+          <div>
+            <span className='text-base font-semibold pr-4 text-green-600'> ₹{orderData.order.payableAmount}</span>
+            <span className='text-base font-semibold  pr-4 line-through'> ₹{orderData.order.totalAmount}</span>
+          </div>
         </div>
       </div>
 
