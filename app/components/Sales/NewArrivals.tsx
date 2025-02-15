@@ -1,15 +1,16 @@
 import { Product } from "@/types/product_type";
 import Image from "next/image";
+import Link from "next/link";
 interface NewArrivalsProps {
   products: Product[];
 }
 export const NewArrivals = ({ products }: NewArrivalsProps) => {
   return (
     <section className="px-2 sm:px-10 my-12 text-center">
-      <h2 className="text-3xl font-bold">New Arrivals</h2>
+      <h2 className="text-3xl font-bold">Products On Sale</h2>
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <div key={product._id} className="rounded-lg shadow text-start w-full">
+          <Link href={`/product/${product._id}`} key={product._id} className="rounded-lg shadow text-start w-full">
             <div className="relative overflow-hidden">
               <Image
                 src={product.images.medium}
@@ -32,7 +33,7 @@ export const NewArrivals = ({ products }: NewArrivalsProps) => {
               <p className="text-gray-600 text-sm line-through">MRP ₹{product.price}</p>
               <p className="text-orange-500 text-sm font-medium">(₹{((product.price * (product.discount?.percentage ?? 0)) / 100).toFixed(2)} OFF)</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
