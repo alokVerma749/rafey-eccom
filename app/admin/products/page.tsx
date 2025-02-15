@@ -7,7 +7,6 @@ import ProductCard from "@/app/components/Admin/Products/ProductCard";
 import { Product } from "@/types/product_type";
 import Loader from "@/app/components/Loader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function ProductsPage() {
