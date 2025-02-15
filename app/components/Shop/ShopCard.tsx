@@ -10,10 +10,12 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
         filteredProducts.map((item) => {
           const discountPercentage = item.discount?.percentage || 0;
           return (
-            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md mb-4 w-full relative">
+            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md mb-4 w-full relative overflow-hidden">
               {item.onSale && (
-                <div className="absolute top-[-8] right-[-8] bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                  On Sale
+                <div className="absolute top-0 left-0 w-full h-full flex justify-center items-start">
+                  <p className="bg-yellow-600 text-white px-4 pl-6 py-1 text-xs font-bold rotate-45 absolute top-2 left-2">
+                    On Sale
+                  </p>
                 </div>
               )}
               {item.isCustomizable && (
