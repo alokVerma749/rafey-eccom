@@ -6,11 +6,15 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 type SimilarProductProps = {
 	category: "candles" | "ceramic art" | "resin art";
+	excludeProductId: string;
 };
 
-const SimilarProduct = async ({ category }: SimilarProductProps) => {
+const SimilarProduct = async ({ category, excludeProductId }: SimilarProductProps) => {
 	const response: string = await getProductsAction({ category: category, limit: 5 });
 	const products: Product[] = response ? JSON.parse(response) : [];
+	console.log(products, "products");
+	const filteredProducts = products.filter(product => product._id !== excludeProductId);
+	console.log(filteredProducts, "filteredProducts");
 
 	return (
 		<div className="flex flex-col flex-wrap gap-5 justify-center p-10">
@@ -28,7 +32,7 @@ const SimilarProduct = async ({ category }: SimilarProductProps) => {
 			<div className="container mx-auto w-[95%] mt-4">
 				<Carousel>
 					<CarouselContent>
-						{products.map((similarProduct) => (
+						{filteredProducts.map((similarProduct) => (
 							<CarouselItem key={similarProduct._id} className="md:basis-1/2 lg:basis-1/3 p-2">
 								<Link href={`/product/${similarProduct._id}`} className="block bg-white rounded-lg shadow-sm p-3 hover:shadow-md transition">
 									<Image

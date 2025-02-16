@@ -5,6 +5,7 @@ import { NewArrivals } from "@/app/components/Sales/NewArrivals";
 import { Header } from "@/app/components/Header";
 import SaleImage from "@/public/asset/SalesImage.png";
 import SalesRightImage from "@/public/asset/SalesRightImage.png";
+import { Footer } from "@/app/components/Footer";
 
 export default async function SalesPage() {
   const response = await getSalesProductsAction();
@@ -40,6 +41,7 @@ export default async function SalesPage() {
         </section>
         <NewArrivals products={products} />
       </div>
+      <Footer />
     </div>
   );
 }
