@@ -29,7 +29,7 @@ function ProductCard({ products }: { products: Product[] }) {
                 <Image
                   height={70}
                   width={70}
-                  src={product.images.thumbnail}
+                  src={product.images?.[0]}
                   alt={product.name}
                   className="w-20 h-20 object-cover rounded"
                 />

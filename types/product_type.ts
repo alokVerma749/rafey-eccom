@@ -12,11 +12,7 @@ export interface Product {
   tags?: string[]; // Optional: Tags for categorization
   subCategories?: string[]; // Optional: Tags for categorization
   [key: string]: any;
-  images: {
-    thumbnail: string; // Required: Small image
-    medium: string; // Required: Medium image
-    large: string; // Required: High-resolution image
-  };
+  images: string[]; // Required: Array of image URLs
   discount?: {
     percentage: number; // Discount percentage (e.g., 20)
     startDate?: Date; // Optional: Start date of the discount

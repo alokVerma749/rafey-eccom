@@ -26,7 +26,7 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
               <Image
                 height={200}
                 width={200}
-                src={item.images.thumbnail}
+                src={item.images[0] || "/placeholder.svg"}
                 alt={item.name}
                 className="w-full h-54 object-cover rounded-t-md h-[70%]"
               />

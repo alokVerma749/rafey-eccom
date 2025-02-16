@@ -12,9 +12,7 @@ type AddToCartProps = {
     name: string;
     price: number;
     stock: number;
-    images: {
-      thumbnail: string;
-    };
+    images: string[];
   };
 };
 
@@ -38,11 +36,7 @@ export const AddToCart = ({ product }: AddToCartProps) => {
       price: product.price,
       quantity: 1,
       stock: product.stock,
-      images: {
-        thumbnail: product.images.thumbnail,
-        large: product.images.thumbnail,
-        medium: product.images.thumbnail,
-      },
+      images: product.images,
       _id: product._id
     };
 

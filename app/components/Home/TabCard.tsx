@@ -13,7 +13,7 @@ export function TabCard({ cardDetail }: { cardDetail: Product }) {
         <div
           className="bg-cover bg-center relative h-full w-full rounded-2xl text-white"
           style={{
-            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3) 100%), url(${(images as any).medium})`,
+            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3) 100%), url(${(images && images[0])})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",

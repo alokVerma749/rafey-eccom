@@ -13,7 +13,7 @@ export const NewArrivals = ({ products }: NewArrivalsProps) => {
           <Link href={`/product/${product._id}`} key={product._id} className="rounded-lg shadow text-start w-full">
             <div className="relative overflow-hidden">
               <Image
-                src={product.images.medium}
+                src={product.images?.[0]}
                 alt={product.name}
                 width={200}
                 height={200}

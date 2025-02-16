@@ -36,7 +36,8 @@ export default async function ProductPage({ params }: productProps) {
   const response: string = await getProductAction({ product_id })
   const product: Product = response ? JSON.parse(response as string) : [];
   const defaultImage = "https://res.cloudinary.com/dv1fxqrsi/image/upload/v1735705725/product-thumbnails/b4lxfvb1qgkefdbybuor.jpg";
-  const imageSrc = product?.images.thumbnail || defaultImage;
+
+  const imageSrc = product?.images[0] || defaultImage;
 
   if (!product) {
     return <div className="h-[100vh] text-center m-8">No product found</div>;

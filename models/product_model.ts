@@ -54,18 +54,8 @@ const ProductSchema = new mongoose.Schema({
     },
   ],
   images: {
-    thumbnail: {
-      type: String,
-      required: true
-    },
-    medium: {
-      type: String,
-      required: true
-    },
-    large: {
-      type: String,
-      required: true
-    },
+    type: [String],
+    required: true
   },
   discount: {
     percentage: { type: Number, default: 0 },

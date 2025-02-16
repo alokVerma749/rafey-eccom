@@ -43,11 +43,7 @@ export async function POST(request: NextRequest) {
       category: body.category,
       subCategories: subCategoryIds,
       tags: tagIds,
-      images: {
-        thumbnail: body.image,
-        medium: body.image,
-        large: body.image,
-      },
+      images: body.images,
       discount: {
         percentage: body.discount || 0,
         startDate: new Date(),
@@ -69,9 +65,9 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
-    const { id, ...updateData } = body;
+    const { _id, ...updateData } = body;
 
-    if (!mongoose.isValidObjectId(id)) {
+    if (!mongoose.isValidObjectId(_id)) {
       return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
     }
 
@@ -86,19 +82,14 @@ export async function PATCH(request: NextRequest) {
       .filter((id: mongoose.Types.ObjectId | null): id is mongoose.Types.ObjectId => id !== null);
 
     const updatedProduct = await Products.findByIdAndUpdate(
-      id,
+      _id,
       {
         ...updateData,
         subCategories: subCategoryIds,
         tags: tagIds,
-        images: {
-          thumbnail: updateData.image || "",
-          medium: updateData.image || "",
-          large: updateData.image || "",
-        },
         discount: updateData.discount !== undefined
           ? {
-            percentage: updateData.discount ?? 0,
+            percentage: Number(updateData.discount.percentage) ?? 0,
             startDate: updateData.discount.startDate ? new Date(updateData.discount.startDate) : new Date(),
             endDate: updateData.discount.endDate ? new Date(updateData.discount.endDate) : null,
           }

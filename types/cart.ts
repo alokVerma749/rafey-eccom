@@ -5,11 +5,7 @@ export interface CartItem {
   price: number;
   quantity: number;
   stock: number;
-  images: {
-    thumbnail: string;
-    large: string;
-    medium: string;
-  };
+  images: string[];
   discount?: {
     percentage: number;
   };
@@ -22,11 +18,7 @@ export interface CartItemStore {
   price: number;
   quantity: number;
   stock: number;
-  images: {
-    thumbnail: string;
-    large: string;
-    medium: string;
-  };
+  images: string[];
   discount?: {
     percentage: number;
   };

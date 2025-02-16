@@ -191,7 +191,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                   className="flex flex-col sm:flex-row justify-between items-start rounded-lg border w-full"
                 >
                   <Link href={`/product/${item._id}`}>
-                    <Image src={item.images?.medium} alt={item.name} width={200} height={250} />
+                    <Image src={item.images?.[0]} alt={item.name} width={200} height={250} />
                   </Link>
                   <div className="sm:ml-4 flex-1 py-2">
                     <h3 className="text-lg uppercase">{item.name}</h3>

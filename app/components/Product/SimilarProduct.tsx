@@ -32,7 +32,7 @@ const SimilarProduct = async ({ category }: SimilarProductProps) => {
 							<CarouselItem key={similarProduct._id} className="md:basis-1/2 lg:basis-1/3 p-2">
 								<Link href={`/product/${similarProduct._id}`} className="block bg-white rounded-lg shadow-sm p-3 hover:shadow-md transition">
 									<Image
-										src={similarProduct.images.thumbnail}
+										src={similarProduct.images[0] || "/placeholder.svg"}
 										alt={similarProduct.name}
 										width={200}
 										height={200}

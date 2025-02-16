@@ -86,7 +86,7 @@ const OrderDetails = () => {
           <div key={index} className="flex justify-between items-center border border-gray-300 rounded-lg p-4 mb-4">
             <div className="flex justify-start items-center gap-x-6">
               <Image
-                src={product.images.medium}
+                src={product.images?.[0]}
                 alt={product.name}
                 height={80}
                 width={80}

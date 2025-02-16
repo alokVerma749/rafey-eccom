@@ -36,7 +36,7 @@ async function Section5() {
 						<Image
 							height={200}
 							width={200}
-							src={(product.images as any).medium}
+							src={(product.images && product.images[0])}
 							alt={product.name}
 							className="w-full h-auto max-w-full mx-auto mb-4"
 						/>
