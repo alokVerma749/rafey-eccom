@@ -25,8 +25,8 @@ async function Hero() {
 
       {/* Sales Ribbon */}
       {settings[0].featureFlags.enableSale && (
-        <Link href={'/sales'} className="absolute top-4 right-2 text-white text-sm md:text-base px-3 py-1 rounded-md">
-          <Image src={SalesLogo} alt="Sales Logo" height={400} width={400} className='h-52 w-56'/>
+        <Link href={'/sales'} className="absolute top-24 right-12 text-white text-sm md:text-base rounded-md">
+          <Image src={SalesLogo} alt="Sales Logo" height={400} width={400} className='h-36 w-44'/>
         </Link>
       )}
 
