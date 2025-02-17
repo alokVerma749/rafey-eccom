@@ -1,11 +1,11 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
 import ProductInfo from "@/app/components/Product/ProductInfo";
 import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
 import { AddToCart } from "@/app/components/Cart/AddToCart/AddToCart";
+import { ProductImageGallery } from "@/app/components/ProductImageGallery";
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -37,8 +37,6 @@ export default async function ProductPage({ params }: productProps) {
   const product: Product = response ? JSON.parse(response as string) : [];
   const defaultImage = "https://res.cloudinary.com/dv1fxqrsi/image/upload/v1735705725/product-thumbnails/b4lxfvb1qgkefdbybuor.jpg";
 
-  const imageSrc = product?.images[0] || defaultImage;
-
   if (!product) {
     return <div className="h-[100vh] text-center m-8">No product found</div>;
   }
@@ -48,13 +46,7 @@ export default async function ProductPage({ params }: productProps) {
       <div className="container mx-auto mt-2 rounded-sm bg-white border shadow-lg py-10 px-5 lg:px-20">
         <div className="flex justify-evenly sm:items-start sm:flex-row items-center flex-col gap-x-6 sm:gap-x-10">
           {/* Image */}
-          <Image
-            alt={`${product.name} thumbnail`}
-            className="flex-shrink-0 max-w-full object-contain object-center md:pl-10 sm:w-[50%] md:pr-6 w-full"
-            src={imageSrc}
-            width={2000}
-            height={2000}
-          />
+          <ProductImageGallery images={product.images} productName={product.name} defaultImage={defaultImage} />
 
           {/* Product Info */}
           <div className="w-full md:w-1/2">

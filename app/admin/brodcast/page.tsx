@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { CldUploadButton } from 'next-cloudinary';
 import sendMailAction from '@/actions/sendMail/send-mail';
 import { toast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 export default function BroadcastMail() {
   const [subject, setSubject] = useState('');
@@ -96,7 +97,7 @@ export default function BroadcastMail() {
           <h3 className="text-lg font-semibold">📩 Email Preview</h3>
           <p className="text-md font-bold">{subject || 'No Subject'}</p>
           <p className="text-sm">{msg || 'No message'}</p>
-          {imageLink && <img src={imageLink} alt="Preview" className="mt-2 w-full h-auto rounded-lg" />}
+          {imageLink && <Image src={imageLink} alt="Preview" className="mt-2 w-full h-auto rounded-lg" />}
         </div>
       )}
     </div>
