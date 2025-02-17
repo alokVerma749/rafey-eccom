@@ -1,7 +1,7 @@
-import getProductsAction from '@/actions/get-products';
-import { Product } from '@/types/product_type';
 import Link from 'next/link';
 import Image from 'next/image';
+import getProductsAction from '@/actions/get-products';
+import { Product } from '@/types/product_type';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 type SimilarProductProps = {
@@ -12,9 +12,7 @@ type SimilarProductProps = {
 const SimilarProduct = async ({ category, excludeProductId }: SimilarProductProps) => {
 	const response: string = await getProductsAction({ category: category, limit: 5 });
 	const products: Product[] = response ? JSON.parse(response) : [];
-	console.log(products, "products");
 	const filteredProducts = products.filter(product => product._id !== excludeProductId);
-	console.log(filteredProducts, "filteredProducts");
 
 	return (
 		<div className="flex flex-col flex-wrap gap-5 justify-center p-10">

@@ -1,11 +1,11 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { ShoppingBag } from 'lucide-react';
 import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
-import { ShoppingBag } from 'lucide-react';
 import getAdminSettingsAction from '@/actions/adminSettings/get-admin-settings';
 import SalesLogo from "@/public/asset/SalesLogo.png";
-import Image from 'next/image';
 
 async function Hero() {
   const response = await getAdminSettingsAction();
