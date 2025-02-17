@@ -1,7 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image'; 
 import getProductsAction from '@/actions/get-products';
 import { Product } from '@/types/product_type';
-import Image from 'next/image';
 
 async function Section5() {
 	const response: string = await getProductsAction({ limit: 8 });

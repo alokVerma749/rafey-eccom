@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { ShoppingBag } from 'lucide-react';
 import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
-import { ShoppingBag } from 'lucide-react';
 import getAdminSettingsAction from '@/actions/adminSettings/get-admin-settings';
+import SalesLogo from "@/public/asset/SalesLogo.png";
 
 async function Hero() {
   const response = await getAdminSettingsAction();
@@ -23,8 +25,8 @@ async function Hero() {
 
       {/* Sales Ribbon */}
       {settings[0].featureFlags.enableSale && (
-        <Link href={'/sales'} className="absolute top-20 right-2 bg-red-500 text-white text-sm md:text-base px-3 py-1 font-bold shadow-lg rounded-md rotate-[-10deg]">
-          🎉 Sale is Live!
+        <Link href={'/sales'} className="absolute top-24 right-12 text-white text-sm md:text-base rounded-md">
+          <Image src={SalesLogo} alt="Sales Logo" height={400} width={400} className='h-36 w-44'/>
         </Link>
       )}
 

@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProcessingAnimation } from "@/app/components/PrcessingAnimation";
 import Loader from "@/app/components/Loader";
+import { useCartData } from '@/hooks/useCartData';
+import EmptyCart from "@/app/components/Cart/CartList/EmptyCart";
 
 interface orderTypes {
   user: string;
@@ -277,9 +279,17 @@ function Cart() {
     }
   };
 
+  const cartItems = useCartData().cart;
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (cartItems.length === 0) {
+    return <EmptyCart />
+  }
+
   return (
     <div>
-      {loading && <Loader />}
       {showProcessing && <ProcessingAnimation doneDelay={3} onComplete={() => router.push("/")} />}
       <Script src='https://checkout.razorpay.com/v1/checkout.js' />
       <div className="bg-gray-50 pb-6">

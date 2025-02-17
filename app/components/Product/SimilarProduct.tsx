@@ -1,16 +1,18 @@
-import getProductsAction from '@/actions/get-products';
-import { Product } from '@/types/product_type';
 import Link from 'next/link';
 import Image from 'next/image';
+import getProductsAction from '@/actions/get-products';
+import { Product } from '@/types/product_type';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 type SimilarProductProps = {
 	category: "candles" | "ceramic art" | "resin art";
+	excludeProductId: string;
 };
 
-const SimilarProduct = async ({ category }: SimilarProductProps) => {
+const SimilarProduct = async ({ category, excludeProductId }: SimilarProductProps) => {
 	const response: string = await getProductsAction({ category: category, limit: 5 });
 	const products: Product[] = response ? JSON.parse(response) : [];
+	const filteredProducts = products.filter(product => product._id !== excludeProductId);
 
 	return (
 		<div className="flex flex-col flex-wrap gap-5 justify-center p-10">
@@ -28,7 +30,7 @@ const SimilarProduct = async ({ category }: SimilarProductProps) => {
 			<div className="container mx-auto w-[95%] mt-4">
 				<Carousel>
 					<CarouselContent>
-						{products.map((similarProduct) => (
+						{filteredProducts.map((similarProduct) => (
 							<CarouselItem key={similarProduct._id} className="md:basis-1/2 lg:basis-1/3 p-2">
 								<Link href={`/product/${similarProduct._id}`} className="block bg-white rounded-lg shadow-sm p-3 hover:shadow-md transition">
 									<Image

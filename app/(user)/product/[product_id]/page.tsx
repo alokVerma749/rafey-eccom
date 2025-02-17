@@ -103,7 +103,7 @@ export default async function ProductPage({ params }: productProps) {
           </div>
         </div>
       </div>
-      <SimilarProduct category={product.category} />
+      <SimilarProduct category={product.category} excludeProductId={product._id} />
     </div>
   );
 }
