@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings, Mail } from "lucide-react";
+import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings, Mail, Tag } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 const items = [
@@ -30,6 +30,11 @@ const items = [
     title: "Vouchers",
     url: "/admin/voucher",
     icon: Ticket,
+  },
+  {
+    title: "Manage Tags",
+    url: "/admin/manage_tags",
+    icon: Tag,
   },
   {
     title: "Boradcast Mail",

@@ -89,3 +89,34 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connect_db();
+
+    const tags = await Tag.find({});
+
+    if (!tags) {
+      return NextResponse.json(
+        { success: false, message: "Error fetching Tags" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Tags fetched successfully", tags },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching Tags:", error);
+    return NextResponse.json(
+      { success: false, message: "Server error" },
+      { status: 500 }
+    );
+  }
+}

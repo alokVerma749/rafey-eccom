@@ -89,3 +89,34 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connect_db();
+
+    const subcategories = await SubCategory.find({});
+
+    if (!subcategories) {
+      return NextResponse.json(
+        { success: false, message: "Error fetching SubCategories" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "SubCategories fetched successfully", subcategories },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching SubCategories:", error);
+    return NextResponse.json(
+      { success: false, message: "Server error" },
+      { status: 500 }
+    );
+  }
+}
