@@ -1,4 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
+import Tag from './tag_schema';
+import SubCategory from './sub_category';
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -42,14 +44,14 @@ const ProductSchema = new mongoose.Schema({
   subCategories: [
     {
       type: Schema.Types.ObjectId,
-      ref: "SubCategory",
+      ref: SubCategory,
       index: true,
     },
   ],
   tags: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Tag",
+      ref: Tag,
       index: true,
     },
   ],
