@@ -13,7 +13,7 @@ export const getProducts = async ({ category, limit }: GetProductsParams): Promi
   const query = category ? { category } : {};
 
   try {
-    const productsQuery = Products.find(query);
+    const productsQuery = Products.find(query).populate('tags').populate('subCategories');
 
     if (limit && limit > 0) {
       productsQuery.limit(limit);

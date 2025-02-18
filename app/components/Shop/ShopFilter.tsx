@@ -54,9 +54,9 @@ const fetchTagsAndSubCategories = async () => {
 };
 
 const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
+   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
    const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
    const [filters, setFilters] = useState<staticFilters>(initialStaticFiltersValue);
-   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
    const [filtersConfig, setFiltersConfig] = useState(
       isSubroute ? initialDynamicFiltersValue.slice(1) : initialDynamicFiltersValue
    );
@@ -97,19 +97,23 @@ const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
 
       // Apply dynamic filters
       filtersConfig.forEach(({ name }) => {
-         if (filters[name]?.length > 0) {
+         const optionsSelected = filters[name];
+
+         if (optionsSelected?.length > 0) {
             filtered = filtered.filter((product) => {
-               const productValue = product[name];
+               const productValue = product[name == 'sub-category' ? 'subCategories' : name];
                if (!productValue) {
                   return false;
                }
 
                if (Array.isArray(productValue)) {
-                  return filters[name].some((option: string) => productValue.includes(option));
+                  return productValue.some((item) =>
+                     optionsSelected.some((option: string) => item.name?.toLowerCase() === option.toLowerCase())
+                  );
                } else if (typeof productValue === 'string') {
-                  return filters[name].some((option: string) => productValue.toLowerCase() === option.toLowerCase());
-               } else if (typeof productValue === 'object') {
-                  return filters[name].some((option: string) => productValue.name?.toLowerCase() === option.toLowerCase());
+                  return optionsSelected.some((option: string) => productValue.toLowerCase() === option.toLowerCase());
+               } else if (typeof productValue === 'object' && productValue !== null) {
+                  return optionsSelected.some((option: string) => productValue.name?.toLowerCase() === option.toLowerCase());
                }
                return false;
             });
