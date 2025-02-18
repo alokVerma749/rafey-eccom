@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/hooks/use-toast"
+import { useTags } from "@/hooks/useTags"
+import { useSubCategories } from "@/hooks/useSubcategories"
 
 interface ProductFormValues {
   name: string
@@ -29,92 +31,16 @@ interface ProductFormValues {
 }
 
 export default function ListProductPage() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm<ProductFormValues>({
-    defaultValues: {
-      tags: [],
-      subCategory: [],
-      images: [],
-    },
-  })
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<ProductFormValues>({ defaultValues: { tags: [], subCategory: [], images: [] } });
 
   const [categories] = useState<string[]>(["ceramic art", "candles", "resin art"])
-  const [subCategories, setSubCategories] = useState<string[]>([])
-  const [tags, setTags] = useState<string[]>([])
-  const [newSubCategory, setNewSubCategory] = useState<string>("")
-  const [newTag, setNewTag] = useState<string>("")
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
-  const [savedSubCategories, setSavedSubCategories] = useState<string[]>([])
-  const [savedTags, setSavedTags] = useState<string[]>([])
   const [iscustomizable, setIscustomizable] = useState<boolean>(false)
 
-  const category = watch("category") || ""
+  const category = watch("category") || "";
 
-  const addSubCategory = async () => {
-    if (newSubCategory && !subCategories.includes(newSubCategory)) {
-      setSubCategories((prev) => [...prev, newSubCategory])
-      setNewSubCategory("")
-    }
-    const res = await fetch("/api/admin/sub_category", {
-      method: "POST",
-      body: JSON.stringify({ name: newSubCategory, category: watch("category") || "" }),
-    })
-    if (res.ok) {
-      setSavedSubCategories((prev) => [...prev, newSubCategory])
-    }
-  }
-
-  const addTag = async () => {
-    if (newTag && !tags.includes(newTag)) {
-      setTags((prev) => [...prev, newTag])
-      setNewTag("")
-    }
-    const res = await fetch("/api/admin/tags", {
-      method: "POST",
-      body: JSON.stringify({ name: newTag, category: watch("category") || "" }),
-    })
-    console.log(res)
-    if (res.ok) {
-      setSavedTags((prev) => [...prev, newTag])
-    }
-  }
-
-  // TODO: deletion should be only done if tag is not attached to any product else
-  const removeSubCategory = async (subCategoryToRemove: string) => {
-    const res = await fetch(`/api/admin/sub_category?name=${subCategoryToRemove}`, {
-      method: "DELETE",
-      body: JSON.stringify(category),
-    })
-
-    if (res.ok) {
-      setSubCategories((prev) => prev.filter((subCategory) => subCategory !== subCategoryToRemove))
-      setSavedSubCategories((prev) => prev.filter((savedSubCategory) => savedSubCategory !== subCategoryToRemove))
-    } else {
-      console.error("Failed to delete subcategory")
-    }
-  }
-
-  const removeTag = async (tagToRemove: string) => {
-    try {
-      const res = await fetch(`/api/admin/tags?name=${tagToRemove}`, {
-        method: "DELETE",
-        body: JSON.stringify(category),
-      })
-
-      if (!res.ok) throw new Error("Failed to delete tag")
-
-      setTags((prev) => prev.filter((tag) => tag !== tagToRemove))
-      setSavedTags((prev) => prev.filter((savedTag) => savedTag !== tagToRemove))
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const { tags, setTags, tagInput, setTagInput, addTag, removeTagFromSelection, suggestions: tag_suggestions } = useTags({ category });
+  const { subCategories, setSubCategories, subCategoryInput, setSubCategoryInput, addSubCategory, removeSubCategoryFromSelection, sub_category_suggestions } = useSubCategories({ category });
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
     const formData = {
@@ -125,19 +51,17 @@ export default function ListProductPage() {
       images: imagePreviews,
     }
 
-    reset()
-    setTags([])
-    setSubCategories([])
-    setSavedSubCategories([])
-    setSavedTags([])
-    setImagePreviews([])
-
+    
     const res = await fetch("/api/admin/product", {
       method: "POST",
       body: JSON.stringify(formData),
     })
-
+    
     if (res.ok) {
+      reset();
+      setSubCategories([])
+      setTags([])
+      setImagePreviews([])
       toast({ title: "Product added successfully" })
     }
   }
@@ -160,15 +84,6 @@ export default function ListProductPage() {
       "images",
       imagePreviews.filter((_, i) => i !== index),
     )
-  }
-
-  const handleDelete = () => {
-    reset()
-    setTags([])
-    setSubCategories([])
-    setSavedSubCategories([])
-    setSavedTags([])
-    setImagePreviews([])
   }
 
   return (
@@ -286,65 +201,136 @@ export default function ListProductPage() {
             </select>
             {errors.category && <span className="text-red-500">{errors.category.message}</span>}
           </div>
-          <div className="">
+
+          <div>
+            {/* Sub-Category Section */}
             <Label htmlFor="subCategory">Sub-Category</Label>
-            <div className="flex gap-2">
+            <div className="flex gap-2 relative">
               <Input
                 type="text"
-                value={newSubCategory}
-                onChange={(e) => setNewSubCategory(e.target.value)}
+                value={subCategoryInput}
+                onChange={(e) => setSubCategoryInput(e.target.value)}
                 placeholder="Add new subcategory"
                 className="p-1 w-[90%] border border-gray-300 rounded-md"
               />
-              <Button type="button" onClick={addSubCategory}>
+              <Button
+                type="button"
+                onClick={async () => {
+                  if (!subCategories.includes(subCategoryInput)) {
+                    await addSubCategory();
+                    setValue("subCategory", [...subCategories, subCategoryInput]);
+                  }
+                  setSubCategoryInput("");
+                }}
+              >
                 Add
               </Button>
+
+              {/* Suggestions Dropdown */}
+              {subCategoryInput && sub_category_suggestions.length > 0 && (
+                <div className="absolute top-full z-10 mt-1 left-0 border bg-gray-700 rounded-md shadow-md w-[90%] max-h-40 overflow-auto">
+                  {sub_category_suggestions
+                    .filter((suggestion) =>
+                      suggestion.name.toLowerCase().includes(subCategoryInput.toLowerCase())
+                    )
+                    .map((suggestion, index) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          if (!subCategories.includes(suggestion.name)) {
+                            setValue("subCategory", [...subCategories, suggestion.name]);
+                            setSubCategories((prev) => [...prev, suggestion.name]);
+                          }
+                          setSubCategoryInput("");
+                        }}
+                        className={`cursor-pointer p-2 hover:bg-gray-500 text-white ${subCategories.includes(suggestion.name) ? "hidden" : ""}`}
+                      >
+                        {suggestion.name}
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
 
+            {/* Selected Subcategories Display */}
             <div className="space-y-2 flex w-full justify-start gap-2 text-wrap overflow-auto">
               {subCategories.map((subCategory, index) => (
-                <div key={index}>
-                  {/* Show the subcategory only if it's saved */}
-                  {savedSubCategories.includes(subCategory) && (
-                    <div className="flex items-center justify-between w-fit">
-                      <span className="mx-2">{subCategory}</span>
-                      <div onClick={() => removeSubCategory(subCategory)} className="text-red-500 cursor-pointer">
-                        <CircleX size={20} strokeWidth={1.25} />
-                      </div>
-                    </div>
-                  )}
+                <div key={index} className="flex items-center justify-between w-fit px-2 py-1 m-1 rounded">
+                  <span>{subCategory}</span>
+                  <div
+                    onClick={() => removeSubCategoryFromSelection(subCategory)}
+                    className="text-red-500 cursor-pointer ml-2"
+                  >
+                    <CircleX size={20} strokeWidth={1.25} />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="w-full">
-            <Label htmlFor="tags">Tags</Label>
-            <div className="flex gap-2">
-              <Input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add new tag" />
-              <Button type="button" onClick={addTag}>
-                Add
-              </Button>
-            </div>
+          {/* Tags Section */}
+          <Label htmlFor="tags">Tags</Label>
+          <div className="flex gap-2 relative">
+            <Input
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="Add new tag"
+            />
+            <Button
+              type="button"
+              onClick={async () => {
+                if (!tags.includes(tagInput)) {
+                  await addTag();
+                  setValue("tags", [...tags, tagInput]);
+                }
+                setTagInput("");
+              }}
+            >
+              Add
+            </Button>
 
-            <div className="space-y-2 my-2 flex w-full p-2 justify-start gap-2 text-wrap overflow-auto">
-              {tags.map((tag, index) => (
-                <div key={index}>
-                  {/* Show the tag only if it's saved */}
-                  {savedTags.includes(tag) && (
-                    <div className="flex items-center justify-between w-fit">
-                      <span>{tag}</span>
-                      <div onClick={() => removeTag(tag)} className="text-red-500 cursor-pointer">
-                        <CircleX size={20} strokeWidth={1.25} />
-                      </div>
+            {/* Suggestions Dropdown */}
+            {tagInput && tag_suggestions.length > 0 && (
+              <div className="absolute top-full mt-1 left-0 bg-gray-700 border rounded-md shadow-md w-[90%] max-h-40 overflow-auto">
+                {tag_suggestions
+                  .filter((suggestion) =>
+                    suggestion.name.toLowerCase().includes(tagInput.toLowerCase())
+                  )
+                  .map((suggestion, index) => (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        if (!tags.includes(suggestion.name)) {
+                          setValue("tags", [...tags, suggestion.name]);
+                          setTags((prev) => [...prev, suggestion.name]);
+                        }
+                        setTagInput("");
+                      }}
+                      className={`cursor-pointer p-2 hover:bg-gray-500 text-white ${tags.includes(suggestion.name) ? "hidden" : ""}`}
+                    >
+                      {suggestion.name}
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                  ))}
+              </div>
+            )}
           </div>
 
-          {/* fix this field */}
+          {/* Selected Tags Display */}
+          <div className="space-y-2 flex w-full justify-start gap-2 text-wrap overflow-auto">
+            {tags.map((tag, index) => (
+              <div key={index} className="flex items-center justify-between w-fit bg-gray-200 px-2 py-1 rounded">
+                <span>{tag}</span>
+                <div
+                  onClick={() => removeTagFromSelection(tag)}
+                  className="text-red-500 cursor-pointer ml-2"
+                >
+                  <CircleX size={20} strokeWidth={1.25} />
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="flex items-center space-x-2">
             <Label htmlFor="customizable">Customizable</Label>
             <input
@@ -390,11 +376,12 @@ export default function ListProductPage() {
             </div>
           )}
         </div>
+
         <div className="flex justify-around w-[90%] mx-auto">
           <Button
             variant="destructive"
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
-            onClick={handleDelete}
+            onClick={() => reset()}
           >
             Delete
           </Button>

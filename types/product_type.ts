@@ -1,3 +1,6 @@
+import { ISubCategory } from "./sub_category";
+import { ITag } from "./tag";
+
 export interface Product {
   _id: string;
   name: string;
@@ -9,8 +12,8 @@ export interface Product {
   stock: number; // Required: The stock availability
   category: 'candles' | 'ceramic art' | 'resin art'; // Restrict to specific categories
   color?: 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'pink' | 'orange' | 'brown' | 'gray' | 'black' | 'white'; // for ceramic only
-  tags?: string[]; // Optional: Tags for categorization
-  subCategories?: string[]; // Optional: Tags for categorization
+  tags?: ITag[]; // Optional: Tags for categorization
+  subCategories?: ISubCategory[]; // Optional: Tags for categorization
   [key: string]: any;
   images: string[]; // Required: Array of image URLs
   discount?: {

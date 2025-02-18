@@ -1,11 +1,11 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Product } from "@/types/product_type";
 
-type AddToCartProps = {
+type ProductInfoProps = {
   product: Product;
 };
 
-const AddToCart = ({ product }: AddToCartProps) => {
+const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <Accordion type="single" collapsible>
       {/* Details */}
@@ -41,7 +41,7 @@ const AddToCart = ({ product }: AddToCartProps) => {
           <AccordionContent>
             <ul className="list-disc ml-4">
               {product.tags.map((tag, index) => (
-                <li key={index}>{tag}</li>
+                <li key={index}>{tag?.name || ''}</li>
               ))}
             </ul>
           </AccordionContent>
@@ -55,7 +55,7 @@ const AddToCart = ({ product }: AddToCartProps) => {
           <AccordionContent>
             <ul className="list-disc ml-4">
               {product.subCategories.map((subCategory, index) => (
-                <li key={index}>{subCategory}</li>
+                <li key={index}>{subCategory?.name || ''}</li>
               ))}
             </ul>
           </AccordionContent>
@@ -65,4 +65,4 @@ const AddToCart = ({ product }: AddToCartProps) => {
   );
 };
 
-export default AddToCart;
+export default ProductInfo;

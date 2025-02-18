@@ -1,7 +1,9 @@
+import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 import connect_db from "@/config/db";
 import Products from "@/models/product_model";
-import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
+import SubCategory from "@/models/sub_category";
+import Tag from "@/models/tag_schema";
 
 export async function GET(request: Request) {
   try {
@@ -23,13 +25,25 @@ export async function POST(request: NextRequest) {
 
     await connect_db();
 
-    const subCategoryIds = (body.subCategories || []).map((id: string) =>
-      mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null
-    ).filter((id: string) => id !== null);
+    // Fetch subcategory IDs from names
+    const subCategoryIds = await Promise.all(
+      (body.subCategory || []).map(async (name: string) => {
+        const subCategory = await SubCategory.findOne({ name });
+        return subCategory ? subCategory._id : null;
+      })
+    );
 
-    const tagIds = (body.tags || []).map((id: string) =>
-      mongoose.isValidObjectId(id) ? new mongoose.Types.ObjectId(id) : null
-    ).filter((id: string) => id !== null);
+    // Fetch tag IDs from names
+    const tagIds = await Promise.all(
+      (body.tags || []).map(async (name: string) => {
+        const tag = await Tag.findOne({ name });
+        return tag ? tag._id : null;
+      })
+    );
+
+    // Filter out null values (invalid/missing entries)
+    const validSubCategoryIds = subCategoryIds.filter((id) => id !== null);
+    const validTagIds = tagIds.filter((id) => id !== null);
 
     const newProduct = new Products({
       name: body.name,
@@ -41,8 +55,8 @@ export async function POST(request: NextRequest) {
       price: body.price,
       stock: body.stock,
       category: body.category,
-      subCategories: subCategoryIds,
-      tags: tagIds,
+      subCategories: validSubCategoryIds,
+      tags: validTagIds,
       images: body.images,
       discount: {
         percentage: body.discount || 0,

@@ -213,43 +213,13 @@ function ProductDetail({ product }: { product: Product }) {
             </CldUploadButton>
           </div>
         )}
-
-        <Label htmlFor="tags">Tags</Label>
-        <Input
-          id="tags"
-          type="text"
-          value={formData.tags?.join(", ") || ""}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, tags: e.target.value.split(",").map((tag) => tag.trim()) }))
-          }
-          placeholder="Enter tags separated by commas"
-        />
-
-        <Label htmlFor="subCategories">Sub-Categories</Label>
-        <Input
-          id="subCategories"
-          type="text"
-          value={formData.subCategories?.join(", ") || ""}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              subCategories: e.target.value.split(",").map((subCat) => subCat.trim()),
-            }))
-          }
-          placeholder="Enter sub-categories separated by commas"
-        />
-
         <div className="flex justify-between mt-4">
-          <Button onClick={handleUpdate} className="bg-blue-600 text-white">
-            UPDATE
-          </Button>
-          <Button variant="destructive" onClick={handleDelete}>
-            <Trash2 size={16} className="mr-2" /> DELETE
-          </Button>
+          <Button onClick={handleUpdate} className="bg-blue-600 text-white">UPDATE</Button>
+          <Button variant="destructive" onClick={handleDelete}><Trash2 size={16} className="mr-2" />DELETE</Button>
         </div>
       </div>
     </div>
   )
 }
 
-export default ProductDetail
+export default ProductDetail;

@@ -55,8 +55,8 @@ export async function DELETE(req: NextRequest) {
 
     await connect_db();
 
-    const category = await req.json()
     const name = req.nextUrl.searchParams.get('name');
+    const category = req.nextUrl.searchParams.get('category');
 
     if (!name || !category) {
       return NextResponse.json(

@@ -4,16 +4,20 @@ import SubCategory from "@/models/sub_category";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const url = new URL(request.url);
+    const category = url.searchParams.get('category');
+
     await connect_db();
 
-    const subCategories = await SubCategory.find({})
+    const query = category ? { category } : {};
+    const subCategories = await SubCategory.find(query).sort({ createdAt: -1 });
 
     return NextResponse.json(
       { success: true, subCategories },
