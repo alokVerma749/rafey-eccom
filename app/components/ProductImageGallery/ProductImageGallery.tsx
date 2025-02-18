@@ -30,7 +30,7 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
       <div className="relative aspect-square">
         <Image
           alt={`${productName} thumbnail`}
-          className="object-contain"
+          className="object-contain object-top"
           src={imageList[currentImageIndex] || "/placeholder.svg"}
           fill
           priority
@@ -40,7 +40,7 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
             <Button
               variant="secondary"
               size="icon"
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90"
+              className="absolute left-2 top-1/3 -translate-y-1/2 bg-white/80 hover:bg-white/90"
               onClick={previousImage}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -48,7 +48,7 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
             <Button
               variant="secondary"
               size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90"
+              className="absolute right-2 top-1/3 -translate-y-1/2 bg-white/80 hover:bg-white/90"
               onClick={nextImage}
             >
               <ChevronRight className="h-4 w-4" />
