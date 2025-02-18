@@ -1,4 +1,7 @@
 import mongoose, { Connection } from 'mongoose';
+import '../models/tag_schema';
+import '../models/sub_category';
+import '../models/product_model';
 
 let cachedDB: Connection | null = null;
 
