@@ -15,7 +15,7 @@ export const getProduct = async ({ product_id }: GetProductParams): Promise<Prod
   }
 
   try {
-    const product = await Products.findById(product_id).exec();
+    const product = await Products.findById(product_id).populate('tags').populate('subCategories').exec();
     return product as Product | null;
   } catch (error) {
     console.error("Error fetching the product:", error instanceof Error ? error.message : error);
