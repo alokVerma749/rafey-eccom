@@ -104,8 +104,8 @@ export default function BroadcastMail() {
         {/* Mail Preview */}
         {(subject || msg || imageLink) && (
           <div className="p-4 border rounded w-full lg:w-1/2 mt-4">
-            <h3 className="text-lg font-semibold">📩 Email Preview</h3>
-            <p className="text-md font-bold">{subject || 'No Subject'}</p>
+            <h3 className="text-lg font-semibold mb-2">📩 Email Preview</h3>
+            <p className="text-md font-medium"><strong>{subject || 'No Subject'}</strong></p>
             <p className="text-sm">{msg || 'No message'}</p>
             {imageLink && <Image src={imageLink} alt="Preview" className="mt-2 w-full h-auto rounded-lg" height={800} width={800} />}
           </div>
