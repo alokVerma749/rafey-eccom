@@ -9,10 +9,10 @@ const DELIVERY_FEE = 100;
 
 export const useCartData = () => {
   const session = useSession();
-  
+
   const [cart, setCart] = useState<CartItemModel[]>([]);
   const [cart_id, setCartId] = useState<string>("");
-  const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number, description: string, customization: string })[]>([]);
+  const [cartProducts, setCartProducts] = useState<(CartItem & { quantity: number, description: string, customization: string, isCustomizable: boolean })[]>([]);
   const [user, setUser] = useState<UserAccount | null>(null);
   const [threshold, setThreshold] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);

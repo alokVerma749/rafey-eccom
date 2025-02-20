@@ -43,6 +43,8 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
     setCartProducts,
   } = useCartData();
 
+  console.log(cartProducts, '###')
+
   const handleQuantityChange = (productId: string, newQuantity: number) => {
     //if quantity is less than 0, restrict from increasing quantity
     const product = cartProducts.find((product) => product._id === productId);
@@ -149,7 +151,6 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
   // Calculate final price
   const finalPrice = threshold !== null && Number(totalPrice) >= threshold ? totalPrice : totalPrice + DELIVERY_FEE;
 
-
   // Update setFinalAmount whenever finalPrice changes
   useEffect(() => {
     setFinalAmount(voucherDiscount ? Number(finalPrice) - voucherDiscount : finalPrice);
@@ -226,24 +227,26 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                       />
                     </div>
 
-                    <div>
-                      <div className="flex justify-between items-center gap-x-4">
-                        <Personalize product={item} cart_id={cart_id} />
-                        {/* Whatsapp Button */}
-                        <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
-                          target="_blank"
-                          className="bg-green-500 rounded-full p-2">
-                          {/* <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} /> */}
-                          Whatsapp
-                        </Link>
+                    {
+                      (item?.isCustomizable) && <div>
+                        <div className="flex justify-between items-center gap-x-4">
+                          <Personalize product={item} cart_id={cart_id} />
+                          {/* Whatsapp Button */}
+                          <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                            target="_blank"
+                            className="bg-green-500 rounded-full p-2">
+                            {/* <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} /> */}
+                            Whatsapp
+                          </Link>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Customize Your Product By Adding Your Name For A Personal Touch
+                        </p>
+                        <p className=" text-gray-300 text-sm">
+                          <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
+                        </p>
                       </div>
-                      <p className="text-sm text-gray-500 mt-1">
-                        Customize Your Product By Adding Your Name For A Personal Touch
-                      </p>
-                      <p className=" text-gray-300 text-sm">
-                        <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
-                      </p>
-                    </div>
+                    }
                   </div>
                 </div>
               ))}
