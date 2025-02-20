@@ -14,7 +14,7 @@ export const send_mail_service = async (props: EmailActionType) => {
 
     // Send emails to all users
     const emailPromises = users.map((user) =>
-      sendEmail(user.email, user.name, props.subject, props.msg, props.imageLink)
+      sendEmail(user.email, user.name, props.subject, props.msg, props.imageLink, props.couponCode, props.Heading1, props.Heading2)
     );
 
     await Promise.all(emailPromises);

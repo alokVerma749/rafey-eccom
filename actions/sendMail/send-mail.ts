@@ -6,6 +6,10 @@ export interface EmailActionType {
   subject: string;
   msg: string;
   imageLink?: string;
+  couponCode?: string;
+  link?: string;
+  Heading1?: string;
+  Heading2?: string;
 }
 
 const sendMailAction = async (props: EmailActionType): Promise<string> => {
