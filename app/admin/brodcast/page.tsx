@@ -53,11 +53,11 @@ export default function BroadcastMail() {
 
   return (
     <div className="p-4 w-full">
-      <h2 className="text-xl font-bold">Send Broadcast Email</h2>
+      <h2 className="text-xl lg:font-2xl font-semibold">Send Broadcast Email</h2>
 
-      <div className='flex justify-between items-start gap-x-20'>
+      <div className='flex flex-col lg:flex-row justify-between items-start gap-x-20'>
         {/* Form */}
-        <form action={handleSendMail} className="space-y-4 w-1/2 mt-4">
+        <form action={handleSendMail} className="space-y-4 w-full lg:w-1/2 mt-4">
           <Input
             type="text"
             name="subject"
@@ -87,10 +87,10 @@ export default function BroadcastMail() {
             Upload Image
           </CldUploadButton>
 
-          <div className='flex justify-start items-center gap-2'>
+          <div className='flex justify-start items-center gap-2 mb-6'>
             <Button
               type="submit"
-              className={`py-4 w-fit px-6 rounded flex items-center gap-2 ${sending ? 'bg-gray-500 text-white' : 'bg-green-500 text-white'
+              className={`py-5 w-fit px-6 rounded flex items-center gap-2 ${sending ? 'bg-gray-500 text-white' : 'bg-green-500 text-white'
                 }`}
               disabled={sending}
             >
@@ -103,7 +103,7 @@ export default function BroadcastMail() {
 
         {/* Mail Preview */}
         {(subject || msg || imageLink) && (
-          <div className="p-4 border rounded w-1/2">
+          <div className="p-4 border rounded w-full lg:w-1/2 mt-4">
             <h3 className="text-lg font-semibold">📩 Email Preview</h3>
             <p className="text-md font-bold">{subject || 'No Subject'}</p>
             <p className="text-sm">{msg || 'No message'}</p>
