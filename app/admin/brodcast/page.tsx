@@ -26,10 +26,8 @@ export default function BroadcastMail() {
       });
 
       const jsonResponse = JSON.parse(response);
-
       if (jsonResponse.success) {
         toast({ title: jsonResponse.message, })
-        // Clear form fields on success
         setSubject('');
         setMsg('');
         setImageLink('');
@@ -78,7 +76,6 @@ export default function BroadcastMail() {
           <input type="hidden" name="imageLink" value={imageLink} />
 
           {/* Image Upload Button */}
-
           <CldUploadButton
             onSuccess={handleImageUpload}
             uploadPreset="mmmgkp-news"
@@ -90,20 +87,18 @@ export default function BroadcastMail() {
           <div className='flex justify-start items-center gap-2 mb-6'>
             <Button
               type="submit"
-              className={`py-5 w-fit px-6 rounded flex items-center gap-2 ${sending ? 'bg-gray-500 text-white' : 'bg-green-500 text-white'
-                }`}
+              className={`py-5 w-fit px-6 rounded flex items-center gap-2 ${sending ? 'bg-gray-500 text-white' : 'bg-green-500 text-white'}`}
               disabled={sending}
             >
               {sending ? 'Sending...' : 'Send Mail'}
               <Send className={sending ? 'text-white' : 'text-white'} />
             </Button>
           </div>
-
         </form>
 
         {/* Mail Preview */}
         {(subject || msg || imageLink) && (
-          <div className="p-4 border rounded w-full lg:w-1/2 mt-4">
+          <div className="p-4 border rounded w-full lg:w-1/2 mt-4 font-bellefair">
             <h3 className="text-lg font-semibold mb-2">📩 Email Preview</h3>
             <p className="text-md font-medium"><strong>{subject || 'No Subject'}</strong></p>
             <p className="text-sm">{msg || 'No message'}</p>

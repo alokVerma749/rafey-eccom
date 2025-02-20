@@ -107,11 +107,10 @@ export const sendEmail = async (email: string, username: string, subject: string
         <body>
           <div class="container">
             <div class="header-container">
-              <div class="header">${subject}</div>
               ${imageLink ? `<img src="${imageLink}" alt="Image" class="image">` : ""}
             </div>
             <div class="content">
-              <h3>Hi ${username},</h3>
+              <h3>Hi ${username || ""},</h3>
               <p>${msg}</p>
               <div>Best Regards,</div>
               <p><strong>Team</strong></p>

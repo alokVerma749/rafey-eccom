@@ -8,7 +8,7 @@ export const send_mail_service = async (props: EmailActionType) => {
 
   try {
     // Fetch all registered users
-    const users = await UserAccount.find({}, { email: 1, username: 1 });
+    const users = await UserAccount.find({}, { email: 1, name: 1 });
 
     if (!users.length) throw new Error("No registered users found.");
 
