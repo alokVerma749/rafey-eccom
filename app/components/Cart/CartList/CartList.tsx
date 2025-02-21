@@ -23,6 +23,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
   const { dispatch } = useCart();
   const session = useSession();
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [customization, setCustomization] = useState("");
 
   const {
     cart,
@@ -42,8 +43,6 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
     setCart,
     setCartProducts,
   } = useCartData();
-
-  console.log(cartProducts, '###')
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
     //if quantity is less than 0, restrict from increasing quantity
@@ -230,7 +229,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                     {
                       (item?.isCustomizable) && <div>
                         <div className="flex justify-between items-start gap-x-4 pt-2">
-                          <Personalize product={item} cart_id={cart_id} />
+                          <Personalize product={item} cart_id={cart_id} customization={customization} setCustomization={setCustomization} />
                           {/* Whatsapp Button */}
                           <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
                             target="_blank"
@@ -243,7 +242,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                           Customize Your Product By Adding Your Name For A Personal Touch
                         </p>
                         <p className="text-gray-600 text-sm">
-                          <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
+                          <span className='font-semibold text-green-300'>Customization: </span> {customization ? customization : item.customization ? item.customization : "No Personalization"}
                         </p>
                       </div>
                     }

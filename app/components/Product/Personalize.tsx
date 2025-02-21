@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CartItem } from "@/types/cart";
 
-export const Personalize = ({ product, cart_id }: { product: CartItem; cart_id: string }) => {
-  const [customization, setCustomization] = useState("");
+export const Personalize = ({ product, cart_id, customization, setCustomization }: { product: CartItem; cart_id: string; customization: string; setCustomization: Dispatch<SetStateAction<string>> }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [savedCustomization, setSavedCustomization] = useState("");
