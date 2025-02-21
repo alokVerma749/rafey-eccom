@@ -1,14 +1,30 @@
 import nodemailer from 'nodemailer';
 
 export interface EmailConfigType {
-  email: string,
-  username: string,
-  msg: string,
-  subject: string,
-  imageLink: string
+  email: string;
+  username: string;
+  msg: string;
+  subject: string;
+  imageLink?: string;
+  couponCode?: string;
+  link?: string;
+  heading1?: string;
+  heading2: string;
+  companyName?: string;
 }
 
-export const sendEmail = async (email: string, username: string, subject: string, msg: string, imageLink?: string) => {
+export const sendEmail = async (
+  email: string,
+  username: string,
+  subject: string,
+  msg: string,
+  imageLink?: string,
+  couponCode?: string,
+  link?: string,
+  Heading1?: string,
+  Heading2?: string,
+  companyName?: string
+) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -27,45 +43,151 @@ export const sendEmail = async (email: string, username: string, subject: string
           <link href="https://fonts.googleapis.com/css2?family=Bellafair&display=swap" rel="stylesheet">
           <style>
             body {
-              font-family: 'Bellafair', serif;
-              color: #333;
-              background-color: #f8f9fa;
-              padding: 20px;
+              font-family: 'Bellafair', sans-serif;
+              background-color: #fff;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              justify-content: center;
             }
+
             .container {
+              width: 100%;
               max-width: 600px;
-              background: white;
-              padding: 20px;
-              border-radius: 10px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              background-color: white;
+              padding: 0;
+              margin: 0 auto;
             }
-            .content {
+
+            .header {
+              background-color: black;
+              color: white;
+              padding: 15px;
+              text-align: left;
               font-size: 16px;
-              line-height: 1.5;
             }
-            .image {
-              display: block;
-              margin: 20px auto;
-              width: auto;
-              height: 200px;
-              border-radius: 8px;
+
+            .hero-section {
+              background-color: #fbeff8;
+              padding: 40px 20px;
+              text-align: left;
             }
-            .footer {
-              margin-top: 20px;
-              font-size: 14px;
-              color: #666;
+
+            .hero-text {
+              font-size: 32px;
+              font-weight: bold;
+              margin-bottom: 30px;
+            }
+
+            .hero-image {
+              width: 100%;
+              max-width: 500px;
+              margin: 20px 0;
+            }
+
+            .content {
+              padding: 20px;
+              color: #333;
+              line-height: 1.6;
+            }
+
+            .code-box {
+              background-color: #f5f5f5;
+              border: 1px solid #ddd;
+              padding: 15px;
               text-align: center;
+              font-weight: bold;
+              margin: 20px 0;
+              font-size: 18px;
+            }
+
+            .button {
+              display: inline-block;
+              background-color: black;
+              color: white;
+              padding: 12px 30px;
+              text-decoration: none;
+              border-radius: 4px;
+              font-weight: bold;
+              margin: 20px 0;
+            }
+
+            .footer {
+              background-color: black;
+              color: white;
+              padding: 20px;
+              text-align: center;
+            }
+
+            .social-icons {
+              display: flex;
+              justify-content: center;
+              gap: 15px;
+              margin-top: 15px;
+            }
+
+            .social-icons img {
+              width: 24px;
+              height: 24px;
+              margin: 10px 5px;
+            }
+
+            .unsubscribe {
+              margin-top: 20px;
+              font-size: 12px;
+              color: #bbb;
+            }
+
+            img {
+              width: 550px;
             }
           </style>
         </head>
         <body>
           <div class="container">
-            <p>Dear <strong>${username}</strong>,</p>
-            <p class="content">${msg}</p>
-            ${imageLink ? `<img src="${imageLink}" alt="Image" class="image" />` : ""}
-            <p>Best regards,</p>
-            <p><strong>Team</strong></p>
-            <div class="footer">This is an automated email. Please do not reply.</div>
+            <div class="header">
+              Ready Set Grow
+            </div>
+
+            <div class="hero-section">
+              <div class="hero-text">
+              ${Heading1 && Heading2 ? `${Heading1}<br>${Heading2}` : 'Get 25% off*<br> Ends April 22, 2025'}
+              </div>
+              ${imageLink ? `<img src="${imageLink}" alt="Image" class="hero-image">` : ""}
+            </div>
+
+            <div class="content">
+              <p>Hi ${username || "there"},</p>
+              <p>${msg || "We have an exciting offer just for you!"}</p>
+
+              ${couponCode ? `
+                  <p>Use the code below at checkout:</p>
+                  <div class="code-box">${couponCode}</div>
+                `: ""
+      }
+
+              <a href=${link || `${process.env.DOMAIN}/sales`} class="button">Start Shopping</a>
+            </div>
+
+            <div class="footer">
+              <div>${companyName || "Wonders Tapestry"}</div>
+
+              <div class="social-icons">
+                <a href="https://facebook.com" target="_blank">
+                  <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                  <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">
+                </a>
+                <a href="https://instagram.com" target="_blank">
+                  <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram">
+                </a>
+              </div>
+
+              <div class="unsubscribe">
+                continue shopping, <a href=${process.env.DOMAIN} style="color: #fbeff8; text-decoration: underline;">here</a>.
+              </div>
+            </div>
           </div>
         </body>
       </html>
