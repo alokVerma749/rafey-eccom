@@ -15,7 +15,7 @@ import { AdressDialog } from '../AddressDialog';
 import { useCartData } from '@/hooks/useCartData';
 import { Personalize } from '../../Product/Personalize';
 import EmptyCart from './EmptyCart';
-
+import Whatsapp from '@/public/whatsapp.svg';
 interface CartListProps {
   setFinalAmount: (amount: number) => void;
 }
@@ -237,10 +237,8 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                           <Personalize product={item} cart_id={cart_id} customization={customization} setCustomization={setCustomization} />
                           {/* Whatsapp Button */}
                           <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
-                            target="_blank"
-                            className="bg-green-500 rounded-full p-2">
-                            {/* <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} /> */}
-                            Whatsapp
+                            target="_blank">
+                            <Image src={Whatsapp} alt="Whatsapp" width={28} height={28} className='h-12 w-16'/> 
                           </Link>
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
