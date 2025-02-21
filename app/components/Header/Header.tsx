@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Loader from "../Loader";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator";
+import { CommandDialogSearch } from "../Search";
 
 export function Header() {
   const { data: session, status } = useSession();
@@ -56,6 +57,9 @@ export function Header() {
           >
             Shop
           </Link>
+          <div className="flex items-center space-x-2">
+            <CommandDialogSearch />
+          </div>
           <Link
             href="/cart"
             className="relative flex items-center gap-2"

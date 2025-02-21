@@ -6,8 +6,9 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { Search, ShoppingCart, UserRound, Menu, X } from 'lucide-react';
 import Loader from "@/app/components/Loader";
 import { useCart } from '@/context/cartContext';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { CommandDialogSearch } from '../Search';
 
 export function PrimaryHeader() {
 
@@ -49,8 +50,7 @@ export function PrimaryHeader() {
 
 				<div className="hidden md:flex justify-start items-center space-x-10 text-white">
 					<div className="flex items-center space-x-2">
-						<Search />
-						<span className="ml-1">Search</span>
+						<CommandDialogSearch />
 					</div>
 
 					<Link href="/cart" className="relative flex items-center">
