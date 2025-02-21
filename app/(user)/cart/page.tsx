@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { ProcessingAnimation } from "@/app/components/PrcessingAnimation";
 import Loader from "@/app/components/Loader";
 import { useCartData } from '@/hooks/useCartData';
-import EmptyCart from "@/app/components/Cart/CartList/EmptyCart";
 
 interface orderTypes {
   user: string;
@@ -279,13 +278,8 @@ function Cart() {
     }
   };
 
-  const cartItems = useCartData().cart;
   if (loading) {
     return <Loader />;
-  }
-
-  if (cartItems.length === 0) {
-    return <EmptyCart />
   }
 
   return (

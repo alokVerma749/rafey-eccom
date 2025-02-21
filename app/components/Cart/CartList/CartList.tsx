@@ -14,6 +14,7 @@ import Shimmer from '../../Shimmer';
 import { AdressDialog } from '../AddressDialog';
 import { useCartData } from '@/hooks/useCartData';
 import { Personalize } from '../../Product/Personalize';
+import EmptyCart from './EmptyCart';
 
 interface CartListProps {
   setFinalAmount: (amount: number) => void;
@@ -157,6 +158,10 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
 
   if (loading) {
     return <Shimmer />;
+  }
+
+  if (cartProducts.length === 0 && !loading) {
+    return <EmptyCart />;
   }
 
   return (
