@@ -229,7 +229,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
 
                     {
                       (item?.isCustomizable) && <div>
-                        <div className="flex justify-between items-center gap-x-4">
+                        <div className="flex justify-between items-start gap-x-4 pt-2">
                           <Personalize product={item} cart_id={cart_id} />
                           {/* Whatsapp Button */}
                           <Link href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
@@ -242,7 +242,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                         <p className="text-sm text-gray-500 mt-1">
                           Customize Your Product By Adding Your Name For A Personal Touch
                         </p>
-                        <p className=" text-gray-300 text-sm">
+                        <p className="text-gray-600 text-sm">
                           <span className='font-semibold text-green-300'>Customization: </span> {item.customization ? item.customization : "No Personalization"}
                         </p>
                       </div>

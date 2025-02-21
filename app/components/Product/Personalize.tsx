@@ -40,16 +40,18 @@ export const Personalize = ({ product, cart_id }: { product: CartItem; cart_id: 
   };
 
   return (
-    <form className="flex items-center gap-x-2" onSubmit={handlePersonalization}>
-      <Input
-        placeholder="Add Personalization here..."
-        value={customization}
-        onChange={(e) => setCustomization(e.target.value)}
-        disabled={isSubmitting || success}
-      />
-      <Button type="submit" disabled={isSubmitting || success}>
-        {isSubmitting ? "Personalizing..." : "Personalize"}
-      </Button>
+    <form className="flex flex-col items-start gap-y-2" onSubmit={handlePersonalization}>
+      <div className="flex justify-start gap-x-2 items-center">
+        <Input
+          placeholder="Add Personalization here..."
+          value={customization}
+          onChange={(e) => setCustomization(e.target.value)}
+          disabled={isSubmitting || success}
+        />
+        <Button type="submit" disabled={isSubmitting || success}>
+          {isSubmitting ? "Personalizing..." : "Personalize"}
+        </Button>
+      </div>
       {success && (
         <p className="text-green-600">
           You have added a customization to the product: <strong>{savedCustomization}</strong>
