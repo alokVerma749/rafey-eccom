@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProcessingAnimation } from "@/app/components/PrcessingAnimation";
 import Loader from "@/app/components/Loader";
-import { useCartData } from '@/hooks/useCartData';
 
 interface orderTypes {
   user: string;
