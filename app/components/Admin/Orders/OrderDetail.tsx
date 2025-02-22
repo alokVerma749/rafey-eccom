@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ContactRound, BriefcaseBusiness } from 'lucide-react';
+import { ContactRound, BriefcaseBusiness, MapPin } from 'lucide-react';
 import { Order } from "@/types/order";
 import { UserAccount } from "@/models/user_model";
 
@@ -24,7 +23,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
             <ContactRound size={28} strokeWidth={1.5} />
             <div className="font-sans">
               <h3 className="font-bold mb-2 text-xl">Customer</h3>
-              <p className="text-base text-gray-700 font-medium">
+              <p className="text-sm text-gray-700 font-medium">
                 <strong>Name:</strong> {user.name}
               </p>
               <p className="text-base text-gray-700 font-medium">
@@ -33,13 +32,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
               <p className="text-base text-gray-700 font-medium">
                 <strong>Phone:</strong> {user.phone}
               </p>
-              <p className="text-base text-gray-700 font-medium">
-                <strong>Address:</strong> {user.address} {user.pincode} {user.state} {user.country}
-              </p>
             </div>
-          </div>
-          <div className="absolute bottom-2 left-2 right-2">
-            <Button className="py-1 w-full bg-[#003f62]">View Profile</Button>
           </div>
         </div>
 
@@ -49,18 +42,18 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
             <BriefcaseBusiness size={28} strokeWidth={1.5} />
             <div className="font-sans flex flex-col gap-y-2">
               <h3 className="font-bold mb-2 text-xl">Order Info</h3>
-              <p className="text-base text-gray-700 font-medium">Shipping: {order.orderStatus === "processing" ? "Processing" : order.orderStatus === "shipped" ? "Shipped" : order.orderStatus === "delivered" ? "Delivered" : "Cancelled"}</p>
-              <p className="text-base text-gray-700 font-medium">
+              <p className="text-sm text-gray-700 font-medium">Shipping: {order.orderStatus === "processing" ? "Processing" : order.orderStatus === "shipped" ? "Shipped" : order.orderStatus === "delivered" ? "Delivered" : "Cancelled"}</p>
+              <p className="text-sm text-gray-700 font-medium">
                 <strong>Payment Status:</strong>{" "}
                 <span className={`px-2 py-1 m-2 rounded ${order.paymentStatus === "captured" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
                   {order.paymentStatus}
                 </span>
               </p>
-              <p className="text-base text-gray-700 font-medium">
+              <p className="text-sm text-gray-700 font-medium">
                 <strong>Date: </strong>
                 {new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}
               </p>
-              <p className="text-base text-gray-700 font-medium">
+              <p className="text-sm text-gray-700 font-medium">
                 <strong>Total Amount:</strong> ₹{order.totalAmount}
               </p>
             </div>
@@ -70,10 +63,10 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
         {/* Deliver To */}
         <div className="p-4 border rounded-lg h-[230px] relative">
           <div className="flex justify-start items-start space-x-2">
-            <BriefcaseBusiness size={28} strokeWidth={1.5} />
+            <MapPin size={96} strokeWidth={1.5} height={28} />
             <div className="font-sans">
               <h3 className="font-bold mb-2 text-xl">Deliver to</h3>
-              <p className="text-base text-gray-700 font-medium">
+              <p className="text-sm text-gray-700 font-medium">
                 <strong>Address:</strong> {user.address}, {user.pincode}, {user.state}, {user.country}
               </p>
             </div>

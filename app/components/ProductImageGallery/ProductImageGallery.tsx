@@ -27,10 +27,10 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
   return (
     <div className="relative flex-shrink-0 sm:w-[50%] w-full">
       {/* Main Image */}
-      <div className="relative aspect-square">
+      <div className="relative w-full h-96 overflow-hidden">
         <Image
           alt={`${productName} thumbnail`}
-          className="object-contain object-top"
+          className="object-contain object-top h-fit"
           src={imageList[currentImageIndex] || "/placeholder.svg"}
           fill
           priority
@@ -40,7 +40,7 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
             <Button
               variant="secondary"
               size="icon"
-              className="absolute left-2 top-1/3 -translate-y-1/2 bg-white/80 hover:bg-white/90"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90"
               onClick={previousImage}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -48,7 +48,7 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
             <Button
               variant="secondary"
               size="icon"
-              className="absolute right-2 top-1/3 -translate-y-1/2 bg-white/80 hover:bg-white/90"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90"
               onClick={nextImage}
             >
               <ChevronRight className="h-4 w-4" />
@@ -59,21 +59,21 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
 
       {/* Thumbnails */}
       {imageList.length > 1 && (
-        <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
+        <div className="flex gap-2 mt-4 overflow-x-auto p-2">
           {imageList.map((image, index) => (
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
               className={cn(
-                "relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden",
-                currentImageIndex === index && "ring-2 ring-primary",
+                "relative w-20 h-20 flex-shrink-0 rounded overflow-hidden p-1",
+                currentImageIndex === index && "ring-[2px] ring-green-500",
               )}
             >
               <Image
                 src={image || "/placeholder.svg"}
                 alt={`${productName} thumbnail ${index + 1}`}
                 fill
-                className="object-cover"
+                className="object-cover p-[2px] rounded"
               />
             </button>
           ))}
