@@ -11,7 +11,6 @@ export function CommandDialogSearch() {
   const [open, setOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -26,23 +25,32 @@ export function CommandDialogSearch() {
   }, [])
 
   useEffect(() => {
-    if (!searchQuery) {
-      setProducts([])
-      return
+    const fetchSuggestions = async () => {
+      if (!searchQuery) {
+        setProducts([])
+        return
+      }
+
+      try {
+        const res = await fetch(`/api/suggestions?q=${searchQuery}`)
+        if (!res.ok) throw new Error("Failed to fetch suggestions")
+
+        const data = await res.json()
+        setProducts(data)
+      } catch (error) {
+        console.error("Error fetching products:", error)
+      }
     }
 
-    setLoading(true)
-    fetch(`/api/suggestions?q=${searchQuery}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data)
-        setLoading(false)
-      })
-      .catch(() => setLoading(false))
+    const delayDebounceFn = setTimeout(() => {
+      fetchSuggestions()
+    }, 300)
+
+    return () => clearTimeout(delayDebounceFn)
   }, [searchQuery])
 
   return (
-    <>
+    <div className="font-bellefair font-medium">
       <p className="text-sm cursor-pointer">
         <Search onClick={() => setOpen(true)} />
       </p>
@@ -53,31 +61,28 @@ export function CommandDialogSearch() {
           value={searchQuery}
           onValueChange={setSearchQuery}
         />
-        <CommandList>
-          {loading ? (
-            <CommandEmpty>Loading...</CommandEmpty>
-          ) : products.length === 0 ? (
-            <CommandEmpty>No results found.</CommandEmpty>
-          ) : (
-            <>
-              <CommandGroup heading="Products">
+        {products.length === 0 ? <CommandEmpty>No results found.</CommandEmpty> :
+          <>
+            {products.length === 0 ? <CommandEmpty>No results found.</CommandEmpty> : (
+              <div className=" max-h-36 overflow-y-scroll">
                 {products.map((product) => (
-                  <Link key={product._id} href={`/product/${product._id}`} passHref>
-                    <CommandItem asChild>
-                      <div className="flex items-center cursor-pointer">
+                  <div key={product._id} className="p-2 hover:bg-gray-100">
+                    <Link href={`/product/${product._id}`} className="relative flex cursor-default gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
+                      <div className="flex items-center justify-between w-full cursor-pointer tracking-widest">
                         <Package className="mr-2" />
                         <span>{product.name}</span>
                         <span className="ml-auto text-xs text-muted-foreground">
                           {product.category}
                         </span>
                       </div>
-                    </CommandItem>
-                  </Link>
+                    </Link>
+                  </div>
                 ))}
-              </CommandGroup>
-            </>
-          )}
-
+              </div>
+            )}
+          </>
+        }
+        <CommandList>
           <CommandSeparator />
           <CommandGroup heading="Categories">
             <CommandItem>
@@ -101,6 +106,6 @@ export function CommandDialogSearch() {
           </CommandGroup>
         </CommandList>
       </CommandDialog>
-    </>
+    </div>
   )
 }
