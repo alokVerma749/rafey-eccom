@@ -61,7 +61,7 @@ export default function OrderPage() {
   }
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-6 space-y-4 w-full">
       {user && <OrderDetails order={order} user={user} />}
       <OrderListTable order={order} products={products} />
     </div>

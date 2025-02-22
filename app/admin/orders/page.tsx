@@ -98,7 +98,8 @@ export default function OrdersPage() {
                     <TableHead>Order Status</TableHead>
                     <TableHead>Payment Status</TableHead>
                     <TableHead>Quantity</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="text-right">Total Amount</TableHead>
+                    <TableHead className="text-right">Payable Amount</TableHead>
                     <TableHead className="text-right">Action</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -119,7 +120,8 @@ export default function OrdersPage() {
                           <TableCell>{order.orderStatus}</TableCell>
                           <TableCell>{order.paymentStatus}</TableCell>
                           <TableCell>{products.length || 0}</TableCell>
-                          <TableCell className="text-right">₹{order.totalAmount}</TableCell>
+                          <TableCell className="text-right">₹{(order.totalAmount).toFixed(2)}</TableCell>
+                          <TableCell className="text-right">₹{(order.payableAmount).toFixed(2)}</TableCell>
                           <TableCell className="text-blue-600 text-right cursor-pointer">
                             <Link href={`/admin/orders/${order._id}`}>View</Link>
                           </TableCell>

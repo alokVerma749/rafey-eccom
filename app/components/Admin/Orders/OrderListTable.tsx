@@ -4,17 +4,7 @@ import { Order } from "@/types/order";
 import { Product } from "@/types/product_type";
 
 function OrderListTable({ order, products }: { order: Order; products: Product[] }) {
-  // Calculate subtotal
-  const subtotal = order.products.reduce((sum, product) => {
-    const productOrder = order.products.find((p: any) => p.product[0]._id === product._id);
-    return sum + (productOrder?.totalPrice || 0);
-  }, 0); // TODO: fix this
-
-  const taxRate = 0.2; // 20%
-  const taxAmount = subtotal * taxRate;
-  const discount = 0; // Assuming no discount for now
-  const shippingRate = 0; // Assuming free shipping for now
-  const total = subtotal + taxAmount - discount + shippingRate;
+  const discount = (order.totalAmount - order.payableAmount) || 0;
 
   return (
     <div className="p-4 shadow-md border rounded-lg m-2">
@@ -42,7 +32,7 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
                   <TableCell>{product[0]?.height || 0} cm</TableCell>
                   <TableCell>{product[0]?.width || 0} cm</TableCell>
                   <TableCell>{product[0]?.weight || 0} grams</TableCell>
-                  <TableCell className="text-right">₹{(product[0]?.price || 0).toFixed(2)}</TableCell>
+                  <TableCell className="text-right">₹{(((product[0]?.price) || 0) * (productOrder?.quantity || 0).toFixed(2))}</TableCell>
                 </TableRow>
               );
             })
@@ -61,24 +51,16 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
         <div className="w-64 space-y-2">
           <div className="flex justify-between text-sm font-medium">
             <span>Subtotal</span>
-            <span>₹{subtotal.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between text-sm font-medium">
-            <span>Tax (20%)</span>
-            <span>₹{taxAmount.toFixed(2)}</span>
+            <span>₹{order.totalAmount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-sm font-medium">
             <span>Discount</span>
-            <span>₹{discount.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between text-sm font-medium">
-            <span>Shipping Rate</span>
-            <span>₹{shippingRate.toFixed(2)}</span>
+            <span>-₹{discount.toFixed(2)}</span>
           </div>
           <Separator className="my-2" />
           <div className="flex justify-between text-lg font-bold">
-            <span>Total</span>
-            <span>₹{total.toFixed(2)}</span>
+            <span>Total Payable</span>
+            <span>₹{(order.payableAmount.toFixed(2))}</span>
           </div>
         </div>
       </div>

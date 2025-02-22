@@ -18,7 +18,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Customer Info */}
-        <div className="p-2 border rounded-lg h-[230px] relative">
+        <div className="p-2 border rounded-lg min-h-[300px] relative">
           <div className="flex justify-start items-start space-x-2">
             <ContactRound size={28} strokeWidth={1.5} />
             <div className="font-sans">
@@ -37,7 +37,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
         </div>
 
         {/* Order Info */}
-        <div className="p-4 border rounded-lg h-[230px] relative">
+        <div className="p-4 border rounded-lg min-h-[300px] relative">
           <div className="flex justify-start items-start space-x-2">
             <BriefcaseBusiness size={28} strokeWidth={1.5} />
             <div className="font-sans flex flex-col gap-y-2">
@@ -53,17 +53,18 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
                 <strong>Date: </strong>
                 {new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}
               </p>
-              <p className="text-sm text-gray-700 font-medium">
-                <strong>Total Amount:</strong> ₹{order.totalAmount}
+              <p className="text-sm text-gray-700 font-medium  flex flex-col gap-y-2">
+                <strong>Total Amount:</strong> ₹{(order.totalAmount).toFixed(2)}
+                <strong>Payable Amount:</strong> ₹{(order.payableAmount).toFixed(2)}
               </p>
             </div>
           </div>
         </div>
 
         {/* Deliver To */}
-        <div className="p-4 border rounded-lg h-[230px] relative">
+        <div className="p-4 border rounded-lg min-h-[300px] relative">
           <div className="flex justify-start items-start space-x-2">
-            <MapPin size={96} strokeWidth={1.5} height={28} />
+            <MapPin size={28} strokeWidth={1.5} />
             <div className="font-sans">
               <h3 className="font-bold mb-2 text-xl">Deliver to</h3>
               <p className="text-sm text-gray-700 font-medium">
