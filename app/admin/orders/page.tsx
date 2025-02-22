@@ -8,20 +8,20 @@ import { UserAccount } from "@/models/user_model";
 import { Order } from "@/types/order";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
 import Loader from "@/app/components/Loader";
 import Shimmer from "@/app/components/Admin/Orders/Shimmer";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [originalOrders, setOriginalOrders] = useState<Order[]>([]); // Store the original list of orders
   const [users, setUsers] = useState<Record<string, UserAccount>>({});
   const [loading, setLoading] = useState(true);
+  const [searchId, setSearchId] = useState("");
 
   useEffect(() => {
-
     const fetchOrders = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const response = await fetch('/api/admin/order');
         const data = await response.json();
@@ -37,6 +37,7 @@ export default function OrdersPage() {
         );
 
         setOrders(data.order);
+        setOriginalOrders(data.order);
         setUsers(usersMap);
 
         toast({
@@ -45,7 +46,7 @@ export default function OrdersPage() {
       } catch (error) {
         console.error("Error fetching orders or users:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
 
@@ -53,7 +54,29 @@ export default function OrdersPage() {
   }, []);
 
   const handleSort = (status: string) => {
-    setOrders(orders.filter((order) => order.orderStatus === status));
+    setOrders(originalOrders.filter((order) => order.orderStatus === status));
+  };
+
+  const handleOrderSearch = () => {
+    if (!searchId) {
+      return toast({
+        title: "Please enter order id to search",
+      });
+    }
+
+    const order = originalOrders.find((order) => order._id === searchId);
+    if (!order) {
+      return toast({
+        title: "Order not found",
+      });
+    }
+
+    setOrders([order]);
+  };
+
+  const resetOrderList = () => {
+    setOrders(originalOrders);
+    setSearchId("");
   };
 
   if (loading) {
@@ -68,8 +91,25 @@ export default function OrdersPage() {
     <div className="p-6 space-y-6 min-h-screen relative font-bellefair w-[80%]">
       <div className="min-h-screen relative w-full my-6">
         <h2 className="font-semibold text-2xl my-2">Order List</h2>
+        {/* order search */}
+        <div className="flex justify-between items-center my-8">
+          <div className="flex gap-x-2">
+            <input
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+              type="text"
+              placeholder="Search Order By Id"
+              className="px-2 py-1 border border-gray-300 rounded-md"
+            />
+            <button onClick={handleOrderSearch} className="bg-blue-600 text-white px-2 py-1 rounded-md">
+              Search Order
+            </button>
+            <button onClick={resetOrderList} className="bg-gray-600 text-white px-2 py-1 rounded-md">
+              Reset List
+            </button>
+          </div>
+        </div>
         <div className="shadow-lg border p-4 rounded-lg">
-
           {loading ? (
             <Shimmer />
           ) : (
@@ -139,7 +179,7 @@ export default function OrdersPage() {
               </Table>
             </>
           )}
-          <Pagination>
+          {/* <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious href="#" />
@@ -154,7 +194,7 @@ export default function OrdersPage() {
                 <PaginationNext href="#" />
               </PaginationItem>
             </PaginationContent>
-          </Pagination>
+          </Pagination> */}
         </div>
       </div>
     </div>

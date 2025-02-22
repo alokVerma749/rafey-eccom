@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, X, UserRound } from 'lucide-react';
 import Loader from "@/app/components/Loader";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { CommandDialogSearch } from '../../Search';
 
 export function AdminHeader() {
   const { data: session, status } = useSession();
@@ -33,6 +34,7 @@ export function AdminHeader() {
 
         <div className="hidden md:flex justify-start items-center space-x-10 text-gray-700">
           <Link href="/shop" className="flex items-center gap-2">Shop</Link>
+          <CommandDialogSearch />
 
           {session ? (
             <DropdownMenu>
