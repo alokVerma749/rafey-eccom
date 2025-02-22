@@ -32,7 +32,6 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
               <p className="text-base text-gray-700 font-medium">
                 <strong>Phone:</strong> {user.phone}
               </p>
-              
             </div>
           </div>
         </div>
@@ -64,7 +63,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
         {/* Deliver To */}
         <div className="p-4 border rounded-lg h-[230px] relative">
           <div className="flex justify-start items-start space-x-2">
-            <MapPin size={96} strokeWidth={1.5} height={28}/>
+            <MapPin size={96} strokeWidth={1.5} height={28} />
             <div className="font-sans">
               <h3 className="font-bold mb-2 text-xl">Deliver to</h3>
               <p className="text-sm text-gray-700 font-medium">
