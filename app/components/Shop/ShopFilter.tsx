@@ -198,9 +198,9 @@ const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
                      Max Price
                   </label>
                   <Slider
-                     step={5}
+                     step={50}
                      min={1}
-                     max={5000}
+                     max={20000}
                      defaultValue={[5000]}
                      onValueChange={handleSliderChange}
                   />
