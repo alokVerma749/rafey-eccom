@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import type React from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { CldUploadButton } from "next-cloudinary"
 import { Card } from "@/components/ui/card"
@@ -322,7 +322,7 @@ export default function AdminSettingsForm() {
         </Card>
 
         {/* Announcements Section */}
-        <Card className="p-6 md:col-span-2">
+        {/* <Card className="p-6 md:col-span-2">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Announcements</h2>
             <Button type="button" onClick={handleAddAnnouncement}>
@@ -360,7 +360,7 @@ export default function AdminSettingsForm() {
               </div>
             ))}
           </div>
-        </Card>
+        </Card> */}
       </div >
 
       <div className="flex justify-end">
