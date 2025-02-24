@@ -13,9 +13,9 @@ export function Footer() {
     {
       title: "SERVICES",
       items: [
-        { label: "Candles", href: "/services/candles" },
-        { label: "Ceramic Arts", href: "/services/ceramic-arts" },
-        { label: "Resin Arts", href: "/services/resin-arts" },
+        { label: "Candles", href: "/shop/candles" },
+        { label: "Ceramic Arts", href: "/shop/ceramic_art" },
+        { label: "Resin Arts", href: "/shop/resin_art" },
       ],
     },
   ];
