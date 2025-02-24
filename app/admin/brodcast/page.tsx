@@ -58,12 +58,12 @@ export default function BroadcastMail() {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 w-full mx-auto">
       <h2 className="text-xl lg:font-2xl font-semibold">Send Broadcast Email</h2>
 
       <div className='flex flex-col lg:flex-row justify-between items-start gap-x-20'>
         {/* Form */}
-        <form action={handleSendMail} className="space-y-4 w-full lg:w-1/2 mt-4">
+        <form action={handleSendMail} className="space-y-4 w-full lg:w-3/4 mt-4 mx-auto">
           <Input
             type="text"
             name="heading1"

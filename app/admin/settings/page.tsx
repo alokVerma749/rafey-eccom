@@ -192,8 +192,6 @@ export default function AdminSettingsForm() {
     }
   }
 
-  if (loading) return <div>Loading...</div>
-
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings, Mail, Tag } from "lucide-react";
+import { PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings, Mail, Tag } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 const items = [
-  {
-    title: "Dashboard",
-    url: "/admin",
-    icon: LayoutDashboard,
-  },
+  // {
+  //   title: "Dashboard",
+  //   url: "/admin",
+  //   icon: LayoutDashboard,
+  // },
   {
     title: "List Product",
     url: "/admin/list_product",
