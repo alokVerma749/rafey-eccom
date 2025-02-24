@@ -147,10 +147,11 @@ export const CartProvider = ({ children, session }: { children: ReactNode; sessi
           description: 'Your cart has been successfully loaded.',
         });
       } catch (error) {
-        toast({
-          title: 'Fetch Error',
-          description: 'Unable to load your cart. Please try again later.',
-        });
+        console.log('Unable to load your cart. Please try again later.')
+        // toast({
+        //   title: 'Fetch Error',
+        //   description: 'Unable to load your cart. Please try again later.',
+        // });
       }
     }
     fetchCart();
