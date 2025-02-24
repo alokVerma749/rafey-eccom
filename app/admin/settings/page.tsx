@@ -148,28 +148,28 @@ export default function AdminSettingsForm() {
   };
 
 
-  const handleAddAnnouncement = () => {
-    setSettings((prev) => ({
-      ...prev,
-      announcements: [
-        ...prev.announcements,
-        {
-          message: "",
-          active: true,
-          expiresAt: new Date().toISOString().split("T")[0],
-        },
-      ],
-    }))
-  }
+  // const handleAddAnnouncement = () => {
+  //   setSettings((prev) => ({
+  //     ...prev,
+  //     announcements: [
+  //       ...prev.announcements,
+  //       {
+  //         message: "",
+  //         active: true,
+  //         expiresAt: new Date().toISOString().split("T")[0],
+  //       },
+  //     ],
+  //   }))
+  // }
 
-  const handleAnnouncementChange = (index: number, field: keyof Announcement, value: string | boolean) => {
-    setSettings((prev) => ({
-      ...prev,
-      announcements: prev.announcements.map((announcement, i) =>
-        i === index ? { ...announcement, [field]: value } : announcement,
-      ),
-    }))
-  }
+  // const handleAnnouncementChange = (index: number, field: keyof Announcement, value: string | boolean) => {
+  //   setSettings((prev) => ({
+  //     ...prev,
+  //     announcements: prev.announcements.map((announcement, i) =>
+  //       i === index ? { ...announcement, [field]: value } : announcement,
+  //     ),
+  //   }))
+  // }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
