@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image'; 
+import Image from 'next/image';
 import getProductsAction from '@/actions/get-products';
 import { Product } from '@/types/product_type';
+import { Button } from '@/components/ui/button';
 
 async function Section5() {
 	const response: string = await getProductsAction({ limit: 8 });
@@ -48,8 +49,9 @@ async function Section5() {
 					</Link>
 				))}
 			</div>
-
-			<Link href={'/shop'} className='hover:text-gray-400'>See More....</Link>
+			<Link href={'/shop'} className='hover:text-gray-400 mx-auto my-4'>
+				<Button className='bg-black text-white font-bold py-2 px-4 rounded-full'>VIEW ALL</Button>
+			</Link>
 		</div>
 	);
 }
