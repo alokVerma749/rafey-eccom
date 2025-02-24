@@ -6,8 +6,8 @@ export function Footer() {
       title: "ABOUT US",
       items: [
         { label: "Mission", href: "/about/mission" },
-        { label: "Testimonials", href: "/about/testimonials" },
-        { label: "Privacy policy", href: "/about/privacy-policy" },
+        { label: "Terms And Conditions", href: "/terms-and-conditions" },
+        { label: "Privacy policy", href: "/privacy-policy" },
       ],
     },
     {
@@ -46,7 +46,7 @@ export function Footer() {
 
         <div className="text-center text-sm text-gray-600 pt-4 md:mx-10 lg:mx-40 mr-6 sm:mr-4">
           <p>
-            `Copyright © {new Date().getFullYear()} Wonders Tapestry | All Rights Reserved`
+            Copyright © {new Date().getFullYear()} Wonders Tapestry | All Rights Reserved
           </p>
         </div>
       </div>
