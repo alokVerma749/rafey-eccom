@@ -124,8 +124,8 @@ const OrderDetails = () => {
         <div className="flex justify-between font-semibold">
           <span>TOTAL AMOUNT:</span>
           <div>
-            <span className='text-base font-semibold pr-4 text-green-600'> ₹{orderData.order.payableAmount}</span>
-            <span className='text-base font-semibold  pr-4 line-through'> ₹{orderData.order.totalAmount}</span>
+            <span className='text-base font-semibold pr-4 text-green-600'> ₹{(orderData.order.payableAmount).toFixed(2)}</span>
+            <span className='text-base font-semibold  pr-4 line-through'> ₹{(orderData.order.totalAmount).toFixed(2)}</span>
           </div>
         </div>
       </div>

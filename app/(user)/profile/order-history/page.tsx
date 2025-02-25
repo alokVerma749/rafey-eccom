@@ -1,14 +1,5 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { authOptions } from "@/lib/authOptions";
 import { getUser } from "@/db_services/user";
 import { UserAccount } from "@/models/user_model";
@@ -74,7 +65,7 @@ const OrderHistory = async () => {
         </ul>
       )}
 
-      <Pagination className="mt-6">
+      {/* <Pagination className="mt-6">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious href="#" />
@@ -89,7 +80,7 @@ const OrderHistory = async () => {
             <PaginationNext href="#" />
           </PaginationItem>
         </PaginationContent>
-      </Pagination>
+      </Pagination> */}
     </div>
   );
 };
