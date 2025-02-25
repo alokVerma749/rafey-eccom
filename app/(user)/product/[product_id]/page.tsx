@@ -2,10 +2,10 @@ import { Metadata } from "next";
 import { Product } from "@/types/product_type";
 import getProductAction from "@/actions/get-product";
 import ProductInfo from "@/app/components/Product/ProductInfo";
-import { Button } from "@/components/ui/button";
 import SimilarProduct from "@/app/components/Product/SimilarProduct";
 import { AddToCart } from "@/app/components/Cart/AddToCart/AddToCart";
 import { ProductImageGallery } from "@/app/components/ProductImageGallery";
+import DeliveryOptions from "@/app/components/Product/DeliveryOptions";
 
 type productProps = {
   params: Promise<{ product_id: string }>;
@@ -14,7 +14,7 @@ type productProps = {
 export async function generateMetadata({ params }: productProps): Promise<Metadata> {
   const { product_id } = await params;
 
-  const response: string = await getProductAction({ product_id })
+  const response: string = await getProductAction({ product_id });
   const product: Product = response ? JSON.parse(response as string) : [];
 
   if (!product) {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: productProps): Promise<Metada
 export default async function ProductPage({ params }: productProps) {
   const { product_id } = await params;
 
-  const response: string = await getProductAction({ product_id })
+  const response: string = await getProductAction({ product_id });
   const product: Product = response ? JSON.parse(response as string) : [];
   // TODO: fix this default image
   const defaultImage = "https://res.cloudinary.com/dv1fxqrsi/image/upload/v1735705725/product-thumbnails/b4lxfvb1qgkefdbybuor.jpg";
@@ -72,27 +72,7 @@ export default async function ProductPage({ params }: productProps) {
             <ProductInfo product={product} />
 
             {/* Delivery Options */}
-            <div className="py-4">
-              <label className="block text-base font-semibold pt-4">🚚 DELIVERY OPTIONS</label>
-              <div className="mt-2 space-x-2 space-y-2 md:space-y-0">
-                <input
-                  type="text"
-                  placeholder="Enter Pincode"
-                  className="flex-1 border w-[60%] md:w-1/2 rounded-md p-1 focus:ring-indigo-500 focus:border-indigo-500"
-                />
-                <Button className="mt-2 md:mt-0">Check</Button>
-              </div>
-
-              <div className="border mt-6 mb-4 w-1/2 mx-auto md:hidden"></div>
-              <ul className="text-sm text-gray-500 mt-2 list-disc pl-5">
-                {
-                  product.isCustomizable && <li className="text-green-700">This product is customizable</li>
-                }
-                <li>100% Original Products</li>
-                <li>Only Prepaid payment is acceptable</li>
-                <li>No return and exchange available</li>
-              </ul>
-            </div>
+            <DeliveryOptions />
           </div>
         </div>
       </div>
