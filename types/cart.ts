@@ -6,6 +6,9 @@ export interface CartItem {
   quantity: number;
   stock: number;
   images: string[];
+  weight: string;
+  height: string;
+  width: string;
   discount?: {
     percentage: number;
   };

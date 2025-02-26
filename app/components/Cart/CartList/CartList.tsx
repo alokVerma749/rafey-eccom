@@ -16,6 +16,7 @@ import { useCartData } from '@/hooks/useCartData';
 import { Personalize } from '../../Product/Personalize';
 import EmptyCart from './EmptyCart';
 import Whatsapp from '@/public/whatsapp.svg';
+
 interface CartListProps {
   setFinalAmount: (amount: number) => void;
 }
@@ -39,20 +40,19 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
     setVoucherDiscount,
     voucherError,
     setVoucherError,
-    DELIVERY_FEE,
     setUser,
     setCart,
     setCartProducts,
+    shippingCost,
   } = useCartData();
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
-    //if quantity is less than 0, restrict from increasing quantity
     const product = cartProducts.find((product) => product._id === productId);
     if (product?.stock && product.stock < newQuantity) {
       toast({
         title: "Out of stock",
         description: "We have only " + product.stock + " items in stock",
-      })
+      });
       return;
     }
     if (newQuantity <= 0) {
@@ -60,7 +60,6 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
       return;
     }
 
-    // Update cart and cartProducts state
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.productId.toString() === productId ? { ...item, quantity: newQuantity } : item
@@ -72,16 +71,13 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
       )
     );
 
-    // Sync with backend if necessary
     dispatch({ type: 'UPDATE_ITEM_QUANTITY', payload: { productId, quantity: newQuantity } });
   };
 
   const handleRemove = (productId: string) => {
-    // Remove from cart and cartProducts state
     setCart((prevCart) => prevCart.filter((item) => item.productId.toString() !== productId));
     setCartProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
 
-    // Sync with backend if necessary
     dispatch({ type: 'REMOVE_ITEM', payload: { productId } });
   };
 
@@ -146,15 +142,15 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = cartProducts
     .reduce((total, item) => total + (item.price - (item.price * (item.discount?.percentage ?? 0)) / 100) * item.quantity, 0)
-  DELIVERY_FEE.toFixed(2);
+    .toFixed(2);
 
   // Calculate final price
-  const finalPrice = threshold !== null && Number(totalPrice) >= threshold ? totalPrice : totalPrice + DELIVERY_FEE;
+  const finalPrice = threshold !== null && Number(totalPrice) >= threshold ? totalPrice : totalPrice + shippingCost;
 
-  // Update setFinalAmount whenever finalPrice changes
+  // Update setFinalAmount whenever finalPrice or shippingCost changes
   useEffect(() => {
-    setFinalAmount(voucherDiscount ? Number(finalPrice) - voucherDiscount : finalPrice);
-  }, [finalPrice, voucherDiscount, setFinalAmount]);
+    setFinalAmount(voucherDiscount ? Number(finalPrice) - voucherDiscount + (shippingCost ?? 0) : Number(finalPrice) + (shippingCost ?? 0));
+  }, [finalPrice, voucherDiscount, shippingCost, setFinalAmount]);
 
   if (loading) {
     return <Shimmer />;
@@ -283,14 +279,14 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                 <div className="flex justify-between text-gray-700">
                   <span>Delivery Fee</span>
                   <span className="text-gray-700">
-                    {threshold !== null && Number(totalPrice) >= threshold ? "+₹0.00" : `+₹${DELIVERY_FEE}.00`}
+                    {threshold !== null && Number(totalPrice) >= threshold ? "+₹0.00" : `+₹${shippingCost}.00`}
                   </span>
                 </div>
 
                 {/* Total Amount */}
                 <div className="border-t pt-2 flex justify-between text-gray-700 font-semibold">
                   <span>Total Amount</span>
-                  <span>₹{voucherDiscount ? (Number(finalPrice) - voucherDiscount).toFixed(2) : finalPrice.toFixed(2)}</span>
+                  <span>₹{voucherDiscount ? (Number(finalPrice) - voucherDiscount + (shippingCost ?? 0)).toFixed(2) : (Number(finalPrice) + (shippingCost ?? 0)).toFixed(2)}</span>
                 </div>
               </div>
 

@@ -6,6 +6,8 @@ import { getUserAccount } from "@/db_services/user";
 import { CartItem } from "@/types/cart";
 
 const DELIVERY_FEE = 100;
+// TODO: Add warehouse pincode to .env
+const WAREHOUSE_PINCODE = process.env.NEXT_PUBLIC_WAREHOUSE_PINCODE;
 
 export const useCartData = () => {
   const session = useSession();
@@ -20,6 +22,7 @@ export const useCartData = () => {
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherDiscount, setVoucherDiscount] = useState(0);
   const [voucherError, setVoucherError] = useState("");
+  const [shippingCost, setShippingCost] = useState<number | null>(DELIVERY_FEE);
 
   // Fetch threshold setting
   useEffect(() => {
@@ -96,6 +99,35 @@ export const useCartData = () => {
     }
   }, [cart]);
 
+  // Calculate Shipping Cost using Delhivery API
+  useEffect(() => {
+    const calculateShippingCost = async () => {
+      if (!user?.pincode || cartProducts.length === 0) return;
+
+      const destinationPincode = user.pincode;
+      const totalWeight = cartProducts.reduce((sum, item) => sum + item.quantity * Number(item.weight), 0);
+
+      try {
+        const response = await fetch(
+          `/api/shipment/calculate-shipping-cost?d_pin=${destinationPincode}&o_pin=${WAREHOUSE_PINCODE}&cgm=${totalWeight}&pt=Pre-paid&cod=0`
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          setShippingCost(data[0]?.total_amount || DELIVERY_FEE);
+        } else {
+          console.error("Error fetching shipping cost:", data);
+          setShippingCost(DELIVERY_FEE);
+        }
+      } catch (error) {
+        console.error("Error calculating shipping cost:", error);
+        setShippingCost(DELIVERY_FEE);
+      }
+    };
+
+    calculateShippingCost();
+  }, [user, cartProducts]);
+
   return {
     cart,
     cart_id,
@@ -109,7 +141,7 @@ export const useCartData = () => {
     setVoucherDiscount,
     voucherError,
     setVoucherError,
-    DELIVERY_FEE,
+    shippingCost,
     setCartProducts,
     setUser,
     setCart,
