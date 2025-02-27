@@ -39,7 +39,7 @@ body {
 
 @layer base {
   :root {
-    --font-bellefair: 'Bellefair', serif;
+    --font-marcellus: 'marcellus', serif;
     --font-poppins: 'Poppins', sans-serif;
     --font-inter: 'Inter', sans-serif;
     --footer-primary: #A4B6AA;

@@ -35,7 +35,7 @@ export function UserSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+          <Link href="/" className="sm:text-2xl text-xl font-marcellus my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
           <SidebarGroupLabel></SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

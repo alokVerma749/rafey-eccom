@@ -56,8 +56,8 @@ export function AdminSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="font-bellefair">
-              <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-4">Wonders Tapestry</Link>
+            <SidebarMenu className="font-marcellus">
+              <Link href="/" className="sm:text-2xl text-xl font-marcellus my-auto text-[#523012] font-semibold sm:py-4">Wonders Tapestry</Link>
               {items.map((item) => {
                 const isActive = pathname === item.url;
                 return (

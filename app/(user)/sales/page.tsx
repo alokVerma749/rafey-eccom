@@ -19,7 +19,7 @@ export default async function SalesPage() {
   }
 
   return (
-    <div className="font-bellefair">
+    <div className="font-marcellus">
       <Header />
       <div className=" mb-10">
         <section className="px-2 sm:px-10 bg-black text-white text-center py-20 relative">

@@ -35,7 +35,7 @@ export function PrimaryHeader() {
 					)}
 				</div>
 
-				<Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-white font-semibold text-start sm:py-2">Wonders Tapestry</Link>
+				<Link href="/" className="sm:text-2xl text-xl font-marcellus my-auto text-white font-medium text-start sm:py-2">Wonders Tapestry</Link>
 
 				<div className="flex items-center space-x-4 md:hidden">
 					<Link href="/cart" className="relative flex items-center text-white hover:text-gray-200">

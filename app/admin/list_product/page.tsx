@@ -87,7 +87,7 @@ export default function ListProductPage() {
   }
 
   return (
-    <div className="w-full mx-10 my-6 bg-white shadow-md rounded-lg p-3 font-bellefair">
+    <div className="w-full mx-10 my-6 bg-white shadow-md rounded-lg p-3 font-marcellus">
       <h1 className="text-2xl my-2">List Product</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         <div className="space-y-4">

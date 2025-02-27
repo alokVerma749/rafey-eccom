@@ -24,7 +24,7 @@ export function Footer() {
     <footer className="bg-[#Bfaf9e] text-white p-4 md:px-20">
       <div>
         <div className="flex flex-col sm:flex-row justify-center items-start sm:justify-center sm:items-start gap-x-10 md:mx-10 lg:mx-40">
-          <Link href="/" className="text-2xl font-bellefair my-auto mx-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+          <Link href="/" className="text-2xl font-marcellus my-auto mx-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
 
           <div className="flex gap-6 items-center mx-auto md:items-start sm:flex-row justify-center sm:justify-center sm:gap-x-20 text-center sm:text-left w-2/3 sm:border-l-2">
             {links.map((section, index) => (

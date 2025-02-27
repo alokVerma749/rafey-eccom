@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Bellefair, Inter, Poppins } from "next/font/google";
+import { Marcellus, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { SessionProviderWrapper } from "./components/SessionProviderWrapper";
 import { getSession } from "@/utils/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from "@/context/cartContext";
 
-const bellefairFont = Bellefair({
+const marcellusFont = Marcellus({
   weight: "400",
-  variable: "--font-bellefair",
+  variable: "--font-marcellus",
   subsets: ["latin"],
 });
 
@@ -35,7 +35,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
     <html lang="en">
       <SessionProviderWrapper session={session}>
         <CartProvider session={session}>
-          <body className={`${bellefairFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
+          <body className={`${marcellusFont.variable} ${poppinsFont.variable} ${interFont.variable} antialiased`}>
             <div className="bg-background"></div>
             <div className="min-h-[70vh]">
               {children}

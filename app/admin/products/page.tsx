@@ -32,7 +32,7 @@ function ProductsPage() {
   const categories = ["candles", "ceramic art", "resin art"];
 
   return (
-    <div className="w-full mx-10 my-6 font-bellefair">
+    <div className="w-full mx-10 my-6 font-marcellus">
       <div className="flex flex-col sm:flex-row justify-between items-center my-2">
         <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold">All Products</h1>
         <Link href={`/admin/list_product`}>

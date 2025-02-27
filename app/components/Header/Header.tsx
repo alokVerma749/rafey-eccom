@@ -33,7 +33,7 @@ export function Header() {
           )}
         </div>
 
-        <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+        <Link href="/" className="sm:text-2xl text-xl font-marcellus my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
 
         <div className="flex items-center gap-4 md:hidden mr-2">
           <Link

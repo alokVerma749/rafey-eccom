@@ -65,8 +65,8 @@ export default {
   			}
   		},
   		fontFamily: {
-  			bellefair: [
-  				'var(--font-bellefair)',
+  			marcellus: [
+  				'var(--font-marcellus)',
   				'serif'
   			],
   			poppins: [

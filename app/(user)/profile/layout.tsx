@@ -3,7 +3,7 @@ import { Footer } from "@/app/components/Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="font-bellefair">
+    <div className="font-marcellus">
       <Header />
       <main className="w-full">
         {children}

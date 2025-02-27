@@ -34,7 +34,7 @@ const ManageTags = () => {
   // };
 
   return (
-    <div className="flex gap-8 p-6 min-h-screen overflow-y-auto w-full font-bellefair bg-gray-100">
+    <div className="flex gap-8 p-6 min-h-screen overflow-y-auto w-full font-marcellus bg-gray-100">
       <div className="w-1/2 bg-white shadow-lg rounded-lg p-4">
         <h2 className="text-lg font-bold mb-4">Messages</h2>
 

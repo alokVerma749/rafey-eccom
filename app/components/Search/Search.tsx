@@ -50,7 +50,7 @@ export function CommandDialogSearch() {
   }, [searchQuery])
 
   return (
-    <div className="font-bellefair font-medium">
+    <div className="font-marcellus font-medium">
       <p className="text-sm cursor-pointer">
         <Search onClick={() => setOpen(true)} />
       </p>

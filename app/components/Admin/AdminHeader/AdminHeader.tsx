@@ -22,7 +22,7 @@ export function AdminHeader() {
     <header className="p-2 bg-gray-100 shadow-md ">
       <div className="flex justify-between items-center py-1 md:px-20">
 
-        <Link href="/" className="sm:text-2xl text-xl font-bellefair my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+        <Link href="/" className="sm:text-2xl text-xl font-marcellus my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
         
         <div className="block md:hidden">
           {menuOpen ? (

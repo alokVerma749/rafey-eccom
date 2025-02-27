@@ -70,7 +70,7 @@ const ManageTags = () => {
   };
 
   return (
-    <div className="flex gap-8 p-6 min-h-screen overflow-y-auto w-full font-bellefair bg-gray-100">
+    <div className="flex gap-8 p-6 min-h-screen overflow-y-auto w-full font-marcellus bg-gray-100">
     {/* Tags Section */}
     <div className="w-1/2 bg-white shadow-lg rounded-lg p-4">
       <h2 className="text-lg font-bold mb-4">Tags</h2>
@@ -82,7 +82,7 @@ const ManageTags = () => {
       ).map(([category, categoryTags]) => (
         <div key={category} className="mb-2 border rounded overflow-hidden">
           <button
-            className="w-full flex font-bellefair justify-between items-center bg-gray-200 p-2 font-semibold text-gray-700 hover:bg-gray-300 transition-all"
+            className="w-full flex font-marcellus justify-between items-center bg-gray-200 p-2 font-semibold text-gray-700 hover:bg-gray-300 transition-all"
             onClick={() => toggleCategory(category, "tags")}
           >
             {category} ({categoryTags.length})

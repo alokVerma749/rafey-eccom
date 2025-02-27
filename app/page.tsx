@@ -16,7 +16,7 @@ export default async function Home() {
   const marqueeTexts = settings[0].homepageSettings.marqueeText
 
   return (
-    <div className="font-bellefair">
+    <div className="font-marcellus">
       <Marquee messages={["Welcome! to Wonders Tapestry", ...marqueeTexts]} />
       <Hero />
       <div className="w-[95%] mx-auto">
