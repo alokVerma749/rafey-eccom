@@ -43,7 +43,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // If route is admin protected but user is not an admin, redirect
-    if (isAdminProtectedRoute && userData.user.role !== "user") {
+    if (isAdminProtectedRoute && userData.user.role !== "admin") {
       console.warn("Non-admin user attempted to access admin route.");
       return NextResponse.redirect(new URL("/", req.url));
     }
