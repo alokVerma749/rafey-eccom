@@ -33,6 +33,12 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     unique: true
   }, // Razorpay Order ID
+  waybill: {
+    type: String,
+    default: '',
+    unique: true,
+    sparse: true, // Allows some orders to not have a waybill initially
+  }, // Delhivery Waybill Number
   orderStatus: {
     type: String,
     enum: ['processing', 'shipped', 'delivered', 'cancelled'],

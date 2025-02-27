@@ -1,10 +1,10 @@
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
     if (!session) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
@@ -12,23 +12,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { packageDetails } = await req.json();
-
-    const response = await fetch('https://staging-express.delhivery.com/api/cmu/create.json?format=json', {
-      method: 'POST',
+    const response = await fetch("https://staging-express.delhivery.com/waybill/api/bulk/json/?count=1", {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Token ${process.env.DELHIVERY_API_TOKEN_MAIL}`,
+        Authorization: `Token ${process.env.DELHIVERY_API_TOKEN_MAIL}`,
       },
-      body: JSON.stringify({
-        data: packageDetails
-      }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to create shipment');
+      throw new Error(errorData.error || 'Failed to generate waybill');
     }
 
     const data = await response.json();

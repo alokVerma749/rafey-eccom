@@ -1,10 +1,22 @@
+'use client';
+
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Order } from "@/types/order";
 import { Product } from "@/types/product_type";
 
-function OrderListTable({ order, products }: { order: Order; products: Product[] }) {
+function OrderListTable({ order, products, setTotalWeight }: { order: Order; products: Product[], setTotalWeight: Dispatch<SetStateAction<number>>}) {
   const discount = (order.totalAmount - order.payableAmount) || 0;
+
+  useEffect(() => {
+    const totalWeight = products.reduce((acc, product) => {
+      const productOrder = order.products.find((p: any) => p.product === product[0]._id);
+      console.log(productOrder);
+      return acc + (product[0]?.weight || 0) * (productOrder?.quantity || 0);
+    }, 0);
+    setTotalWeight(totalWeight);
+  }, [products, order.products, setTotalWeight]);
 
   return (
     <div className="p-4 shadow-md border rounded-lg m-2">
@@ -32,13 +44,13 @@ function OrderListTable({ order, products }: { order: Order; products: Product[]
                   <TableCell>{product[0]?.height || 0} cm</TableCell>
                   <TableCell>{product[0]?.width || 0} cm</TableCell>
                   <TableCell>{product[0]?.weight || 0} grams</TableCell>
-                  <TableCell className="text-right">₹{(((product[0]?.price) || 0) * (productOrder?.quantity || 0).toFixed(2))}</TableCell>
+                  <TableCell className="text-right">₹{(((product[0]?.price) || 0) * (productOrder?.quantity || 0)).toFixed(2)}</TableCell>
                 </TableRow>
               );
             })
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center py-4">
+              <TableCell colSpan={6} className="text-center py-4">
                 No products found in this order.
               </TableCell>
             </TableRow>

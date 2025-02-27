@@ -9,6 +9,7 @@ export interface UserAccount {
   address: string;
   country: string;
   state: string;
+  city: string;
   pincode: string;
   phone: string;
 }
@@ -39,6 +40,9 @@ const UserSchema = new mongoose.Schema({
     type: String
   },
   state: {
+    type: String
+  },
+  city: {
     type: String
   },
   pincode: {

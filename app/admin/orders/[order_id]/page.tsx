@@ -15,6 +15,7 @@ export default function OrderPage() {
   const [user, setUser] = useState<UserAccount | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [totalWeight, setTotalWeight] = useState(0);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -62,9 +63,8 @@ export default function OrderPage() {
 
   return (
     <div className="p-6 space-y-4 w-full">
-      {user && <OrderDetails order={order} user={user} />}
-      <OrderListTable order={order} products={products} />
+      {user && <OrderDetails order={order} user={user} totalWeight={totalWeight} />}
+      <OrderListTable order={order} products={products} setTotalWeight={setTotalWeight} />
     </div>
   )
 }
-

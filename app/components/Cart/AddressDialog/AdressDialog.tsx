@@ -62,6 +62,18 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="city" className="text-right">
+              City
+            </Label>
+            <Input
+              id="city"
+              value={user?.city}
+              onChange={(e) => setUser({ ...user, city: e.target.value } as UserAccount)}
+              placeholder="Enter your city"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="address" className="text-right">
               Address
             </Label>

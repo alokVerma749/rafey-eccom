@@ -1,8 +1,9 @@
 import { ContactRound, BriefcaseBusiness, MapPin } from 'lucide-react';
 import { Order } from "@/types/order";
 import { UserAccount } from "@/models/user_model";
+import CreateShippment from '../CreateShippment/CreateShippment';
 
-const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
+const OrderDetails = ({ order, user, totalWeight }: { order: Order, user: UserAccount, totalWeight: number }) => {
   return (
     <div className="p-4 bg-white shadow rounded-lg w-full mx-auto">
       <div>
@@ -10,11 +11,16 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
           <h2 className="text-lg"><strong>Orders ID: </strong>{order._id}</h2>
           <span className="px-3 py-1 text-sm font-medium text-white bg-yellow-500 rounded">{order.orderStatus}</span>
         </div>
+        <div className="flex justify-start gap-x-4 items-center pb-2">
+          <h2 className="text-lg"><strong>WayBill: </strong>{order.waybill}</h2>
+        </div>
 
         <div className="flex justify-between items-center pb-4">
           <p> Order Date: {new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}</p>
         </div>
       </div>
+
+      <CreateShippment order={order} user={user} totalWeight={totalWeight} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Customer Info */}
@@ -54,6 +60,7 @@ const OrderDetails = ({ order, user }: { order: Order, user: UserAccount }) => {
                 {new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}
               </p>
               <p className="text-sm text-gray-700 font-medium  flex flex-col gap-y-2">
+                <strong>Total Weight:</strong> {(totalWeight).toFixed(2)} gm
                 <strong>Total Amount:</strong> ₹{(order.totalAmount).toFixed(2)}
                 <strong>Payable Amount:</strong> ₹{(order.payableAmount).toFixed(2)}
               </p>

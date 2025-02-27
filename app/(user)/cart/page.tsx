@@ -28,6 +28,7 @@ interface orderTypes {
   address: string;
   pincode: string;
   phone: string;
+  waybill: string;
 }
 
 function Cart() {
@@ -43,6 +44,7 @@ function Cart() {
   const [pincode, setPincode] = useState("");
   const [mobile, setMobile] = useState("");
   const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
   const [countryState, setCountryState] = useState("");
   const [showProcessing, setShowProcessing] = useState(false);
   const [finalAmount, setFinalAmount] = useState(0); // being set in CartList
@@ -85,7 +87,7 @@ function Cart() {
 
   // add address to the database
   const handleSaveAddress = async () => {
-    if (!address || !pincode || !mobile || !country || !countryState) {
+    if (!address || !pincode || !mobile || !country || !countryState || !city) {
       toast({
         title: 'Validation Error',
         description: 'Address, pincode and mobile number cannot be empty',
@@ -94,7 +96,7 @@ function Cart() {
     }
 
     try {
-      const response = await updateUser(session.data?.user?.email || "", { address, pincode, phone: mobile, country, state: countryState });
+      const response = await updateUser(session.data?.user?.email || "", { address, pincode, phone: mobile, country, state: countryState, city });
       const userData = JSON.parse(response);
       console.log("Address updated:", userData);
       toast({
@@ -124,6 +126,13 @@ function Cart() {
       throw new Error("Failed to create order");
     }
     return order;
+  };
+
+  // fetch waybill
+  const fetchWaybill = async () => {
+    const response = await fetch("/api/shipment/generate-waybill");
+    const res = await response.json();
+    return res.data || '';
   };
 
   // Handle Checkout
@@ -184,6 +193,9 @@ function Cart() {
         throw new Error("Payment ID not found.");
       }
 
+      // Fetch waybill
+      const waybill = await fetchWaybill();
+
       // Save order details in the database
       await createOrder({
         user: userData._id,
@@ -200,6 +212,7 @@ function Cart() {
         address: userAccountData.address,
         pincode: userAccountData.pincode,
         phone: userAccountData.phone,
+        waybill,
       });
 
       // Step 2: Initialize Razorpay payment
@@ -227,8 +240,6 @@ function Cart() {
             for (const product of state.items) {
               await updateProductStock({ productId: product.productId, quantityPurchased: product.quantity });
             }
-
-            // Shipment
 
             // Wait for animation to complete before redirecting
             setTimeout(() => {
@@ -345,6 +356,18 @@ function Cart() {
                 value={countryState}
                 onChange={(e) => setCountryState(e.target.value)}
                 placeholder="Enter your state"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="city" className="text-right">
+                City
+              </Label>
+              <Input
+                id="city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Enter your city"
                 className="col-span-3"
               />
             </div>

@@ -82,7 +82,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
   };
 
   const handleSaveAddress = async () => {
-    if (!user?.address || !user?.pincode || !user?.phone || !user?.country || !user?.state) {
+    if (!user?.address || !user?.pincode || !user?.phone || !user?.country || !user?.state || !user.city) {
       toast({
         title: 'Validation Error',
         description: 'Address, pincode and mobile number cannot be empty',
@@ -91,7 +91,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
     }
 
     try {
-      const response = await updateUser(session.data?.user?.email || "", { address: user?.address, pincode: user?.pincode, phone: user?.phone, country: user?.country, state: user?.state });
+      const response = await updateUser(session.data?.user?.email || "", { address: user?.address, pincode: user?.pincode, phone: user?.phone, country: user?.country, state: user?.state, city: user?.city });
       const userData = JSON.parse(response);
       console.log("Address updated:", userData);
       toast({

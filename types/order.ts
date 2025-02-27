@@ -11,4 +11,5 @@ export interface Order {
     orderStatus: string;
     paymentId: string;
     razorpayOrderId: string;
+    waybill: string;
 }
