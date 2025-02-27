@@ -4,11 +4,6 @@ import { Message } from "@/types/message"
 
 export function MessageCard({ msg }: { msg: Message }) {
 
-  const handleDeleteMessage = async () => {
-    console.log('delete message');
-  }
-
-
   return (
     <Card className="w-full md:w-[90%] m-4 mx-auto">
       <CardHeader>
@@ -21,11 +16,11 @@ export function MessageCard({ msg }: { msg: Message }) {
       <CardContent>
         {msg.message}
       </CardContent>
-      <CardFooter className="flex flex-col items-start justify-center">
+      {/* <CardFooter className="flex flex-col items-start justify-center">
           <div onClick={handleDeleteMessage} className="flex justify-start items-center cursor-pointer">
             <MessageSquareOff />
           </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   )
 }
