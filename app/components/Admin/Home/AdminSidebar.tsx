@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings, Mail, Tag } from "lucide-react";
+import { PackageSearch, ListOrdered, SquareStackIcon, Ticket, Settings, Mail, Tag, MessageSquare } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 const items = [
@@ -40,6 +40,11 @@ const items = [
     title: "Boradcast Mail",
     url: "/admin/brodcast",
     icon: Mail,
+  },
+  {
+    title: "Messages",
+    url: "/admin/messages",
+    icon: MessageSquare,
   },
   {
     title: "Settings",
