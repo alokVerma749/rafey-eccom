@@ -1,5 +1,4 @@
-import { MessageSquareOff } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Message } from "@/types/message"
 
 export function MessageCard({ msg }: { msg: Message }) {
