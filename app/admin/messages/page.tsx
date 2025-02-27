@@ -3,7 +3,6 @@
 import { MessageCard } from "@/app/components/Admin/messages/MessageCard";
 import { useEffect, useState } from "react";
 import { Message } from "@/types/message";
-import { SearchMessage } from "@/app/components/Admin/messages/SearchMessage";
 
 const ManageTags = () => {
   const [msgs, setMsgs] = useState<Message[]>([]);
@@ -22,6 +21,7 @@ const ManageTags = () => {
     fetchMsgs();
   }, []);
 
+  console.log(msgs, '###');
 
   // const deleteMessage = async (name: string, category: string) => {
   //   try {
@@ -37,7 +37,6 @@ const ManageTags = () => {
 
   return (
     <div className="p-6 min-h-screen overflow-y-auto w-full font-bellefair">
-      <SearchMessage msgs={msgs} />
       {msgs.map((msg) => (
         <MessageCard key={msg?._id} msg={msg} />
       ))}
