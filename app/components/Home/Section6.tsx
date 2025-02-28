@@ -44,7 +44,7 @@ function Section6() {
 
   return (
     <div className="flex-1 flex-col md:flex-row justify-between items-center gap-4 relative pb-10 md:p-10 text-white font-marcellus font-medium">
-      <Image height={200} width={200} src={image1.src} alt="" className="h-[70vh] md:w-[60vw] w-full my-4" />
+      <Image height={200} width={200} src={image1.src} alt="" className="h-[50vh] md:h-[70vh] md:w-[60vw] w-full my-4" />
       <form onSubmit={handleSubmit(onSubmit)} className="block md:absolute h-[50vh] right-10 top-20 md:w-5/12 shadow-2xl p-4 border-2 bg-[#f7f4ef] rounded">
         <div className="flex flex-col items-start w-full gap-4">
           <div className="flex flex-col justify-start items-between gap-4 space-y-1.5 w-full">

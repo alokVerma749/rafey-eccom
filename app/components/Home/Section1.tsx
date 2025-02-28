@@ -15,7 +15,7 @@ async function Hero() {
 
   return (
     <div
-      className="bg-cover bg-center h-[75vh] md:h-screen w-full relative"
+      className="bg-cover bg-center h-[65vh] md:h-screen w-full relative"
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.6) 100%), url(${homeImage1.src})`,
       }}
@@ -25,8 +25,8 @@ async function Hero() {
 
       {/* Sales Ribbon */}
       {settings[0].featureFlags.enableSale && (
-        <Link href={'/sales'} className="absolute top-24 right-12 text-white text-sm md:text-base rounded-md">
-          <Image src={SalesLogo} alt="Sales Logo" height={400} width={400} className='h-36 w-44'/>
+        <Link href={'/sales'} className="absolute top-28 right-12 text-white text-sm md:text-base rounded-md">
+          <Image src={SalesLogo} alt="Sales Logo" height={400} width={400} className='h-20 w-24 sm:h-36 sm:w-44'/>
         </Link>
       )}
 
