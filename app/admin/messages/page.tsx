@@ -1,9 +1,11 @@
 'use client';
 
+import { MessageCard } from "@/app/components/Admin/messages/MessageCard";
 import { useEffect, useState } from "react";
+import { Message } from "@/types/message";
 
 const ManageTags = () => {
-  const [msgs, setMsgs] = useState<[]>([]);
+  const [msgs, setMsgs] = useState<Message[]>([]);
 
   const fetchMsgs = async () => {
     try {
@@ -19,8 +21,6 @@ const ManageTags = () => {
     fetchMsgs();
   }, []);
 
-  console.log(msgs, '###');
-
   // const deleteMessage = async (name: string, category: string) => {
   //   try {
   //     await fetch(`/api/admin/tags?name=${name}&category=${category}`, {
@@ -34,11 +34,10 @@ const ManageTags = () => {
   // };
 
   return (
-    <div className="flex gap-8 p-6 min-h-screen overflow-y-auto w-full font-marcellus bg-gray-100">
-      <div className="w-1/2 bg-white shadow-lg rounded-lg p-4">
-        <h2 className="text-lg font-bold mb-4">Messages</h2>
-
-      </div>
+    <div className="p-6 min-h-screen overflow-y-auto w-full font-bellefair">
+      {msgs.map((msg) => (
+        <MessageCard key={msg?._id} msg={msg} />
+      ))}
     </div>
   );
 };
