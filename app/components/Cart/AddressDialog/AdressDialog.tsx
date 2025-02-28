@@ -1,10 +1,15 @@
+'use client';
+
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
+
 import { Button } from '@/components/ui/button';
 import { UserAccount } from '@/models/user_model';
 import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Dispatch, SetStateAction } from 'react';
-
+import { MapPinCheck } from 'lucide-react'
 interface AddressModalProps {
   isOpen: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -14,6 +19,32 @@ interface AddressModalProps {
 }
 
 export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, user, setUser, handleSaveAddress }) => {
+  const [isVailedPinCode, setIsVailedPinCode] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckPincode = async () => {
+    console.log("CAlledd")
+    if (!user?.pincode) {
+      return toast({ title: "Please enter a pincode" });
+    }
+
+    try {
+      const response = await fetch(`/api/shipment/check-service?pincode=${user?.pincode}`);
+      const data: DeliveryOptionsResponse = await response.json();
+
+      if ((data?.delivery_codes?.length ?? 0) > 0) {
+        setIsVailedPinCode(true);
+      }
+      console.log(data, "&&&&&&&&&&")
+    } catch (error) {
+      console.error("Error fetching delivery options:", error);
+      toast({ title: "An error occurred. Please try again." });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
@@ -92,8 +123,11 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
               value={user?.pincode}
               onChange={(e) => setUser({ ...user, pincode: e.target.value } as UserAccount)}
               placeholder="Enter your pincode"
-              className="col-span-3"
+              className="col-span-2"
             />
+            <div onClick={handleCheckPincode} className="cursor-pointer hover:opacity-60">
+                <MapPinCheck color={isVailedPinCode ? 'green' : 'red'} />
+            </div>
           </div>
         </div>
         <DialogFooter>
