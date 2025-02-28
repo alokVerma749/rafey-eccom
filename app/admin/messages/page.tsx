@@ -21,8 +21,6 @@ const ManageTags = () => {
     fetchMsgs();
   }, []);
 
-  console.log(msgs, '###');
-
   // const deleteMessage = async (name: string, category: string) => {
   //   try {
   //     await fetch(`/api/admin/tags?name=${name}&category=${category}`, {

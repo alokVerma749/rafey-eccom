@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Dispatch, SetStateAction } from 'react';
 import { MapPinCheck } from 'lucide-react'
+
 interface AddressModalProps {
   isOpen: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -19,32 +20,33 @@ interface AddressModalProps {
 }
 
 export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, user, setUser, handleSaveAddress }) => {
-  const [isVailedPinCode, setIsVailedPinCode] = useState(false);
+  const [isServiceable, setIsServiceable] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleCheckPincode = async () => {
-    console.log("CAlledd")
     if (!user?.pincode) {
       return toast({ title: "Please enter a pincode" });
     }
+
+    setLoading(true);
+    setIsServiceable(null);
 
     try {
       const response = await fetch(`/api/shipment/check-service?pincode=${user?.pincode}`);
       const data: DeliveryOptionsResponse = await response.json();
 
-      if ((data?.delivery_codes?.length ?? 0) > 0) {
-        setIsVailedPinCode(true);
-      }
-      console.log(data, "&&&&&&&&&&")
+      const serviceable = (data?.delivery_codes?.length ?? 0) > 0 && data?.delivery_codes?.[0]?.postal_code?.pre_paid === "Y";
+
+      setIsServiceable(serviceable);
     } catch (error) {
       console.error("Error fetching delivery options:", error);
       toast({ title: "An error occurred. Please try again." });
+      setIsServiceable(null);
     } finally {
       setLoading(false);
     }
   };
-  
-  
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
@@ -57,9 +59,7 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="mobile" className="text-right">
-              Mobile
-            </Label>
+            <Label htmlFor="mobile" className="text-right">Mobile</Label>
             <Input
               id="mobile"
               value={user?.phone}
@@ -69,9 +69,7 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="country" className="text-right">
-              Country
-            </Label>
+            <Label htmlFor="country" className="text-right">Country</Label>
             <Input
               id="country"
               value={user?.country}
@@ -81,9 +79,7 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="state" className="text-right">
-              State
-            </Label>
+            <Label htmlFor="state" className="text-right">State</Label>
             <Input
               id="state"
               value={user?.state}
@@ -93,9 +89,7 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="city" className="text-right">
-              City
-            </Label>
+            <Label htmlFor="city" className="text-right">City</Label>
             <Input
               id="city"
               value={user?.city}
@@ -105,9 +99,7 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="address" className="text-right">
-              Address
-            </Label>
+            <Label htmlFor="address" className="text-right">Address</Label>
             <Input
               id="address"
               value={user?.address}
@@ -121,15 +113,27 @@ export const AdressDialog: React.FC<AddressModalProps> = ({ isOpen, onClose, use
             <Input
               id="pincode"
               value={user?.pincode}
-              onChange={(e) => setUser({ ...user, pincode: e.target.value } as UserAccount)}
+              onChange={(e) => {
+                setUser({ ...user, pincode: e.target.value } as UserAccount);
+                setIsServiceable(null);
+              }}
               placeholder="Enter your pincode"
               className="col-span-2"
             />
-            <div onClick={handleCheckPincode} className="cursor-pointer hover:opacity-60">
-                <MapPinCheck color={isVailedPinCode ? 'green' : 'red'} />
+            <div
+              onClick={!loading ? handleCheckPincode : undefined}
+              className={`cursor-pointer transition-opacity ${loading ? "opacity-50" : "hover:opacity-60"}`}
+            >
+              <MapPinCheck className="animate-pulse" color={isServiceable === null ? "gray" : isServiceable ? "green" : "red"} />
             </div>
           </div>
+          {isServiceable !== null && (
+            <p className={`mx-8 text-sm font-medium ${isServiceable ? "text-green-600" : "text-red-600"}`}>
+              {isServiceable ? "Serviceable Pincode ✅" : "Not Serviceable ❌"}
+            </p>
+          )}
         </div>
+
         <DialogFooter>
           <Button type="button" onClick={handleSaveAddress}>Save</Button>
         </DialogFooter>
