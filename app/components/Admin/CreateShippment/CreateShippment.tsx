@@ -6,7 +6,6 @@ import { Order } from "@/types/order";
 import { UserAccount } from "@/models/user_model";
 
 const CreateShippment = ({ order, user, totalWeight }: { order: Order, user: UserAccount, totalWeight: number }) => {
-
   async function handleClick() {
     try {
       const packageDetails = {
@@ -19,26 +18,27 @@ const CreateShippment = ({ order, user, totalWeight }: { order: Order, user: Use
             state: user.state,
             country: user.country,
             phone: user.phone,
-            order: "parcel",
+            order: order._id,
             payment_mode: "Prepaid",
-            products_desc: "parcel of different products",
+            products_desc: ["ceramic", "resin products", "wax"].join(", "),
             cod_amount: '0',
             order_date: order.createdAt,
-            total_amount: order.payableAmount,
-            quantity: order.products.length || 0,
-            waybill: order.waybill,
-            shipment_width: "",
-            shipment_height: "",
-            weight: totalWeight,
+            total_amount: order.payableAmount.toString(),
+            quantity: (order.products.length || 0).toString(),
+            waybill: order.waybill || "",
+            shipment_width: "10",
+            shipment_height: "5",
+            weight: totalWeight.toString(),
+            shipping_mode: "Surface",
           }
         ],
         pickup_location: {
-          name: 'Ahmad Raffey',
-          add: 'somewhere in allahabad',
-          city: 'allahabad',
-          pin_code: '211001',
-          country: 'India',
-          phone: '1234567890'
+          name: "allahabad_facility",
+          add: "M G Marg Sub-Office allahabad",
+          city: "Allahabad",
+          pin: "211001",
+          country: "India",
+          phone: "918948119171"
         }
       };
 
@@ -51,16 +51,14 @@ const CreateShippment = ({ order, user, totalWeight }: { order: Order, user: Use
       });
 
       const data = await res.json();
-      console.log(data);
-
-      if (data.success) {
+      if (data.data.success) {
         toast({ title: 'Shipment created successfully' });
       } else {
-        toast({ title: 'Error creating shipment', description: data.error });
+        toast({ title: 'Error creating shipment', description: data.error || 'Unknown error' });
       }
     } catch (error) {
+      console.log(error);
       toast({ title: 'Error creating shipment' });
-      console.error('Error creating shipment:', error);
     }
   }
 
