@@ -12,10 +12,10 @@ function ProductCard({ products }: { products: Product[] }) {
           const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2);
 
           return (
-            <Link href={`/admin/products/${product._id}`} key={product._id} className="bg-white rounded-xl shadow-md p-4 w-full border border-gray-200 relative overflow-hidden">
+            <Link href={`/admin/products/${product._id}`} key={product._id} className="bg-white rounded-xl shadow-md p-4 w-full max-h-[400px] border border-gray-200 relative overflow-hidden">
               {product.onSale && (
                 <div className="absolute top-0 left-0 w-full h-full flex justify-center items-start">
-                  <p className="bg-yellow-600 text-white px-4 pl-6 py-1 text-xs font-bold rotate-45 absolute top-2 left-2">
+                  <p className="bg-yellow-600 text-white px-4 pl-6 py-1 text-xs font-semibold rotate-45 absolute top-2 left-2">
                     On Sale
                   </p>
                 </div>
@@ -34,12 +34,12 @@ function ProductCard({ products }: { products: Product[] }) {
                   className="w-20 h-20 object-cover rounded"
                 />
                 <div>
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-base text-gray-500">{product.category}</p>
-                  <p className="text-xl font-semibold mt-1">₹{discountedPrice}</p>
+                  <h3 className="text-base font-semibold">{product.name}</h3>
+                  <p className="text-sm text-gray-500">{product.category}</p>
+                  <p className="text-base font-semibold mt-1">₹{discountedPrice}</p>
                 </div>
               </div>
-              <h4 className="text-lg font-medium mt-3">Description</h4>
+              <h4 className="text-base font-medium mt-3">Description</h4>
               <p className="text-base text-gray-500">{product.description}</p>
               <div className="mt-3 p-2 bg-gray-100 rounded-lg">
                 <div className="flex justify-between text-sm font-medium mt-2">

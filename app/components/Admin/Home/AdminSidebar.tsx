@@ -73,7 +73,7 @@ export function AdminSidebar() {
                         className={`flex items-center gap-2 p-2 rounded-lg ${isActive ? "text-indigo-600 bg-gray-100" : "hover:bg-gray-200"}`}
                       >
                         <item.icon className="w-5 h-5" />
-                        <span className="text-lg">{item.title}</span>
+                        <span className="text-base">{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
