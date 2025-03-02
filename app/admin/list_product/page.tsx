@@ -51,12 +51,12 @@ export default function ListProductPage() {
       images: imagePreviews,
     }
 
-    
+
     const res = await fetch("/api/admin/product", {
       method: "POST",
       body: JSON.stringify(formData),
     })
-    
+
     if (res.ok) {
       reset();
       setSubCategories([])
@@ -368,7 +368,7 @@ export default function ListProductPage() {
               <CldUploadButton
                 onSuccess={handleImageUpload}
                 onClose={() => console.log("Upload widget closed")}
-                uploadPreset="mmmgkp-news"
+                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "wonders-production"}
                 className="bg-black p-2 text-white my-2 w-full rounded"
               >
                 Upload Image ({imagePreviews.length}/4)
