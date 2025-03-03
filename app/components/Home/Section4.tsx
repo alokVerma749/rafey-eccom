@@ -34,7 +34,7 @@ const cardDetails = [
 
 function Section4() {
   return (
-    <div className="grid-cols-1 md:grid-cols-2 gap-6 p-4 mt-8 max-w-7xl mx-auto hidden md:grid">
+    <div className="grid-cols-1 md:grid-cols-2 gap-6 p-4 md:p-10 mt-8 max-w-7xl mx-auto hidden md:grid">
       {cardDetails.map((card, index) => (
         <Card key={index} className="relative overflow-hidden rounded-2xl bg-[#E7DDD7] border-none">
           <div className="p-6 md:p-8 flex flex-col h-[400px] md:h-[300px] justify-between">

@@ -164,7 +164,7 @@ const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
    return (
       <div className="flex flex-col">
          {/* Mobile Filter Button - Positioned Below Navbar */}
-         <div className="md:hidden fixed  top-[auto] left-0 right-0 z-0 bg-white flex justify-end">
+         <div className="md:hidden fixed top-[auto] left-0 right-0 z-10 bg-white flex justify-end">
             <button
                onClick={() => setIsMobileFilterOpen(true)}
                className="bg-white text-black px-2 py-2 rounded-md flex items-center gap-2"
@@ -177,7 +177,7 @@ const ShopFilter = ({ isSubroute = false, products }: FilterProps) => {
          <div className="flex">
             {/* Sidebar */}
             <aside
-               className={`fixed h-full overflow-y-auto bg-gray-100 p-4 rounded-lg shadow-md transition-transform duration-300 ease-in-out
+               className={`fixed z-50 h-full overflow-y-auto bg-gray-100 p-4 rounded-lg shadow-md transition-transform duration-300 ease-in-out
              ${isMobileFilterOpen ? 'translate-x-0' : '-translate-x-full'}
              md:translate-x-0 md:w-64 md:block`}
             >

@@ -31,7 +31,7 @@ const SimilarProduct = async ({ category, excludeProductId }: SimilarProductProp
 				<Carousel>
 					<CarouselContent>
 						{filteredProducts.map((similarProduct) => (
-							<CarouselItem key={similarProduct._id} className="md:basis-1/2 lg:basis-1/3 p-2">
+							<CarouselItem key={similarProduct._id} className="sm:basis-1/2 lg:basis-1/3 p-2">
 								<Link href={`/product/${similarProduct._id}`} className="block bg-white rounded-lg shadow-sm p-3 hover:shadow-md transition">
 									<Image
 										src={similarProduct.images[0] || "/placeholder.svg"}

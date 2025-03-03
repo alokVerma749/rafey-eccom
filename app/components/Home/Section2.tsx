@@ -9,7 +9,7 @@ async function Section2() {
 
   return (
     <div className="flex flex-col gap-5 md:p-10 py-4">
-      <div className="flex justify-between mx-[3vw] items-center">
+      <div className="flex justify-between items-center">
         <h1 className="relative group cursor-pointer text-sm xs:text-lg md:text-2xl font-bold">
           BEST OF CANDLES
           <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
@@ -23,7 +23,7 @@ async function Section2() {
         </Link>
       </div>
 
-      <div className="flex flex-wrap w-full gap-5 justify-evenly">
+      <div className="flex flex-wrap w-full gap-5 justify-between">
         {products.map((product, index) => (
           <Link
             key={index}

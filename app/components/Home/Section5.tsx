@@ -9,18 +9,18 @@ async function Section5() {
 	const products: Product[] = response ? JSON.parse(response) : [];
 
 	return (
-		<div className="flex flex-col flex-wrap gap-5 justify-center md:px-10 py-4 mt-8">
-			<div className='flex justify-between mx-[5vw] sm:mx-[3vw] md:mx-[5vw] lg:mx-[3vw] items-center text-base md:text-lg'>
-				<h1 className='relative group cursor-pointer'>
+		<div className="flex flex-col flex-wrap gap-4 justify-center md:px-10 py-4 mt-8">
+			<div className='flex justify-between items-center text-base md:text-lg'>
+				<h1 className='relative group cursor-pointer text-sm xs:text-lg md:text-2xl font-bold'>
 					QUALITY YOU TRUST
 					<span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
 				</h1>
-				<Link href={"/shop/resin_art"} className="relative group cursor-pointer">VIEW ALL
+				<Link href={"/shop/resin_art"} className="relative group cursor-pointer text-xs xs:text-sm md:text-base text-gray-600 font-medium">VIEW ALL
 					<span className='absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full'></span>
 				</Link>
 			</div>
 
-			<div className="flex flex-wrap w-full gap-5 justify-evenly">
+			<div className="flex flex-wrap w-full gap-5 justify-between">
 				{products.map((product, index) => (
 					<Link
 						key={index}

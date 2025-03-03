@@ -28,13 +28,13 @@ export function DeliveryTracker() {
   }, []);
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mb-4">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mb-4">
       <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">Delivery Tracker</h2>
       
       <div className="flex items-center justify-between text-sm text-gray-700 mb-4">
         <div className="flex flex-col items-center">
           <Package className="w-6 h-6 text-gray-600" />
-          <span className="font-medium">Order Received</span>
+          <span className="font-medium hidden sm:block">Order Received</span>
         </div>
         <div className="flex-1 h-1 bg-gray-300 mx-2 relative">
           <div className={`absolute left-0 top-0 h-1 bg-indigo-600 transition-all duration-500`} style={{ width: `${progress >= 10 ? "100%" : "0%"}` }}></div>
@@ -42,7 +42,7 @@ export function DeliveryTracker() {
         
         <div className="flex flex-col items-center">
           <Truck className={`w-6 h-6 ${progress >= 50 ? "text-indigo-600" : "text-gray-400"}`} />
-          <span className="font-medium">Dispatched</span>
+          <span className="font-medium hidden sm:block">Dispatched</span>
         </div>
         <div className="flex-1 h-1 bg-gray-300 mx-2 relative">
           <div className={`absolute left-0 top-0 h-1 bg-indigo-600 transition-all duration-500`} style={{ width: `${progress >= 50 ? "100%" : "0%"}` }}></div>
@@ -50,7 +50,7 @@ export function DeliveryTracker() {
 
         <div className="flex flex-col items-center">
           <CircleCheck className={`w-6 h-6 ${progress === 100 ? "text-green-600" : "text-gray-400"}`} />
-          <span className="font-medium">Delivered</span>
+          <span className="font-medium hidden sm:block">Delivered</span>
         </div>
       </div>
 
