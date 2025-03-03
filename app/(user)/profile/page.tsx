@@ -28,11 +28,11 @@ export default async function ProfilePage() {
   const userData: UserAccount = JSON.parse(user)
 
   return (
-    <div className="container mx-auto py-6 px-4 max-w-4xl">
-      <div className="bg-white rounded-lg shadow-sm p-6 space-y-8">
+    <div className="container mx-auto p-4 py-6 max-w-4xl">
+      <div className="bg-white rounded-lg shadow-sm space-y-8">
         {/* Profile Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-start gap-y-2 justify-between">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             <Image
               height={80}
               width={80}
@@ -41,8 +41,8 @@ export default async function ProfilePage() {
               className="rounded-full"
             />
             <div>
-              <h2 className="text-2xl font-semibold">{userData.name}</h2>
-              <p className="text-muted-foreground">{userData.email}</p>
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">{userData.name}</h2>
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground">{userData.email}</p>
             </div>
           </div>
           <Button variant="default">
@@ -64,7 +64,7 @@ export default async function ProfilePage() {
 
           <div className="space-y-2">
             <Label htmlFor="address">Address</Label>
-            <Input disabled defaultValue={userData.address} id="email" placeholder="Your Address" />
+            <Input disabled defaultValue={userData.address} id="address" placeholder="Your Address" />
           </div>
 
           <div className="space-y-2">
@@ -86,13 +86,13 @@ export default async function ProfilePage() {
         {/* Email Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-medium">My email Address</h3>
-          <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+          <div className="flex items-center gap-3 sm:p-3 bg-muted/50 rounded-lg">
             <div className="h-8 w-8 rounded bg-blue-100 flex items-center justify-center">
               <Mail className="h-4 w-4 text-blue-600" />
             </div>
             <div className="flex-1">
-              <p className="font-medium">{userData.email}</p>
-              <p className="text-sm text-muted-foreground">1 month ago</p>
+              <p className="text-sm sm:text-base md:text-lg font-medium">{userData.email}</p>
+              <p className="text-xs sm:text-sm md:text-base text-muted-foreground">1 month ago</p>
             </div>
           </div>
         </div>
