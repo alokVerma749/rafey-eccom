@@ -178,23 +178,29 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
                 CHANGE
               </Button>
             </div>
-            <p className="text-sm text-gray-500">
-              Full Address: {user?.address}, {user?.state}, {user?.pincode}, {user?.country}
-            </p>
+            {user?.address && user?.state && user?.pincode && user?.country ? (
+              <p className="text-sm text-gray-500">
+              Full Address: {user.address}, {user.state}, {user.pincode}, {user.country}
+              </p>
+            ) : (
+              <p className="text-sm text-red-500">
+              Please fill in the address details.
+              </p>
+            )}
           </div>
 
           {/* Cart Items */}
-          <div className="flex flex-col md:flex-row justify-between items-start gap-4 ">
-            <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6 w-full md:w-2/3">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 ">
+            <div className="flex justify-between items-start flex-col gap-4 bg-white shadow rounded-md p-6 w-full lg:w-2/3">
               {cartProducts.map((item) => (
                 <div
                   key={item._id}
                   className="flex flex-col sm:flex-row justify-between items-start rounded-lg border w-full"
                 >
                   <Link href={`/product/${item._id}`}>
-                    <Image src={item.images?.[0]} alt={item.name} width={200} height={250} />
+                    <Image src={item.images?.[0]} alt={item.name} width={200} height={250} className='object-contain object-top h-full w-full' />
                   </Link>
-                  <div className="sm:ml-4 flex-1 py-2">
+                  <div className="sm:ml-4 flex-1 p-2">
                     <h3 className="text-lg uppercase">{item.name}</h3>
                     <p className="text-sm text-gray-500 mt-1 flex flex-wrap whitespace-normal break-words">{item.description}</p>
 
@@ -251,7 +257,7 @@ export const CartList: React.FC<CartListProps> = ({ setFinalAmount }) => {
             </div>
 
             {/* Price Details Section */}
-            <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 w-full md:w-1/3 h-fit">
+            <div className="border rounded-lg p-6 space-y-4 bg-white shadow pb-20 w-full lg:w-1/3 h-fit">
               <h3 className="font-semibold text-lg">PRICE DETAILS</h3>
               <div className="space-y-2">
                 <div className="flex justify-between text-gray-700">

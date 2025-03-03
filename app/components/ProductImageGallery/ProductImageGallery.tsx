@@ -30,17 +30,17 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
       <div className="relative w-full h-96 overflow-hidden">
         <Image
           alt={`${productName} thumbnail`}
-          className="object-contain object-top h-fit"
+          className="object-contain object-top h-full w-full"
           src={imageList[currentImageIndex] || "/placeholder.svg"}
           fill
           priority
         />
         {imageList.length > 1 && (
-          <>
+          <div className="hidden md:absolute top-1/2 left-0 right-0 md:flex justify-between items-center -translate-y-1/2 px-4">
             <Button
               variant="secondary"
               size="icon"
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90"
+              className="bg-white/80 hover:bg-white/90"
               onClick={previousImage}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -48,18 +48,18 @@ export function ProductImageGallery({ images, productName, defaultImage }: Produ
             <Button
               variant="secondary"
               size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90"
+              className="bg-white/80 hover:bg-white/90"
               onClick={nextImage}
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
-          </>
+          </div>
         )}
       </div>
 
       {/* Thumbnails */}
       {imageList.length > 1 && (
-        <div className="flex gap-2 mt-4 overflow-x-auto p-2">
+        <div className="flex gap-2 mt-4 overflow-x-auto p-2 hide-scrollbar">
           {imageList.map((image, index) => (
             <button
               key={index}
