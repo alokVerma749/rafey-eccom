@@ -83,16 +83,16 @@ const OrderDetails = () => {
         const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2);
 
         return (
-          <div key={index} className="flex justify-between items-center border border-gray-300 rounded-lg p-4 mb-4">
-            <div className="flex justify-start items-center gap-x-6">
+          <div key={index} className="flex flex-col md:flex-row items-start justify-between border border-gray-300 rounded-lg mb-4 md:p-4">
+            <div className="flex flex-col md:flex-row justify-start items-start">
               <Image
                 src={product.images?.[0]}
                 alt={product.name}
                 height={80}
                 width={80}
-                className="object-cover rounded-md"
+                className="object-contain rounded-md"
               />
-              <div className="flex-1 text-base text-gray-700">
+              <div className="flex-1 text-base text-gray-700 p-2">
                 <p className="font-semibold">{product.name}</p>
                 <p><strong>Category: </strong>{product.category}</p>
                 <p><strong>Order Date: </strong>{new Date(orderData.order.createdAt).toLocaleDateString()}</p>
@@ -101,7 +101,7 @@ const OrderDetails = () => {
               </div>
             </div>
             {discountPercentage >= 0 && (
-              <div className="flex flex-col items-start justify-start gap-x-4 font-medium">
+              <div className="flex flex-col items-start justify-start gap-x-4 font-medium p-2">
                 <p className="font-semibold text-black text-base line-through">₹{product.price}</p>
                 <p className="text-green-600 text-base">{discountPercentage} % OFF</p>
                 <p className='text-base font-semibold text-green-600'> ₹{discountedPrice}</p>

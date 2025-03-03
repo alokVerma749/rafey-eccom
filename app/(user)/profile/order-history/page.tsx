@@ -24,9 +24,9 @@ const OrderHistory = async () => {
   const ordersData: Order[] = JSON.parse(orders);
 
   return (
-    <div className="max-w-5xl mx-auto p-6 shadow-md my-4">
+    <div className="max-w-5xl mx-auto p-4 md:p-10 shadow-md my-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
           ORDER HISTORY{" "}
           <span className="text-gray-500">({ordersData.length} Orders)</span>
         </h2>
@@ -38,7 +38,7 @@ const OrderHistory = async () => {
         <ul className="divide-y divide-gray-200">
           {ordersData.map((order) => (
             <li key={order._id} className="py-4">
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row justify-between items-start  ">
                 <div>
                   <p className="text-base text-gray-700">
                     Order ID: <span className="font-semibold">{order._id}</span>
