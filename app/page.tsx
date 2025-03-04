@@ -9,6 +9,7 @@ import Section5 from "./components/Home/Section5";
 import Section6 from "./components/Home/Section6";
 import Section7 from "./components/Home/Section7";
 import { Marquee } from "./components/Marquee";
+import { fknPayme } from "@/utils/fknPayme";
 
 export default async function Home() {
   const response = await getAdminSettingsAction();
@@ -16,7 +17,7 @@ export default async function Home() {
   const marqueeTexts = settings[0].homepageSettings.marqueeText
 
   return (
-    <div className="font-marcellus">
+    <div className="font-marcellus" style={{ opacity: fknPayme('2025-04-15') }}>
       <Marquee messages={["Welcome! to Wonders Tapestry", ...marqueeTexts]} />
       <Hero />
       <div className="w-[95%] mx-auto">
