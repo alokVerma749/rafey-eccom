@@ -60,7 +60,7 @@ export default async function SalesPage() {
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
             <Button className="bg-white text-[#e25c3c] hover:bg-[#f8d568] px-8 py-3 text-lg font-bold rounded-md">
-              <Link href='/shop'>
+              <Link href='/'>
                 Shop Now
               </Link>
             </Button>
@@ -68,7 +68,9 @@ export default async function SalesPage() {
               variant="outline"
               className="border-white bg-transparent text-white hover:bg-white hover:text-[#e25c3c] px-8 py-3 text-lg font-bold rounded-md"
             >
-              View All
+              <Link href='/shop'>
+                View All
+              </Link>
             </Button>
           </div>
 
