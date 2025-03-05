@@ -40,14 +40,14 @@ export default async function SalesPage() {
       <section className="bg-[#e25c3c] text-white py-16 relative">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center">
-            <div className="absolute left-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[-15deg] hidden md:block">
+            <div className="absolute left-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[-15deg] hidden md:block animate-pendulum-right">
               <div className="text-[#e25c3c] font-bold h-16 w-16 flex flex-col justify-center items-center">
                 <span className="block text-xl">SALE</span>
                 <span className="block text-lg">30% OFF</span>
               </div>
             </div>
             <h1 className="text-6xl md:text-8xl font-bold mb-4">SALE ONGOING</h1>
-            <div className="absolute right-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[15deg] hidden md:block">
+            <div className="absolute right-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[15deg] hidden md:block animate-pendulum-right">
               <div className="text-[#e25c3c] font-bold h-16 w-16 flex flex-col justify-center items-center">
                 <span className="block text-xl">HOT</span>
                 <span className="block text-lg">DEAL</span>
@@ -126,7 +126,7 @@ export default async function SalesPage() {
               </Button>
             </div>
           </div>
-          <div className="mt-6 md:mt-0">
+          <div className="mt-6 md:mt-0 animate-pendulum-right">
             <div className="bg-white rounded-full p-6 text-center border border-red-900 h-32 w-32">
               <div className="text-[#e25c3c] font-bold">
                 <span className="block text-xl">Limited</span>
