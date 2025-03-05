@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { ShoppingBag } from 'lucide-react';
 import { formatCategory } from '@/utils/format_string';
 import { PrimaryHeader } from '../PrimaryHeader/PrimaryHeader';
 import homeImage1 from '@/public/asset/homeImage1.png';
 import getAdminSettingsAction from '@/actions/adminSettings/get-admin-settings';
-import SalesLogo from "@/public/asset/SalesLogo.png";
+import AnimatedSalesBanner from '../AnimatedSalesBanner/AnimatedSalesBanner';
 
 async function Hero() {
   const response = await getAdminSettingsAction();
@@ -20,14 +19,13 @@ async function Hero() {
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.6) 100%), url(${homeImage1.src})`,
       }}
     >
-
       <PrimaryHeader />
 
-      {/* Sales Ribbon */}
+      {/* Animated Sales Banner */}
       {settings[0].featureFlags.enableSale && (
-        <Link href={'/sales'} className="absolute top-28 right-12 text-white text-sm md:text-base rounded-md">
-          <Image src={SalesLogo} alt="Sales Logo" height={400} width={400} className='h-20 w-24 sm:h-36 sm:w-44'/>
-        </Link>
+        <div className="absolute top-20 right-8 sm:right-12 z-10">
+          <AnimatedSalesBanner />
+        </div>
       )}
 
       {/* Navigation Links */}

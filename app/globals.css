@@ -21,6 +21,26 @@ body {
     scrollbar-width: none;
     /* Firefox */
   }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-swing {
+    animation: swing 3s ease-in-out infinite;
+  }
+
+  @keyframes swing {
+
+    0%,
+    100% {
+      transform: rotate(-5deg);
+    }
+
+    50% {
+      transform: rotate(5deg);
+    }
+  }
 }
 
 @keyframes marquee {
