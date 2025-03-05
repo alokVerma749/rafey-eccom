@@ -8,4 +8,5 @@ export interface IDiscountToken {
   isActive?: boolean;
   minCartValue?: number;
   createdBy: string;
+  showOnBanner?: boolean;
 }

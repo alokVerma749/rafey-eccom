@@ -26,10 +26,25 @@ export function VoucherList({ vouchers: initialVouchers, isActive }: VoucherList
     }
   }
 
+  const handleToggleShowOnBanner = async (code: string) => {
+    const res = await fetch(`/api/admin/voucher`, {
+      method: "PUT",
+      body: JSON.stringify({ code, showOnBanner: true }),
+    });
+  
+    if (res.ok) {
+      setVouchers(
+        vouchers.map((v) =>
+          v.code === code ? { ...v, showOnBanner: !v.showOnBanner } : v
+        )
+      );
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto space-y-4">
       {vouchers.map((voucher) => (
-        <VoucherCard key={voucher.code} voucher={voucher} onToggle={handleToggleVoucher} />
+        <VoucherCard key={voucher.code} voucher={voucher} onToggle={handleToggleVoucher} onToggleBannerVisibility={handleToggleShowOnBanner} />
       ))}
 
       {isActive && (
@@ -43,4 +58,3 @@ export function VoucherList({ vouchers: initialVouchers, isActive }: VoucherList
     </div>
   )
 }
-

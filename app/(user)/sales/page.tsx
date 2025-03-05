@@ -6,10 +6,17 @@ import { ProductGrid } from "@/app/components/Sales/product-grid";
 import getSalesProductsAction from "@/actions/sales/get_sales_products";
 import Link from "next/link";
 import { FeaturedProducts } from "@/app/components/Sales/FeaturedProducts";
+import getVouchersAction from "@/actions/voucher/get-vouchers";
+import { IDiscountToken } from "@/types/vouchers_type";
+import { AddToCartSales } from "@/app/components/Sales/CartButton";
 
 export default async function SalesPage() {
   const response = await getSalesProductsAction();
   const products: Product[] = response ? JSON.parse(response as string) : [];
+
+  const vouchersResponse = await getVouchersAction(true);
+  const vouchers = vouchersResponse ? JSON.parse(vouchersResponse as string) : [];
+  const bannerVoucher = vouchers.find((voucher: IDiscountToken) => voucher.showOnBanner);
 
   if (!products) {
     return {
@@ -100,10 +107,9 @@ export default async function SalesPage() {
       <section className="bg-[#2a8a9d] text-white py-8 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
           <div className="md:w-2/3">
-            <h2 className="text-3xl font-bold mb-2">Buy 2 Get 1 FREE on All Scented Candles!</h2>
+            <h2 className="text-3xl font-bold mb-2">Discover Our Exclusive Candle Collection!</h2>
             <p className="mb-4">
-              Mix and match any scented candles and get the lowest priced one for FREE. Discount applied automatically
-              at checkout.
+              Explore our wide range of handcrafted scented candles. Perfect for creating a cozy atmosphere or as a thoughtful gift.
             </p>
             <div className="flex gap-4">
               <Button className="bg-white text-[#2a8a9d] hover:bg-[#f8f9fa] font-medium">
@@ -178,7 +184,7 @@ export default async function SalesPage() {
                   )
                 }
                 <div className="flex gap-4">
-                  <Button className="bg-[#e25c3c] text-white hover:bg-[#d04c2e] px-6 py-3">Add to Cart</Button>
+                  <AddToCartSales product={featuredCandle} classNameGen="bg-[#e25c3c] w-fit text-white hover:bg-[#d04c2e] px-6 py-3" />
                   <Button
                     variant="outline"
                     className="border-[#2a8a9d] text-[#2a8a9d] hover:bg-[#2a8a9d] hover:text-white px-6 py-3"
@@ -214,16 +220,19 @@ export default async function SalesPage() {
       </section>
 
       {/* Ceramic Promo Banner */}
-      <section className="bg-gradient-to-r from-[#e25c3c] to-[#2a8a9d] text-white py-8 px-6">
+      {bannerVoucher && <section className="bg-gradient-to-r from-[#e25c3c] to-[#2a8a9d] text-white py-8 px-6">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Extra Discount On Limited Items!</h2>
-          <p className="flex items-center mb-4">
-            Use code <span className="bg-white text-[#e25c3c] px-3 py-1 mx-2 font-bold rounded">CERAMIC10</span> at
-            checkout for an additional 10% discount on all sale items.
-          </p>
+          <h2 className="text-3xl font-bold mb-2">Extra Discount of {bannerVoucher.percentage}% On Limited Items!</h2>
+          <div className="flex items-center mb-4">
+            {bannerVoucher && (
+              <p className="mb-4">
+                Use code <span className="bg-white text-[#e25c3c] px-3 py-1 mx-2 font-bold rounded">{bannerVoucher.code}</span> at checkout for an additional discount!
+              </p>
+            )}
+          </div>
           <Button className="bg-white text-[#e25c3c] hover:bg-[#f8f9fa]">Copy Code</Button>
         </div>
-      </section>
+      </section>}
 
       {/* Resin Art Collection */}
       <section className="py-16 px-6 bg-gray-50">

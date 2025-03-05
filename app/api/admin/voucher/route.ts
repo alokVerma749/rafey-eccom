@@ -70,3 +70,71 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     );
   }
 }
+
+export async function PUT(request: NextRequest): Promise<NextResponse> {
+  try {
+    await connect_db();
+
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const { code, showOnBanner } = await request.json();
+    const voucher = await DiscountToken.findOne({ code });
+
+    if (!voucher) {
+      return NextResponse.json(
+        { error: 'Voucher not found' },
+        { status: 404 }
+      );
+    }
+
+    if (typeof showOnBanner !== 'undefined') {
+      if (showOnBanner) {
+        await DiscountToken.updateMany(
+          { showOnBanner: true },
+          { showOnBanner: false }
+        );
+      }
+      voucher.showOnBanner = showOnBanner;
+    } else {
+      voucher.isActive = !voucher.isActive;
+    }
+
+    await voucher.save();
+
+    return NextResponse.json(
+      { message: 'Voucher updated', voucher },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error('Error updating voucher:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// export async function GET(request: NextRequest): Promise<NextResponse> {
+//   try {
+//     await connect_db();
+
+//     const vouchers = await DiscountToken.find({ isActive: true });
+
+//     return NextResponse.json(
+//       { vouchers },
+//       { status: 200 }
+//     );
+//   } catch (error: any) {
+//     console.error('Error fetching vouchers:', error);
+//     return NextResponse.json(
+//       { error: 'Internal server error' },
+//       { status: 500 }
+//     );
+//   }
+// }

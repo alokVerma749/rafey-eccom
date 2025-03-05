@@ -43,6 +43,20 @@ const DiscountTokenSchema = new Schema({
     type: String,
     required: true,
   },
+  showOnBanner: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+DiscountTokenSchema.pre('save', async function (next) {
+  if (this.showOnBanner) {
+    await mongoose.models.DiscountToken.updateMany(
+      { showOnBanner: true },
+      { showOnBanner: false }
+    );
+  }
+  next();
 });
 
 const DiscountToken = mongoose.models.DiscountToken || mongoose.model("DiscountToken", DiscountTokenSchema);

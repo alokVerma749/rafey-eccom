@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Heart } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import type { Product } from "@/types/product_type"
+import { AddToCartSales } from "./CartButton"
 
 interface ProductCardProps {
   product: Product
@@ -60,8 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
 
-        {/* <AddToCart product={product}/> */}
-        <Button className="w-full bg-[#2a8a9d] hover:bg-[#1f7a8d] text-white">Add to Cart</Button>
+        <AddToCartSales product={product}/>
       </div>
     </div>
   )
