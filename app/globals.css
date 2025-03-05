@@ -32,6 +32,7 @@ body {
     transform: translateX(-100%);
   }
 }
+
 @keyframes carousel {
   from {
     transform: translateX(0);

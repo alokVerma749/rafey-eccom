@@ -1,11 +1,11 @@
 import Image from "next/image";
+import type { Product } from "@/types/product_type";
+import { Button } from "@/components/ui/button";
+import { CountdownTimer } from "@/app/components/Sales/countDown-Timer";
+import { ProductGrid } from "@/app/components/Sales/product-grid";
 import getSalesProductsAction from "@/actions/sales/get_sales_products";
-import { Product } from "@/types/product_type";
-import { NewArrivals } from "@/app/components/Sales/NewArrivals";
-import { Header } from "@/app/components/Header";
-import SaleImage from "@/public/asset/SalesImage.png";
-import SalesRightImage from "@/public/asset/SalesRightImage.png";
-import { Footer } from "@/app/components/Footer";
+import Link from "next/link";
+import { FeaturedProducts } from "@/app/components/Sales/FeaturedProducts";
 
 export default async function SalesPage() {
   const response = await getSalesProductsAction();
@@ -18,30 +18,231 @@ export default async function SalesPage() {
     };
   }
 
+  const candleProducts = products.filter((product) => product.category === "candles");
+  const ceramicProducts = products.filter((product) => product.category === "ceramic art");
+  const resinProducts = products.filter((product) => product.category === "resin art");
+
+  // Find the candle with the most stock left
+  const featuredCandle = candleProducts.reduce((prev, current) => (prev.stock > current.stock ? prev : current), candleProducts[0]);
+  const discountPercentageFeaturedCandle = featuredCandle && featuredCandle?.discount?.percentage || 0;
+
   return (
     <div className="font-marcellus">
-      <Header />
-      <div className=" mb-10">
-        <section className="px-2 sm:px-10 bg-black text-white text-center py-20 relative">
-          <div className="flex flex-col md:flex-row justify-around items-center">
-            <div>
-              <h2 className="text-5xl font-bold my-4">Items on Sale</h2>
-              <Image src={SaleImage.src} alt="SaleImage" height={200} width={200} className="mx-auto" />
+
+      {/* Main Sale Banner */}
+      <section className="bg-[#e25c3c] text-white py-16 relative">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center">
+            <div className="absolute left-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[-15deg] hidden md:block">
+              <div className="text-[#e25c3c] font-bold h-16 w-16 flex flex-col justify-center items-center">
+                <span className="block text-xl">SALE</span>
+                <span className="block text-lg">30% OFF</span>
+              </div>
             </div>
-            <Image src={SalesRightImage} alt="Image" height={800} width={800} className="max-h-72 max-w-96 rounded-md" />
-          </div>
-          <p className="my-4">Take your time & think about what you buy, because its Sale.</p>
-          <div className="mt-6 border w-fit flex justify-center items-center space-x-10 mx-auto p-4 rounded-2xl absolute -bottom-10 md:left-1/4 transform -translate-x-1/2 bg-black bg-opacity-50">
-            <div>
-              <span className="text-3xl font-bold">UPTO 50% OFF</span>
-              <span className="block text-sm">On these products</span>
+            <h1 className="text-6xl md:text-8xl font-bold mb-4">SALE ONGOING</h1>
+            <div className="absolute right-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[15deg] hidden md:block">
+              <div className="text-[#e25c3c] font-bold h-16 w-16 flex flex-col justify-center items-center">
+                <span className="block text-xl">HOT</span>
+                <span className="block text-lg">DEAL</span>
+              </div>
             </div>
-            <button className="mt-6 px-2 py-2 bg-transparent border text-white rounded-lg font-bold">Explore More</button>
           </div>
-        </section>
-        <NewArrivals products={products} />
-      </div>
-      <Footer />
+          <h2 className="text-3xl md:text-4xl mb-8">
+            Up to <span className="text-[#f8d568] font-bold">70% OFF</span> on selected handcrafted items
+          </h2>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+            <Button className="bg-white text-[#e25c3c] hover:bg-[#f8d568] px-8 py-3 text-lg font-bold rounded-md">
+              <Link href='/shop'>
+                Shop Now
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              className="border-white bg-transparent text-white hover:bg-white hover:text-[#e25c3c] px-8 py-3 text-lg font-bold rounded-md"
+            >
+              View All
+            </Button>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-xl mb-4">Limited Time Offer Ends In:</h3>
+            <CountdownTimer />
+          </div>
+        </div>
+      </section>
+
+      <FeaturedProducts products={products} />
+
+      {/* Candle Collection */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center text-[#e25c3c] mb-2">Candle Collection Sale</h2>
+          <div className="w-24 h-1 bg-[#2a8a9d] mx-auto mb-6"></div>
+          <p className="text-center text-gray-600 mb-12">
+            Indulge in our premium handcrafted candles with luxurious scents. Perfect for creating a cozy atmosphere or
+            as a thoughtful gift.
+          </p>
+
+          <ProductGrid products={candleProducts} />
+
+          <div className="text-center mt-12">
+            <Link href='/shop/candles'>
+              <Button className="bg-[#e25c3c] text-white hover:bg-[#d04c2e] px-6 py-3">
+                View All Candles
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Candle Promo Banner */}
+      <section className="bg-[#2a8a9d] text-white py-8 px-6">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+          <div className="md:w-2/3">
+            <h2 className="text-3xl font-bold mb-2">Buy 2 Get 1 FREE on All Scented Candles!</h2>
+            <p className="mb-4">
+              Mix and match any scented candles and get the lowest priced one for FREE. Discount applied automatically
+              at checkout.
+            </p>
+            <div className="flex gap-4">
+              <Button className="bg-white text-[#2a8a9d] hover:bg-[#f8f9fa] font-medium">
+                <Link href={'/shop/candles'}>
+                  Shop Scented Candles
+                </Link>
+              </Button>
+              <Button variant="outline" className="bg-transparent hover:bg-white hover:text-[#2a8a9d]">
+                <Link href={'/shop'}>
+                  View All Products
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div className="mt-6 md:mt-0">
+            <div className="bg-white rounded-full p-6 text-center border border-red-900 h-32 w-32">
+              <div className="text-[#e25c3c] font-bold">
+                <span className="block text-xl">Limited</span>
+                <span className="block text-xl">Time</span>
+                <span className="block text-xl">Offer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Candle Product */}
+      {featuredCandle && <section className="py-16 px-6">
+        <div className="container mx-auto">
+          <div className="bg-gray-100 rounded-lg overflow-hidden">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="p-8 flex items-center justify-center">
+                <Image
+                  src={featuredCandle?.images?.[0] || "/placeholder.svg"}
+                  alt={featuredCandle?.name}
+                  width={400}
+                  height={400}
+                  className="rounded-md"
+                />
+              </div>
+              <div className="p-8 relative">
+                <div className="absolute top-4 right-4 bg-[#e25c3c] text-white font-bold rounded-full p-4">
+                  <span className="block text-center">{discountPercentageFeaturedCandle}% OFF</span>
+                </div>
+                <span className="text-[#2a8a9d] font-semibold">FEATURED DEAL</span>
+                <h3 className="text-3xl font-bold mt-2 mb-4">{featuredCandle?.name}</h3>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-xl font-bold text-[#e25c3c]">₹{(featuredCandle.price - (featuredCandle.price * discountPercentageFeaturedCandle) / 100).toFixed(2)}</span>
+                  <span className="text-gray-500 line-through">₹{featuredCandle?.price}</span>
+                </div>
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                    </svg>
+                  ))}
+                  <span className="ml-2 text-gray-600">(94 reviews)</span>
+                </div>
+                <p className="text-gray-700 mb-6">
+                  {featuredCandle.description}
+                </p>
+                {
+                  (featuredCandle.tags || featuredCandle.subCategories) && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {featuredCandle.tags && featuredCandle.tags.map((tag, index) => (
+                        <span key={index} className="bg-gray-200 px-3 py-1 rounded-full text-sm mr-2">{tag.name}</span>
+                      ))}
+                      {featuredCandle.subCategories && featuredCandle.subCategories.map((subCategory, index) => (
+                        <span key={index} className="bg-gray-200 px-3 py-1 rounded-full text-sm mr-2">{subCategory.name}</span>
+                      ))}
+                    </div>
+                  )
+                }
+                <div className="flex gap-4">
+                  <Button className="bg-[#e25c3c] text-white hover:bg-[#d04c2e] px-6 py-3">Add to Cart</Button>
+                  <Button
+                    variant="outline"
+                    className="border-[#2a8a9d] text-[#2a8a9d] hover:bg-[#2a8a9d] hover:text-white px-6 py-3"
+                  >
+                    Buy Now
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>}
+
+      {/* Ceramic Collection */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center text-[#2a8a9d] mb-2">Ceramic Collection Sale</h2>
+          <div className="w-24 h-1 bg-[#e25c3c] mx-auto mb-6"></div>
+          <p className="text-center text-gray-600 mb-12">
+            Discover our handcrafted ceramic pieces at special prices. Each item is uniquely designed and crafted with
+            care.
+          </p>
+          <ProductGrid products={ceramicProducts} />
+
+          <div className="text-center mt-12">
+            <Link href='/shop/ceramic_art'>
+              <Button className="bg-[#e25c3c] text-white hover:bg-[#d04c2e] px-6 py-3">
+                View All Ceramic Products
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Ceramic Promo Banner */}
+      <section className="bg-gradient-to-r from-[#e25c3c] to-[#2a8a9d] text-white py-8 px-6">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-2">Extra Discount On Limited Items!</h2>
+          <p className="flex items-center mb-4">
+            Use code <span className="bg-white text-[#e25c3c] px-3 py-1 mx-2 font-bold rounded">CERAMIC10</span> at
+            checkout for an additional 10% discount on all sale items.
+          </p>
+          <Button className="bg-white text-[#e25c3c] hover:bg-[#f8f9fa]">Copy Code</Button>
+        </div>
+      </section>
+
+      {/* Resin Art Collection */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center text-[#2a8a9d] mb-2">Resin Art Collection Sale</h2>
+          <div className="w-24 h-1 bg-[#e25c3c] mx-auto mb-6"></div>
+          <p className="text-center text-gray-600 mb-12">
+            Discover our stunning collection of handcrafted resin art pieces at special prices. Each piece is uniquely created with vibrant colors and mesmerizing patterns.
+          </p>
+          <ProductGrid products={resinProducts} />
+          <div className="text-center mt-12">
+            <Link href='/shop/resin_art'>
+              <Button className="bg-[#e25c3c] text-white hover:bg-[#d04c2e] px-6 py-3">
+                View All Resin Product
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
