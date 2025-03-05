@@ -32,7 +32,7 @@ export function Footer() {
             <h3 className="text-xl font-semibold text-white mb-4">Shop</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/home" className="hover:text-white">
+                <Link href="/" className="hover:text-white">
                   Home
                 </Link>
               </li>
@@ -42,7 +42,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/sale" className="hover:text-white">
+                <Link href="/sales" className="hover:text-white">
                   Sale
                 </Link>
               </li>
@@ -67,12 +67,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-white">
+                <Link href="/privacy-policy" className="hover:text-white">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-white">
+                <Link href="/terms-and-conditions" className="hover:text-white">
                   Terms & Conditions
                 </Link>
               </li>
@@ -174,10 +174,10 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-6 text-sm">
-            <Link href="/privacy" className="hover:text-white">
+            <Link href="/privacy-policy" className="hover:text-white">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white">
+            <Link href="/terms-and-conditions" className="hover:text-white">
               Terms of Service
             </Link>
             <Link href="/shipping" className="hover:text-white">
