@@ -2,7 +2,6 @@ import Image from "next/image"
 import { Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { Product } from "@/types/product_type"
-import { AddToCart } from "../Cart/AddToCart"
 
 interface ProductCardProps {
   product: Product
