@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { Facebook, Instagram, Twitter, Globe } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 export function Footer() {
   return (
@@ -12,20 +11,6 @@ export function Footer() {
             <p className="mb-4">
               Handcrafted ceramics, candles, and resin art pieces made with love and attention to detail.
             </p>
-            <div className="flex space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Facebook className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Instagram className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Twitter className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Globe className="w-5 h-5" />
-              </Link>
-            </div>
           </div>
 
           <div>
@@ -117,16 +102,22 @@ export function Footer() {
 
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">Stay Updated</h3>
-            <p className="mb-4">Subscribe to our newsletter for sale alerts, new arrivals, and more.</p>
-            <div className="flex mb-4">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="px-4 py-2 w-full rounded-l-md focus:outline-none text-gray-900"
-              />
-              <Button className="bg-[#e25c3c] hover:bg-[#d04c2e] text-white rounded-l-none">Subscribe</Button>
+            <p className="mb-4">Follow us on social media for the latest updates, sale alerts, and more.</p>
+            <div className="flex space-x-4 mb-4">
+              <Link href="#" className="text-gray-400 hover:text-white">
+                <Facebook className="w-6 h-6" />
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-white">
+                <Instagram className="w-6 h-6" />
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-white">
+                <Twitter className="w-6 h-6" />
+              </Link>
+              <Link href="#" className="text-gray-400 hover:text-white">
+                <Globe className="w-6 h-6" />
+              </Link>
             </div>
-            <p className="text-xs text-gray-400">By subscribing, you agree to receive marketing emails from us.</p>
+            <p className="text-xs text-gray-400">Stay connected with us for exclusive offers and updates.</p>
           </div>
         </div>
 
