@@ -22,8 +22,8 @@ export function AdminHeader() {
     <header className="p-2 bg-gray-100 shadow-md ">
       <div className="flex justify-between items-center py-1 md:px-20">
 
-        <Link href="/" className="sm:text-2xl text-xl font-marcellus my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
-        
+        <Link href="/" className="sm:text-2xl md:hidden text-xl font-marcellus my-auto text-[#523012] font-semibold sm:py-2">Wonders Tapestry</Link>
+
         <div className="block md:hidden">
           {menuOpen ? (
             <X className="text-gray-700 cursor-pointer" onClick={toggleMenu} />
@@ -32,7 +32,7 @@ export function AdminHeader() {
           )}
         </div>
 
-        <div className="hidden md:flex justify-start items-center space-x-10 text-gray-700">
+        <div className="hidden md:flex justify-end w-full items-center space-x-10 text-gray-700">
           <Link href="/shop" className="flex items-center gap-2">Shop</Link>
           <CommandDialogSearch />
 
