@@ -9,6 +9,7 @@ import { FeaturedProducts } from "@/app/components/Sales/FeaturedProducts";
 import getVouchersAction from "@/actions/voucher/get-vouchers";
 import { IDiscountToken } from "@/types/vouchers_type";
 import { AddToCartSales } from "@/app/components/Sales/CartButton";
+import PromoBanner from "@/app/components/Sales/PromoBanner";
 
 export default async function SalesPage() {
   const response = await getSalesProductsAction();
@@ -41,16 +42,16 @@ export default async function SalesPage() {
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center">
             <div className="absolute left-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[-15deg] hidden md:block animate-pendulum-right">
-              <div className="text-[#e25c3c] font-bold h-16 w-16 flex flex-col justify-center items-center">
-                <span className="block text-xl">SALE</span>
-                <span className="block text-lg">30% OFF</span>
+              <div className="text-[#e25c3c] font-bold h-20 w-20 flex flex-col justify-center items-center">
+                <span className="block text-lg">SALE UPTO</span>
+                <span className="block text-lg">70% OFF</span>
               </div>
             </div>
             <h1 className="text-6xl md:text-8xl font-bold mb-4">SALE ONGOING</h1>
             <div className="absolute right-10 top-10 bg-[#f8d568] rounded-full p-4 rotate-[15deg] hidden md:block animate-pendulum-right">
               <div className="text-[#e25c3c] font-bold h-16 w-16 flex flex-col justify-center items-center">
                 <span className="block text-xl">HOT</span>
-                <span className="block text-lg">DEAL</span>
+                <span className="block text-lg">DEAL 🔥</span>
               </div>
             </div>
           </div>
@@ -222,19 +223,7 @@ export default async function SalesPage() {
       </section>
 
       {/* Ceramic Promo Banner */}
-      {bannerVoucher && <section className="bg-gradient-to-r from-[#e25c3c] to-[#2a8a9d] text-white py-8 px-6">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-2">Extra Discount of {bannerVoucher.percentage}% On Limited Items!</h2>
-          <div className="flex items-center mb-4">
-            {bannerVoucher && (
-              <p className="mb-4">
-                Use code <span className="bg-white text-[#e25c3c] px-3 py-1 mx-2 font-bold rounded">{bannerVoucher.code}</span> at checkout for an additional discount!
-              </p>
-            )}
-          </div>
-          <Button className="bg-white text-[#e25c3c] hover:bg-[#f8f9fa]">Copy Code</Button>
-        </div>
-      </section>}
+      {bannerVoucher && <PromoBanner bannerVoucher={bannerVoucher} />}
 
       {/* Resin Art Collection */}
       <section className="py-16 px-6 bg-gray-50">
