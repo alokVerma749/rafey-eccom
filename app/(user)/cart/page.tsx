@@ -301,7 +301,7 @@ function Cart() {
         <CartList setFinalAmount={setFinalAmount} />
 
         {
-          !loading && (
+          !loading && state.items.length > 0 && (
             <div className="w-2/3">
               <button onClick={handleCheckout} className="bg-green-600 text-white px-10 py-2 rounded flex-1 justify-center mx-2 sm:mx-10" >
                 Place Order

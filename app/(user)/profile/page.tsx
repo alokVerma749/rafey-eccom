@@ -28,7 +28,7 @@ export default async function ProfilePage() {
   const userData: UserAccount = JSON.parse(user)
 
   return (
-    <div className="container mx-auto p-4 py-6 max-w-4xl">
+    <div className="container mx-auto p-4 py-6 max-w-4xl min-h-screen">
       <div className="bg-white rounded-lg shadow-sm space-y-8">
         {/* Profile Header */}
         <div className="flex flex-col md:flex-row items-start gap-y-2 justify-between">
