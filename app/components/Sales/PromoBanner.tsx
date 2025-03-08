@@ -12,7 +12,7 @@ const PromoBanner = ({ bannerVoucher }: { bannerVoucher: IDiscountToken }) => {
     if (bannerVoucher) {
       navigator.clipboard.writeText(bannerVoucher.code);
       setCopied(true);
-      toast({ title: 'Toast copied' })
+      toast({ title: 'Coupon copied' })
       setTimeout(() => setCopied(false), 2000);
     }
   };
