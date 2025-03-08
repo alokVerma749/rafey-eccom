@@ -1,7 +1,7 @@
 'use client';
 
-import { MessageCard } from "@/app/components/Admin/messages/MessageCard";
 import { useEffect, useState } from "react";
+import { MessageCard } from "@/app/components/Admin/messages/MessageCard";
 import { Message } from "@/types/message";
 
 const ManageTags = () => {
@@ -21,22 +21,10 @@ const ManageTags = () => {
     fetchMsgs();
   }, []);
 
-  // const deleteMessage = async (name: string, category: string) => {
-  //   try {
-  //     await fetch(`/api/admin/tags?name=${name}&category=${category}`, {
-  //       method: "DELETE",
-  //     });
-  //     toast({ title: "Tag deleted" });
-  //     setTags(tags.filter(tag => tag.name !== name));
-  //   } catch (error) {
-  //     console.error("Error deleting tag:", error);
-  //   }
-  // };
-
   return (
     <div className="p-6 min-h-screen overflow-y-auto w-full font-bellefair">
       {msgs.map((msg) => (
-        <MessageCard key={msg?._id} msg={msg} />
+        <MessageCard key={msg?._id} msg={msg} msgId={msg?._id} setMsgs={setMsgs} />
       ))}
     </div>
   );
