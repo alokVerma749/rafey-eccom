@@ -37,8 +37,13 @@ export default function OrderPage() {
           )
         );
         const productData = await Promise.all(productResponses.map((res) => res.json()));
-        setProducts(productData.map((data) => data.product));
 
+        const productsWithCustomization = productData.map((data, index) => ({
+          ...data.product,
+          customization: fetchedOrder[0].products[index].customization,
+        }));
+
+        setProducts(productsWithCustomization);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching order details:", error);

@@ -22,6 +22,7 @@ export interface CartItemStore {
   quantity: number;
   stock: number;
   images: string[];
+  customization?: string;
   discount?: {
     percentage: number;
   };

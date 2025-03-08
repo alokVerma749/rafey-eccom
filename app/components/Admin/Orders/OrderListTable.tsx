@@ -1,18 +1,19 @@
-'use client';
+"use client";
 
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Order } from "@/types/order";
 import { Product } from "@/types/product_type";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
-function OrderListTable({ order, products, setTotalWeight }: { order: Order; products: Product[], setTotalWeight: Dispatch<SetStateAction<number>>}) {
+function OrderListTable({ order, products, setTotalWeight }: { order: Order; products: Product[], setTotalWeight: Dispatch<SetStateAction<number>> }) {
+  const [selectedCustomization, setSelectedCustomization] = useState<string | null>(null);
   const discount = (order.totalAmount - order.payableAmount) || 0;
 
   useEffect(() => {
     const totalWeight = products.reduce((acc, product) => {
       const productOrder = order.products.find((p: any) => p.product === product[0]._id);
-      console.log(productOrder);
       return acc + (product[0]?.weight || 0) * (productOrder?.quantity || 0);
     }, 0);
     setTotalWeight(totalWeight);
@@ -30,6 +31,7 @@ function OrderListTable({ order, products, setTotalWeight }: { order: Order; pro
             <TableHead>Height</TableHead>
             <TableHead>Width</TableHead>
             <TableHead>Weight</TableHead>
+            <TableHead>Customization</TableHead>
             <TableHead className="text-right">Total</TableHead>
           </TableRow>
         </TableHeader>
@@ -37,6 +39,8 @@ function OrderListTable({ order, products, setTotalWeight }: { order: Order; pro
           {products.length > 0 ? (
             products.map((product) => {
               const productOrder = order.products.find((p: any) => p.product === product[0]._id);
+              const customization = productOrder?.customization || "";
+
               return (
                 <TableRow key={product[0]._id}>
                   <TableCell className="font-medium">{product[0].name}</TableCell>
@@ -44,13 +48,35 @@ function OrderListTable({ order, products, setTotalWeight }: { order: Order; pro
                   <TableCell>{product[0]?.height || 0} cm</TableCell>
                   <TableCell>{product[0]?.width || 0} cm</TableCell>
                   <TableCell>{product[0]?.weight || 0} grams</TableCell>
+                  <TableCell>
+                    {customization ? (
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button
+                            onClick={() => setSelectedCustomization(customization)}
+                            className="text-blue-500 hover:underline"
+                          >
+                            {customization.length > 20 ? `${customization.slice(0, 20)}...` : customization}
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Customization Details</DialogTitle>
+                          </DialogHeader>
+                          <p className="text-gray-700">{selectedCustomization}</p>
+                        </DialogContent>
+                      </Dialog>
+                    ) : (
+                      "-"
+                    )}
+                  </TableCell>
                   <TableCell className="text-right">₹{(((product[0]?.price) || 0) * (productOrder?.quantity || 0)).toFixed(2)}</TableCell>
                 </TableRow>
               );
             })
           ) : (
             <TableRow>
-              <TableCell colSpan={6} className="text-center py-4">
+              <TableCell colSpan={7} className="text-center py-4">
                 No products found in this order.
               </TableCell>
             </TableRow>
@@ -76,7 +102,6 @@ function OrderListTable({ order, products, setTotalWeight }: { order: Order; pro
           </div>
         </div>
       </div>
-
     </div>
   );
 }

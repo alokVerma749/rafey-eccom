@@ -204,6 +204,7 @@ function Cart() {
         products: state.items.map(item => ({
           product: item.productId,
           quantity: item.quantity,
+          customization: item?.customization || ''
         })),
         totalAmount: totalAmount || 0,
         payableAmount: finalAmount || 0,
