@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         );
       }
     } else {
-      msg = await Contact.find();
+      msg = (await Contact.find().sort({ createdAt: -1 }));
     }
 
     return new Response(
