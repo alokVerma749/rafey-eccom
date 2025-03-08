@@ -1,7 +1,7 @@
 import Order from "@/models/order_model";
 
 export const getOrders = async (userId: string) => {
-  const orders = await Order.find({ user: userId });
+  const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
   return JSON.stringify(orders);
 };
 
