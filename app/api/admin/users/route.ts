@@ -22,6 +22,6 @@ export async function GET() {
   } else if (session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const user = await User.find({});
+  const user = await User.find({}).sort({ createdAt: -1 });
   return NextResponse.json({ message: "Users fetched successfully", user });
 }

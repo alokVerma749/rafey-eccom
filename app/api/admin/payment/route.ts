@@ -22,6 +22,6 @@ export async function GET() {
   } else if (session.user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const payment = await Payment.find({});
+  const payment = await Payment.find({}).sort({ createdAt: -1 });
   return NextResponse.json({ message: "Payments fetched successfully", payment });
 }

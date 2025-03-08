@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const orderId = url.searchParams.get('orderId');
-  const query = orderId ? {_id: orderId} : {};
-  const order = await Order.find(query);
+  const query = orderId ? { _id: orderId } : {};
+  const order = await Order.find(query).sort({ createdAt: -1 });
   return NextResponse.json({ message: "Order fetched successfully", order });
 }
