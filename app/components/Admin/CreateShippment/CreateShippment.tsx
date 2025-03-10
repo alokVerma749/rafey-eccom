@@ -5,9 +5,41 @@ import { toast } from '@/hooks/use-toast';
 import { Order } from "@/types/order";
 import { UserAccount } from "@/models/user_model";
 
+const createWarehouse = async () => {
+  try {
+    const response = await fetch("/api/shipment/create-warehouse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "allahabad_facility",
+        email: "alokverma749@gmail.com",
+        phone: "8948119171",
+        address: "M G Marg Sub-Office allahabad",
+        city: "Allahabad",
+        country: "India",
+        pin: "273003",
+        return_address: "M G Marg Sub-Office allahabad",
+        return_pin: "273003",
+        return_city: "Allahabad",
+        return_state: "UP",
+        return_country: "India",
+      }),
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const data = await response.json();
+    console.log("Warehouse Created:", data);
+    return data;
+  } catch (error) {
+    console.error("Error creating warehouse:", error);
+  }
+};
+
 const CreateShippment = ({ order, user, totalWeight }: { order: Order, user: UserAccount, totalWeight: number }) => {
   async function handleClick() {
     try {
+      createWarehouse()
       const packageDetails = {
         shipments: [
           {
@@ -36,7 +68,7 @@ const CreateShippment = ({ order, user, totalWeight }: { order: Order, user: Use
           name: "allahabad_facility",
           add: "M G Marg Sub-Office allahabad",
           city: "Allahabad",
-          pin: "211001",
+          pin: "273003",
           country: "India",
           phone: "918948119171"
         }
