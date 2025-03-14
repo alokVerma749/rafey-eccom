@@ -8,9 +8,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Message } from "@/types/message"
 import { toast } from "@/hooks/use-toast"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import sendReplyAction from "@/actions/sendMail/send-reply"
 
 export function MessageCard({ msg, msgId, setMsgs }: { msg: Message, msgId: string, setMsgs: Dispatch<SetStateAction<Message[]>> }) {
   const [showReply, setShowReply] = useState(false);
+  const [replyMessage, setReplyMessage] = useState("");
 
   const handleDeleteMessage = async () => {
     try {
@@ -29,8 +31,29 @@ export function MessageCard({ msg, msgId, setMsgs }: { msg: Message, msgId: stri
   };
 
   const handleSendReply = async () => {
-    console.log('send reply');
-  }
+    try {
+      const emailProps = {
+        subject: "Reply to your message",
+        msg: replyMessage,
+        Heading1: "Hello " + msg.name,
+        Heading2: "Thank you for reaching out to us",
+        userEmail: msg?.email
+      };
+
+      const response = await sendReplyAction(emailProps);
+      const result = JSON.parse(response);
+
+      if (result.success) {
+        toast({ title: "Reply sent successfully" });
+        setShowReply(false);
+      } else {
+        toast({ title: "Error sending reply", description: result.error });
+      }
+    } catch (error) {
+      console.error("Error sending reply:", error);
+      toast({ title: "Error sending reply", description: "An unexpected error occurred" });
+    }
+  };
 
   return (
     <TooltipProvider>
@@ -85,7 +108,11 @@ export function MessageCard({ msg, msgId, setMsgs }: { msg: Message, msgId: stri
           {/* Reply textarea and buttons */}
           {showReply && (
             <div className="grid w-full gap-2 mt-4">
-              <Textarea placeholder="Type your message here." />
+              <Textarea
+                placeholder="Type your message here."
+                value={replyMessage}
+                onChange={(e) => setReplyMessage(e.target.value)}
+              />
               <div className="flex justify-between items-center">
                 <Button className="w-fit px-10" variant="outline" onClick={() => setShowReply(false)}>Cancel</Button>
                 <Button className="w-fit px-10" onClick={handleSendReply}>Reply</Button>
