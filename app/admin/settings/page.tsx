@@ -50,9 +50,9 @@ const defaultSettings: AdminSettings = {
     enableMarquee: true,
   },
   siteSettings: {
-    siteName: "My E-Commerce Store",
-    contactEmail: "support@store.com",
-    phoneNumber: "+1-234-567-890",
+    siteName: "Wonders Tapestry",
+    contactEmail: "wonderstapestry@gmail.com",
+    phoneNumber: "+91-9918192225",
     address: "123 Main Street, City, Country",
     freeDeliveryThreshold: 1000,
   },

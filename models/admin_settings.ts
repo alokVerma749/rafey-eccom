@@ -7,9 +7,9 @@ const FeatureFlagsSchema = new mongoose.Schema({
 }, { _id: false });
 
 const SiteSettingsSchema = new mongoose.Schema({
-  siteName: { type: String, default: 'My E-Commerce Store' },
-  contactEmail: { type: String, default: 'support@store.com' },
-  phoneNumber: { type: String, default: '+1-234-567-890' },
+  siteName: { type: String, default: 'Wonders Tapestry' },
+  contactEmail: { type: String, default: 'wonderstapestry@gmail.com' },
+  phoneNumber: { type: String, default: '+91-9918192225' },
   address: { type: String, default: '123 Main Street, City, Country' },
   freeDeliveryThreshold: { type: Number, default: 1000 },
 }, { _id: false });
