@@ -22,7 +22,7 @@ async function Hero() {
       <PrimaryHeader />
 
       {/* Animated Sales Banner */}
-      {settings[0].featureFlags.enableSale && (
+      {settings[0]?.featureFlags?.enableSale && (
         <div className="absolute top-20 right-8 sm:right-12 z-10">
           <AnimatedSalesBanner />
         </div>

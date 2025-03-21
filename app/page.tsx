@@ -14,7 +14,7 @@ import { fknPayme } from "@/utils/fknPayme";
 export default async function Home() {
   const response = await getAdminSettingsAction();
   const settings = response ? JSON.parse(response as string) : [];
-  const marqueeTexts = settings[0].homepageSettings.marqueeText
+  const marqueeTexts = settings[0]?.homepageSettings?.marqueeText || []
 
   return (
     <div className="font-marcellus" style={{ opacity: fknPayme('2025-04-15') }}>
