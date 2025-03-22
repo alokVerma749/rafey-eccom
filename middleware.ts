@@ -31,7 +31,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // Fetch user data from database
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user?email=${token.email}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/user?email=${token.email}`);
     if (!response.ok) {
       throw new Error("Failed to fetch user data");
     }
