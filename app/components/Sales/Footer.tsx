@@ -1,13 +1,22 @@
 import Link from "next/link"
-import { Facebook, Instagram, Twitter, Globe } from "lucide-react"
+import { Facebook, Instagram } from "lucide-react"
+import Image from "next/image"
 
 export function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h2 className="text-2xl font-bold text-white mb-4">Wonders Tapestry</h2>
+          <div className="p-4">
+            <Link href="/" >
+              <Image
+                alt="wonders tapestry"
+                src="/asset/logo-white.png"
+                height={200}
+                width={250}
+              />
+            </Link>
+            {/* <h2 className="text-2xl font-bold text-white mb-4 mx-auto text-center">Wonders Tapestry</h2> */}
             <p className="mb-4">
               Handcrafted ceramics, candles, and resin art pieces made with love and attention to detail.
             </p>
@@ -29,11 +38,6 @@ export function Footer() {
               <li>
                 <Link href="/sales" className="hover:text-white">
                   Sale
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-white">
-                  About Us
                 </Link>
               </li>
               <li>
@@ -68,11 +72,6 @@ export function Footer() {
             <h3 className="text-xl font-semibold text-white mb-4">Customer Service</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/contact" className="hover:text-white">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
                 <Link href="/faqs" className="hover:text-white">
                   FAQs
                 </Link>
@@ -92,11 +91,6 @@ export function Footer() {
                   Custom Orders
                 </Link>
               </li>
-              <li>
-                <Link href="/gift-cards" className="hover:text-white">
-                  Gift Cards
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -104,17 +98,11 @@ export function Footer() {
             <h3 className="text-xl font-semibold text-white mb-4">Stay Updated</h3>
             <p className="mb-4">Follow us on social media for the latest updates, sale alerts, and more.</p>
             <div className="flex space-x-4 mb-4">
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Facebook className="w-6 h-6" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
+              <Link href="https://www.instagram.com/wonderstapestry?igsh=MWxha3I2d2F4N2kyaQ%3D%3D&utm_source=qr" className="text-gray-400 hover:text-white">
                 <Instagram className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Twitter className="w-6 h-6" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Globe className="w-6 h-6" />
+              <Link href="https://www.facebook.com/share/16FxcivVML/?mibextid=wwXIfr" className="text-gray-400 hover:text-white">
+                <Facebook className="w-6 h-6" />
               </Link>
             </div>
             <p className="text-xs text-gray-400">Stay connected with us for exclusive offers and updates.</p>
