@@ -112,6 +112,7 @@ export default function ListProductPage() {
             <Input
               id="height"
               type="number"
+              step="any"
               {...register("height", { required: "Height is required" })}
               placeholder="Height(in cm)"
             />
@@ -123,6 +124,7 @@ export default function ListProductPage() {
             <Input
               id="width"
               type="number"
+              step="any"
               {...register("width", { required: "Width is required" })}
               placeholder="Width(in cm)"
             />
@@ -134,6 +136,7 @@ export default function ListProductPage() {
             <Input
               id="weight"
               type="number"
+              step="any"
               {...register("weight", { required: "Weight is required" })}
               placeholder="Weight(in grams)"
             />
