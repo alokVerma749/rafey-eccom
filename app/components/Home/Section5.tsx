@@ -21,8 +21,11 @@ async function Section5() {
 			</div>
 
 			<div className="flex flex-wrap w-full gap-5 justify-between">
-				{products.map((product, index) => (
-					<Link
+				{products.map((product, index) => {
+					const discountPercentage = product.discount?.percentage || 0;
+					const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2);
+
+					return <Link
 						key={index}
 						href={`/product/${product._id}`}
 						className="cursor-pointer relative shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5 overflow-hidden"
@@ -42,12 +45,18 @@ async function Section5() {
 							className="w-full h-auto max-w-full mx-auto mb-4"
 						/>
 						<div className='px-2'>
-							<p className="font-bold text-base md:text-lg text-black text-start">₹{product.price}</p>
+							<div className="flex w-full items-center justify-between">
+								<div className="flex items-center">
+									<p className="font-bold text-base md:text-lg text-black">{`₹${discountedPrice}`}</p>
+									<p className="font-bold text-base md:text-sm text-gray-500 line-through ml-4">{`₹${product.price}`}</p>
+								</div>
+								<p className="text-green-600 text-xs md:text-sm font-semibold">{`${discountPercentage}% OFF`}</p>
+							</div>
 							<h2 className="text-base font-medium mb-2 text-start">{product.name}</h2>
 							<p className="text-sm text-gray-600 mb-2 text-start">{product.description}</p>
 						</div>
 					</Link>
-				))}
+				})}
 			</div>
 			<Link href={'/shop'} className='hover:text-gray-400 mx-auto my-4'>
 				<Button className='bg-black text-white font-bold py-2 px-4 rounded-full'>VIEW ALL</Button>

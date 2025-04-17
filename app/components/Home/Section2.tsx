@@ -24,8 +24,10 @@ async function Section2() {
       </div>
 
       <div className="flex flex-wrap w-full gap-5 justify-between">
-        {products.map((product, index) => (
-          <Link
+        {products.map((product, index) => {
+          const discountPercentage = product.discount?.percentage || 0
+          const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2)
+          return <Link
             key={index}
             href={`/product/${product._id}`}
             className="cursor-pointer relative shadow-md rounded text-center transition-transform duration-300 hover:scale-105 w-full xs:w-5/12 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5 overflow-hidden"
@@ -45,9 +47,9 @@ async function Section2() {
               className="h-auto w-full mb-4 rounded"
             />
             <div className="flex flex-col items-start pl-2">
-              <p className="font-semibold text-base xs:text-lg md:text-xl text-black text-start">
-                ₹{product.price}
-              </p>
+              <p className="font-semibold text-base xs:text-lg md:text-xl text-black text-start">₹{discountedPrice}</p>
+              <p className="text-green-600 text-sm">{discountPercentage} % OFF</p>
+              <p className="font-semibold text-base xs:text-lg md:text-sm text-gray-700 text-start line-through">₹{product.price}</p>
               <h2 className="text-sm xs:text-base md:text-lg font-medium mb-2 text-start uppercase">
                 {product.name}
               </h2>
@@ -58,7 +60,7 @@ async function Section2() {
               </p>
             </div>
           </Link>
-        ))}
+        })}
       </div>
     </div>
   );
