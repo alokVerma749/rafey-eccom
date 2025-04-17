@@ -17,7 +17,7 @@ export default async function Home() {
   const marqueeTexts = settings[0]?.homepageSettings?.marqueeText || []
 
   return (
-    <div className="font-marcellus" style={{ opacity: fknPayme('2025-05-20') }}>
+    <div className="font-marcellus" style={{ opacity: fknPayme('2025-05-15') }}>
       <Marquee messages={["Welcome! to Wonders Tapestry", ...marqueeTexts]} />
       <Hero />
       <div className="w-[95%] mx-auto">
