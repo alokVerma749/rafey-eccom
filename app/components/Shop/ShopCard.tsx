@@ -5,12 +5,12 @@ import { Pencil } from 'lucide-react';
 
 function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
   return (
-    <div className="flex-1 grid grid-col-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+    <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 gap-6 px-2">
       {filteredProducts.length > 0 ? (
         filteredProducts.map((item) => {
           const discountPercentage = item.discount?.percentage || 0;
           return (
-            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md mb-4 w-full relative overflow-hidden">
+            <Link href={`/product/${item._id}`} key={item._id} className="bg-white shadow-sm rounded-md md:mb-4 w-full relative overflow-hidden">
               {item.onSale && (
                 <div className="absolute top-0 left-0 w-full h-full flex justify-center items-start">
                   <p className="bg-yellow-600 text-white px-4 pl-6 py-1 text-xs font-bold rotate-45 absolute top-2 left-2">
@@ -28,7 +28,7 @@ function ShopCard({ filteredProducts }: { filteredProducts: Product[] }) {
                 width={200}
                 src={item.images[0] || "/placeholder.svg"}
                 alt={item.name}
-                className="w-full h-54 object-cover rounded-t-md h-[70%]"
+                className="w-full object-cover rounded-t-md h-[60%] md:h-[70%]"
               />
               <div className='p-2'>
                 <h3 className="text-sm md:text-sm lg:text-base text-gray-600">{item.name}</h3>
