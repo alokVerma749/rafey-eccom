@@ -56,8 +56,8 @@ export function ProductCard({ product }: ProductCardProps) {
           <h3 className="text-lg font-bold mb-1 truncate">{product.name}</h3>
 
           <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-xl font-bold text-[#e25c3c]">₹{(product.price - (product.price * discountPercentage) / 100).toFixed(2)}</span>
-            <span className="text-gray-500 line-through">₹{product.price}</span>
+          <span className="text-xl font-bold text-[#e25c3c]">₹{Math.round(product.price - (product.price * discountPercentage) / 100)}</span>
+          <span className="text-gray-500 line-through">₹{product.price}</span>
           </div>
 
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>

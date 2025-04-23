@@ -112,7 +112,7 @@ const OrderDetails = () => {
       {orderData.productDetails.map((product, index) => {
         const orderProduct = orderData.order.products.find((p) => p.product === product._id)
         const discountPercentage = product.discount?.percentage || 0
-        const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2)
+        const discountedPrice = Math.round(product.price - (product.price * discountPercentage) / 100);
 
         return (
           <div

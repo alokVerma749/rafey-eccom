@@ -9,7 +9,7 @@ function ProductCard({ products }: { products: Product[] }) {
       {products.length > 0 ? (
         products.map((product) => {
           const discountPercentage = product.discount?.percentage || 0;
-          const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2);
+          const discountedPrice = Math.round(product.price - (product.price * discountPercentage) / 100);
 
           return (
             <Link href={`/admin/products/${product._id}`} key={product._id} className="bg-white rounded-xl shadow-md p-4 w-full max-h-[400px] border border-gray-200 relative overflow-hidden">

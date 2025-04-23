@@ -26,7 +26,7 @@ async function Section2() {
       <div className="flex flex-wrap w-full gap-5 justify-between">
         {products.map((product, index) => {
           const discountPercentage = product.discount?.percentage || 0
-          const discountedPrice = (product.price - (product.price * discountPercentage) / 100).toFixed(2)
+          const discountedPrice = Math.round(product.price - (product.price * discountPercentage) / 100);
           return <Link
             key={index}
             href={`/product/${product._id}`}

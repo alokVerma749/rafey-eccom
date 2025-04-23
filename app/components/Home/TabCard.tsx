@@ -7,7 +7,7 @@ export function TabCard({ cardDetail }: { cardDetail: Product }) {
   const { name, price, images, discount, _id } = cardDetail;
   const discountText = discount ? `${discount.percentage}% OFF` : "No Discount";
   const discountPercentage = discount?.percentage || 0
-  const discountedPrice = (price - (price * discountPercentage) / 100).toFixed(2)
+  const discountedPrice = Math.round(price - (price * discountPercentage) / 100);
   return (
     <Link href={`/product/${_id}`}>
       <Card className="h-full w-full rounded-2xl relative border-0">

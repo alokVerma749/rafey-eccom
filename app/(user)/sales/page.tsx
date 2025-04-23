@@ -160,7 +160,7 @@ export default async function SalesPage() {
                 <span className="text-[#2a8a9d] font-semibold">FEATURED DEAL</span>
                 <h3 className="text-3xl font-bold mt-2 mb-4">{featuredCandle?.name}</h3>
                 <div className="flex items-baseline gap-2 mb-4">
-                  <span className="text-xl font-bold text-[#e25c3c]">₹{(featuredCandle.price - (featuredCandle.price * discountPercentageFeaturedCandle) / 100).toFixed(2)}</span>
+                  <span className="text-xl font-bold text-[#e25c3c]">₹{Math.round(featuredCandle.price - (featuredCandle.price * discountPercentageFeaturedCandle) / 100)}</span>
                   <span className="text-gray-500 line-through">₹{featuredCandle?.price}</span>
                 </div>
                 <div className="flex items-center mb-4">
